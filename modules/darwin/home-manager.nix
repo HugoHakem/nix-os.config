@@ -81,7 +81,7 @@ in
   #  { path = "/System/Applications/TV.app/"; }
  #   { path = "/System/Applications/Home.app/"; }
     {
-  #    path = toString myEmacsLauncher;
+      path = toString myEmacsLauncher;
       section = "others";
     }
     {
