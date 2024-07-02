@@ -19,7 +19,6 @@ with pkgs; [
   wget
   zip
   emacs
-  cowsay
 
 
 #  # Encryption and security tools
