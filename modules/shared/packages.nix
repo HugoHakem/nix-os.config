@@ -2,9 +2,23 @@
 
 with pkgs; [
   # General packages for development and system management
-  gnumake
-  libtool
-  nerdfonts
+  # files
+  bashInteractive
+  coreutils
+  cmake
+  gawk
+  gnumake # Necessary for emacs' vterm
+  gnused # The one and only sed
+  gnutar # The one and only tar
+  killall
+  killall # kill all the processes by name
+  lsof # Files and their processes
+  ps # processes
+  rsync # sync data
+  screen
+  tree
+  unzip # extract zips
+  wget # fetch stuff
   alacritty
   aspell
   aspellDicts.en
@@ -12,13 +26,16 @@ with pkgs; [
   bat
   btop
   coreutils
+  emacs
+  gnumake
   killall
+  libtool
   neofetch
+  nerdfonts
   openssh
   sqlite
   wget
   zip
-  emacs
 
 
 #  # Encryption and security tools
