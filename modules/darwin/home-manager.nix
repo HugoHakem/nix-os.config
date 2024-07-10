@@ -73,7 +73,9 @@ in
 #    { path = "${pkgs.emacs}/Applications/Emacs.app/"; }
 #    { path = "/System/Applications/Messages.app/"; }
 #    { path = "/System/Applications/Facetime.app/"; }
-    { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
+    # { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
+    { path = "${pkgs.wezterm}/Applications/Wezterm.app/"; }
+    # { path = "${pkgs.zotero}/Applications/Wezterm.app/"; }
  #   { path = "/System/Applications/Music.app/"; }
  #   { path = "/System/Applications/News.app/"; }
   #  { path = "/System/Applications/Photos.app/"; }

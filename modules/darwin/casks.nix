@@ -11,6 +11,7 @@ _:
   "slack"
   # "telegram"
   "zoom"
+  # "zotero"
 
   # Utility Tools
   "syncthing"

@@ -7,10 +7,9 @@ with pkgs; [
   coreutils
   cmake
   gawk
-  gnumake # Necessary for emacs' vterm
+  libtool gnumake # Necessary for emacs' vterm
   gnused # The one and only sed
   gnutar # The one and only tar
-  killall
   killall # kill all the processes by name
   lsof # Files and their processes
   ps # processes
@@ -19,7 +18,7 @@ with pkgs; [
   tree
   unzip # extract zips
   wget # fetch stuff
-  alacritty
+  # alacritty
   aspell
   aspellDicts.en
   bash-completion
@@ -28,14 +27,14 @@ with pkgs; [
   coreutils
   emacs
   gnumake
-  killall
-  libtool
   neofetch
   nerdfonts
-  openssh
+  wezterm
+  # openssh
   sqlite
   wget
   zip
+  tldr
 
 
 #  # Encryption and security tools

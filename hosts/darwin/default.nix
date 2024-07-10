@@ -37,12 +37,7 @@ let user = "hhakem"; in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     emacs
-    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
-  ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
-
-  launchd.user.agents.emacs.path = [ config.environment.systemPath ];
-  launchd.user.agents.emacs.serviceConfig = {
-    KeepAlive = true;
+    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")] ++ (import ../../modules/shared/packages.nix { inherit pkgs; }); launchd.user.agents.emacs.path = [ config.environment.systemPath ]; launchd.user.agents.emacs.serviceConfig = {KeepAlive = true;
     ProgramArguments = [
       "/bin/sh"
       "-c"
