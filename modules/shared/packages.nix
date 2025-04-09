@@ -30,6 +30,7 @@ with pkgs; [
   neofetch
   nerdfonts
   wezterm
+  kitty
   # openssh
   sqlite
   wget
