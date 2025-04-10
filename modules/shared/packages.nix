@@ -45,6 +45,7 @@ with pkgs; [
  # libfido2
 
   # Cloud-related tools and SDKs
+  google-cloud-sdk
   #docker
   #docker-compose
 

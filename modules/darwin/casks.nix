@@ -6,21 +6,21 @@ _:
   "visual-studio-code"
 
   # Communication Tools
-  # "discord"
-  # "notion"
-  "slack"
-  # "telegram"
   "zoom"
-  # "zotero"
-
+  "slack"
+  # "discord"
+  # "telegram"
+  
   # Utility Tools
   "syncthing"
 
   # Entertainment Tools
-  "vlc"
+  # "vlc"
 
   # Productivity Tools
-  "raycast"
+  "zotero"
+  "notion"
+  "raycast" # used in files.nix to create a symlink to the app
 
   # Browsers
   "google-chrome"
