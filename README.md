@@ -1,5 +1,5 @@
 ## nix config
-My nix config is adapted from 
+My nix config is adapted from [here](https://github.com/dustinlyons/nixos-config/tree/main)
 
 ## structure 
 ```
