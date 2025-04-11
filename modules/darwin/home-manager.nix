@@ -7,6 +7,7 @@ let
     #!/bin/sh
     emacsclient -c -n &
   '';
+  # do not need for Emacs 29
   # sharedFiles = import ../shared/files.nix { inherit config pkgs; };
   additionalFiles = import ./files.nix { inherit user config pkgs; };
 in
@@ -24,6 +25,8 @@ in
   };
 
   homebrew = {
+    # This is a module from nix-darwin
+    # Homebrew is *installed* via the flake input nix-homebrew
     enable = true;
     casks = pkgs.callPackage ./casks.nix {};
     # onActivation.cleanup = "uninstall";
@@ -38,21 +41,21 @@ in
     # If you have previously added these apps to your Mac App Store profile (but not installed them on this system),
     # you may receive an error message "Redownload Unavailable with This Apple ID".
     # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
-    #masApps = {
+    # masApps = {
     #  "1password" = 1333542190;
     #  "wireguard" = 1451685025;
-    #};
+    # };
   };
 
   # Enable home-manager
   home-manager = {
-    useGlobalPkgs = true;
-    users.${user} = { pkgs, config, lib, ... }:{
+    useGlobalPkgs = true; # Ensures that global packages are available in the home manager configuration.
+    users.${user} = { pkgs, config, lib, ... }:{ #configure user specific settings 
       home = {
         enableNixpkgsReleaseCheck = false;
         packages = pkgs.callPackage ./packages.nix {};
         file = lib.mkMerge [
-#          sharedFiles
+          # sharedFiles
           additionalFiles
           { "emacs-launcher.command".source = myEmacsLauncher; }
         ];

@@ -18,7 +18,7 @@ _:
   # "vlc"
 
   # Productivity Tools
-  "zotero"
+  # "zotero" # Since I already downloaded zotero, it conflict with my version. Need to fix this.
   "notion"
   "raycast" # used in files.nix to create a symlink to the app
 
