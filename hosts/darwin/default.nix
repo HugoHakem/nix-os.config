@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-let user = "hhakem"; in
+{ config, pkgs, user,... }:
 
 {
 

@@ -74,12 +74,9 @@
       devShells = forAllSystems devShell;
       apps = nixpkgs.lib.genAttrs linuxSystems mkLinuxApps // nixpkgs.lib.genAttrs darwinSystems mkDarwinApps;
 
-      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: let
-        user = "hhakem";
-      in
-        darwin.lib.darwinSystem {
+      darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = inputs;
+          specialArgs = {inherit user; } // inputs;
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
@@ -103,7 +100,7 @@
 
       nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = inputs;
+        specialArgs = {inherit user; } // inputs;
         modules = [
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
