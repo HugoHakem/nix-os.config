@@ -32,7 +32,7 @@ Change `name` and `email` in:
 + `modules/shared/home-manager.nix`
 
 ## To-Do
-[] add guidelines to set-up nix 
-[] create template
-[] add set-up gcloud vm
-[] add vscode extensions
+- [ ] add guidelines to set-up nix 
+- [ ] create template
+- [ ] add set-up gcloud vm
+- [ ] add vscode extensions
