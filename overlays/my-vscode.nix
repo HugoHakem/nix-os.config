@@ -1,6 +1,6 @@
 final: prev: {
-  vscode = prev.vscode-with-extensions.override {
-    my-vscode = prev.vscode;
+  my-vscode = prev.vscode-with-extensions.override {
+    vscode = prev.vscode;
     vscodeExtensions = with prev.vscode-marketplace; [
       # Add your extensions here
       ## nix interpreter
