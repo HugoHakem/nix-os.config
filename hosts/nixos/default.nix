@@ -255,21 +255,19 @@ let
   };
 
   # It's me, it's you, it's everyone
-  users.users = {
-    ${user} = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel" # Enable ‘sudo’ for the user.
-        "docker"
-      ];
-      shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = keys;
-    };
+users.users.${user} = {
+  isNormalUser = true;
+  extraGroups = [
+    "wheel" # Enable ‘sudo’ for the user.
+    "docker"
+  ];
+  shell = pkgs.zsh;
+  openssh.authorizedKeys.keys = keys;
+};
 
-    root = {
-      openssh.authorizedKeys.keys = keys;
-    };
-  };
+users.users.root = {
+  openssh.authorizedKeys.keys = keys;
+};
 
   # Don't require password for users in `wheel` group for these commands
   security.sudo = {
