@@ -1,7 +1,9 @@
 { config, pkgs, user,... }:
 
+let
+  vscodeExtensions = import ../../modules/shared/vscode-ext-list.nix {};
+in
 {
-
   imports = [
     ../../modules/darwin/home-manager.nix
     ../../modules/shared
@@ -38,16 +40,44 @@
     (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
     ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; }); 
 
-  launchd.user.agents.emacs.path = [ config.environment.systemPath ]; 
-  launchd.user.agents.emacs.serviceConfig = {
-    KeepAlive = true;
-    ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
-    ];
-    StandardErrorPath = "/tmp/emacs.err.log";
-    StandardOutPath = "/tmp/emacs.out.log";
+  launchd.user.agents = {
+    emacs = {
+      path = [ config.environment.systemPath ]; 
+      serviceConfig = {
+        KeepAlive = true;
+        ProgramArguments = [
+          "/bin/sh"
+          "-c"
+          "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+        ];
+      StandardErrorPath = "/tmp/emacs.err.log";
+      StandardOutPath = "/tmp/emacs.out.log";
+      };
+    };
+    install-vscode-extension = {
+      path = [ config.environment.systemPath ];
+      serviceConfig = {
+        RunAtLoad = true;
+        KeepAlive = false;
+        ProgramArguments = [
+          "/bin/zsh"
+          "-c"
+          ''
+            # Loop through each extension and install if not already present
+            for extension in ${toString vscodeExtensions}; do
+              if ! /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --list-extensions | grep -q "$extension"; then
+                echo "Installing VS Code extension $extension..."
+                /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension $extension
+              else
+                echo "VS Code extension $extension already installed."
+              fi
+            done
+          ''
+        ];
+        StandardOutPath = "/tmp/vscode-extension-install.log";
+        StandardErrorPath = "/tmp/vscode-extension-install.err";
+      };
+    };
   };
 
   system = {

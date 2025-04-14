@@ -250,6 +250,64 @@ let name = "Hugo";
     };
   };
 
+  vscode = {
+    enable = true;
+    # extensions = with pkgs.vscode-marketplace; [ # to add from vscode-marketplace directly
+    #   ## nix interpreter
+    #   bbenoist.nix
+    #   ## python
+    #   ms-python.debugpy
+    #   ms-python.python
+    #   ms-python.vscode-pylance
+    #   ## ruff
+    #   charliermarsh.ruff
+    #   ## jupyter
+    #   ms-toolsai.jupyter
+    #   ms-toolsai.jupyter-keymap
+    #   ms-toolsai.jupyter-renderers
+    #   ms-toolsai.vscode-jupyter-cell-tags
+    #   ms-toolsai.vscode-jupyter-slideshow
+    #   ## copilot
+    #   github.copilot
+    #   github.copilot-chat
+    #   ## git utils
+    #   donjayamanne.githistory
+    #   eamodio.gitlens
+    #   ## collaboration
+    #   ms-vsliveshare.vsliveshare
+    #   ## docker
+    #   ms-azuretools.vscode-docker
+    #   ## markdown
+    #   davidanson.vscode-markdownlint
+    #   ## remote
+    #   ms-vscode-remote.remote-containers
+    #   ms-vscode-remote.remote-ssh
+    #   ms-vscode-remote.remote-ssh-edit
+    #   ms-vscode-remote.remote-wsl
+    #   ## remote
+    #   ms-vscode.remote-explorer
+    #   ms-vscode.remote-server
+    # ];
+      #  ++ (with pkgs.open-vsx-release; [ # to add from open-vsx-release directly
+      #   rust-lang.rust-analyzer
+      #   golang.go
+      # ]);
+    keybindings = [
+      # define keybinding to move a terminal into NewWindow
+      {
+        "key"= "alt+x o";
+        "command"= "workbench.action.terminal.moveIntoNewWindow";
+        "when"= "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported";
+      }
+      # define others keybindings if necessary...
+    ];
+    userSettings = {
+      "remote.SSH.showLoginTerminal"= true;
+      "security.workspace.trust.untrustedFiles"= "open";
+    };
+  };
+
+
   # ssh = {
   #   enable = true;
   #   includes = [

@@ -65,4 +65,7 @@ shared-packages ++ [
 
   # Music and entertainment
   spotify
+
+  # Editor 
+  vscode # added here because use casks for darwin
 ]
