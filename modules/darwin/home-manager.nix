@@ -60,8 +60,76 @@ in
         ];
         stateVersion = "23.11";
       };
-      programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib user; };
-
+      programs = 
+        let 
+          shared  = import ../shared/home-manager.nix { inherit config pkgs lib user; };
+        in 
+        shared // {
+          zsh = shared.zsh // {
+            initExtraFirst = (shared.zsh.initExtraFirst or "") + ''
+              # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
+              export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+            '';
+          };
+        vscode = {
+          enable = true;
+          extensions = with pkgs.vscode-marketplace; [
+          # Add your extensions here
+          ## nix interpreter
+          bbenoist.nix
+          ## ruff
+          charliermarsh.ruff
+          ## copilot
+          github.copilot
+          github.copilot-chat
+          ## git utils
+          donjayamanne.githistory
+          eamodio.gitlens
+          ## python
+          ms-python.debugpy
+          ms-python.python
+          ms-python.vscode-pylance
+          ## jupyter
+          ms-toolsai.jupyter
+          ms-toolsai.jupyter-keymap
+          ms-toolsai.jupyter-renderers
+          ms-toolsai.vscode-jupyter-cell-tags
+          ms-toolsai.vscode-jupyter-slideshow
+          ## remote
+          # ms-vscode-remote.vscode-remote-extensionpack # not handled
+          ms-vscode-remote.remote-containers
+          ms-vscode-remote.remote-ssh
+          ms-vscode-remote.remote-ssh-edit
+          ms-vscode-remote.remote-wsl
+          ms-vscode.remote-explorer
+          ms-vscode.remote-server
+          ## collaboration
+          ms-vsliveshare.vsliveshare
+          ## docker
+          ms-azuretools.vscode-docker
+          ## markdown
+          davidanson.vscode-markdownlint
+        ];
+        ## to add package from open-vsx-release
+        #  ++ (with prev.open-vsx-release; [
+        #   rust-lang.rust-analyzer
+        #   golang.go
+        # ]);;
+          keybindings = [
+            # define keybinding to move a terminal into NewWindow
+            {
+              "key"= "alt+x o";
+              "command"= "workbench.action.terminal.moveIntoNewWindow";
+              "when"= "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported";
+            }
+            # define others keybindings if necessary...
+          ];
+          userSettings = {
+            "remote.SSH.showLoginTerminal"= true;
+            "security.workspace.trust.untrustedFiles"= "open";
+          };
+        };
+      };
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
       manual.manpages.enable = false;
@@ -78,17 +146,6 @@ in
     { path = "${pkgs.wezterm}/Applications/Wezterm.app/"; }
     { path = "/Applications/Visual Studio Code.app/"; }
     { path = "/System/Applications/Launchpad.app/"; }
-
-    # { path = "${pkgs.emacs}/Applications/Emacs.app/"; }
-    # { path = "/System/Applications/Messages.app/"; }
-    # { path = "/System/Applications/Facetime.app/"; }
-    # { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
-    # { path = "${pkgs.zotero}/Applications/Wezterm.app/"; }
-    # { path = "/System/Applications/Music.app/"; }
-    # { path = "/System/Applications/News.app/"; }
-    # { path = "/System/Applications/Photos.app/"; }
-    # { path = "/System/Applications/Photo Booth.app/"; }
-    # { path = "/System/Applications/TV.app/"; }
    
     # {
     #   path = toString myEmacsLauncher;
