@@ -51,6 +51,7 @@ Change `name` and `email` in:
 + [Nix packages](https://search.nixos.org/packages)
 + [Nix install on Google Cloud Engine](https://nixos.wiki/wiki/Install_NixOS_on_GCE)
 + [Nix home-manager manual](https://nix-community.github.io/home-manager/index.xhtml#sec-3rd-party-module-collections)
++ [Nix Darwin option for MacOS](https://mynixos.com/nix-darwin/options)
 
 ### Learning Ressources & GitHub
 
