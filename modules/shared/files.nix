@@ -1,11 +1,27 @@
-{ pkgs, config, ... }:
+{ pkgs, config, user, ... }:
 
+let 
+  userDir = if pkgs.stdenv.hostPlatform.isDarwin then
+    "/Users/${user}/Library/Application Support/Code/User"
+  else
+    "${config.xdg.configHome}/Code/User";
+
+  vscodeKeybindings = builtins.toPath ./config/vscode/keybindings.json;
+  vscodeSettings = builtins.toPath ./config/vscode/settings.json;
+
+  vscodeKeybindingsTarget = "${userDir}/keybindings.json";
+  vscodeSettingsTarget = "${userDir}/settings.json";
+
+in
 {
-  # Initializes Emacs with org-mode so we can tangle the main config
-  #
-  # @todo: Get rid of this after we've upgraded to Emacs 29 on the Macbook
-  # Emacs 29 includes org-mode now
-  ".emacs.d/init.el" = {
-    text = builtins.readFile ../shared/config/emacs/init.el;
+  "/Users/${user}/Library/Application Support/Code/User/keybindings.json" = {
+    source = vscodeKeybindings; 
+    force = true;
+    mutable = true;
+  };
+  "/Users/${user}/Library/Application Support/Code/User/settings.json" = {
+    source = vscodeSettings; 
+    force = true;
+    mutable = true;
   };
 }

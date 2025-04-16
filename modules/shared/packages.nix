@@ -72,6 +72,8 @@ with pkgs; [
   jetbrains-mono
   jq
   ripgrep
+  #tree
+  #tmux
   screen
   unrar
   unzip

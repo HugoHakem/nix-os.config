@@ -1,21 +1,14 @@
 { config, pkgs, lib, home-manager, user, ... }:
 
 let
-  # Define the content of your file as a derivation
-  myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
-    #!/bin/sh
-    emacsclient -c -n &
-  '';
-  # do not need for Emacs 29
-  # sharedFiles = import ../shared/files.nix { inherit config pkgs; };
-  additionalFiles = import ./files.nix { inherit user config pkgs; };
+  sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
+  additionalFiles = import ./files.nix { inherit config pkgs user; };
 
-  # vscode Config
-  vscodeExtensionsScript = "../shared/config/vscode/install-extensions.sh";
+  # vscode install extensions
+  vscodeExtensionsScript = builtins.toPath ./../shared/config/vscode/install-extensions.sh;
   vscodeCodeBin = "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code";
-  vscodeExtensionsFile = "../shared/config/vscode/extensions.txt";
-  vscodeKeybindings = "../shared/config/vscode/keybindings.json";
-  vscodeSettings = "../shared/config/vscode/settings.json";
+  vscodeExtensionsFile = builtins.toPath ./../shared/config/vscode/extensions.txt;
+
 in
 {
   imports = [
@@ -41,24 +34,18 @@ in
   home-manager = {
     useGlobalPkgs = true; # Ensures that global packages are available in the home manager configuration.
     users.${user} = { pkgs, config, lib, ... }:{ #configure user specific settings 
+      imports = [
+        ../shared/mutable.nix
+      ];
       home = {
         enableNixpkgsReleaseCheck = false;
         packages = pkgs.callPackage ./packages.nix {};
-        file = lib.mkMerge [
-          # sharedFiles
-          additionalFiles
-          { "emacs-launcher.command".source = myEmacsLauncher; }
-        ];
+        file = sharedFiles // additionalFiles; # contains vscode config
         stateVersion = "23.11";
-        actions={
+        activation = {
           install-vscode-extensions = lib.hm.dag.entryAfter ["writeBoundary"] ''
-            zsh ${vscodeExtensionsScript} ${vscodeCodeBin} ${vscodeExtensionsFile}
-          '';
-          install-vscode-keybindings = lib.hm.dag.entryAfter ["writeBoundary"] ''
-            cp ${vscodeKeybindings} ${config.xdg.configHome}/Code/User/keybindings.json
-          '';
-          install-vscode-settings = lib.hm.dag.entryAfter ["writeBoundary"] ''
-            cp ${vscodeSettings} ${config.xdg.configHome}/Code/User/settings.json
+            echo "Installing VS Code extensions..."
+            ${pkgs.zsh}/bin/zsh ${vscodeExtensionsScript} "${vscodeCodeBin}" ${vscodeExtensionsFile}
           '';
         };
       };

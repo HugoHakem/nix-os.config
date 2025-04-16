@@ -3,7 +3,8 @@
 let
   xdg_configHome  = "/home/${user}/.config";
   shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib user; };
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
+  sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
+  additionalFiles = import ./files.nix { inherit user; };
 
   polybar-user_modules = builtins.readFile (pkgs.substituteAll {
     src = ./config/polybar/user_modules.ini;
@@ -26,12 +27,15 @@ let
 
 in
 {
+  imports = [
+    ../shared/mutable.nix
+  ];
   home = {
     enableNixpkgsReleaseCheck = false;
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix {};
-    file = shared-files // import ./files.nix { inherit user; };
+    file = sharedFiles // additionalFiles;
     stateVersion = "21.05";
   };
 
