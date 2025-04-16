@@ -224,37 +224,48 @@ let
     };
   };
 
-  # When emacs builds from no cache, it exceeds the 90s timeout default
-  systemd.user.services.emacs = {
+# When emacs builds from no cache, it exceeds the 90s timeout default
+systemd.user.services = {
+  emacs = {
     serviceConfig.TimeoutStartSec = "7min";
   };
+  # install-vscode-extension = {
+  #   description = "Install VS Code extensions";
+  #   after = [ "graphical-session.target" ]; # ensures everything is up and running
+  #   wantedBy = [ "default.target" ]; 
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = ;
+  #   };
+  #   };
+};
 
-  # Enable sound
-  # sound.enable = true;
+# Enable sound
+# sound.enable = true;
 
-  # Video support
-  hardware = {
-    opengl.enable = true;
-    # pulseaudio.enable = true;
-    # hardware.nvidia.modesetting.enable = true;
+# Video support
+hardware = {
+  opengl.enable = true;
+  # pulseaudio.enable = true;
+  # hardware.nvidia.modesetting.enable = true;
 
-    # Enable Xbox support
-    # hardware.xone.enable = true;
+  # Enable Xbox support
+  # hardware.xone.enable = true;
 
-    # Crypto wallet support
-    ledger.enable = true;
+  # Crypto wallet support
+  ledger.enable = true;
+};
+
+
+# Add docker daemon
+virtualisation = {
+  docker = {
+    enable = true;
+    logDriver = "json-file";
   };
+};
 
-
-  # Add docker daemon
-  virtualisation = {
-    docker = {
-      enable = true;
-      logDriver = "json-file";
-    };
-  };
-
-  # It's me, it's you, it's everyone
+# It's me, it's you, it's everyone
 users.users.${user} = {
   isNormalUser = true;
   extraGroups = [

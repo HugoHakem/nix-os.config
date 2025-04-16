@@ -47,15 +47,26 @@ Change `name` and `email` in:
 
 ### Nix official ressources
 
+#### Search
+
 + [Nix home-manager options](https://home-manager-options.extranix.com/)
 + [Nix packages](https://search.nixos.org/packages)
-+ [Nix install on Google Cloud Engine](https://nixos.wiki/wiki/Install_NixOS_on_GCE)
-+ [Nix home-manager manual](https://nix-community.github.io/home-manager/index.xhtml#sec-3rd-party-module-collections)
-+ [Nix Darwin option for MacOS](https://mynixos.com/nix-darwin/options)
 
-### Learning Ressources & GitHub
+#### Manual
+
++ [Nix home-manager manual](https://nix-community.github.io/home-manager/index.xhtml#sec-3rd-party-module-collections)
++ [Nix Darwin Manual](https://nix-darwin.github.io/nix-darwin/manual/)
++ [Nix Darwin option for MacOS](https://mynixos.com/nix-darwin/options)
++ [Nix install on Google Cloud Engine](https://nixos.wiki/wiki/Install_NixOS_on_GCE)
+
+### GitHub Repo
+
+#### Tutorial
 
 + [home-manager tutorial](https://github.com/Evertras/simple-homemanager)
-+ [Neusis Config - Broad Imaging Platform](https://github.com/leoank/neusis)
+
+#### Repo to keep in mind
+
 + [Gcloud nix](https://github.com/nicknovitski/gcloud-nix)
-+ [Moby Config - Broad Imaging Platform](https://github.com/afermg/nix-configs)
++ [Broad Imaging Platform - Neusis Config](https://github.com/leoank/neusis)
++ [Broad Imaging Platform - Moby Config](https://github.com/afermg/nix-configs)

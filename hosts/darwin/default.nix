@@ -1,7 +1,7 @@
 { config, pkgs, user,... }:
 
 let
-  vscodeExtensions = import ../../modules/shared/vscode-ext-list.nix {};
+  vscodeExtensions = import ../../modules/shared/vscode/extensions.nix {};
 in
 {
   imports = [
@@ -40,7 +40,8 @@ in
     (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
     ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; }); 
 
-  launchd.user.agents = {
+  # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
+  launchd.user.agents = { 
     emacs = {
       path = [ config.environment.systemPath ]; 
       serviceConfig = {
@@ -54,30 +55,30 @@ in
       StandardOutPath = "/tmp/emacs.out.log";
       };
     };
-    install-vscode-extension = {
-      path = [ config.environment.systemPath ];
-      serviceConfig = {
-        RunAtLoad = true;
-        KeepAlive = false;
-        ProgramArguments = [
-          "/bin/zsh"
-          "-c"
-          ''
-            # Loop through each extension and install if not already present
-            for extension in ${toString vscodeExtensions}; do
-              if ! /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --list-extensions | grep -q "$extension"; then
-                echo "Installing VS Code extension $extension..."
-                /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension $extension
-              else
-                echo "VS Code extension $extension already installed."
-              fi
-            done
-          ''
-        ];
-        StandardOutPath = "/tmp/vscode-extension-install.log";
-        StandardErrorPath = "/tmp/vscode-extension-install.err";
-      };
-    };
+    # install-vscode-extension = {
+    #   path = [ config.environment.systemPath ];
+    #   serviceConfig = {
+    #     RunAtLoad = true;
+    #     KeepAlive = false;
+    #     ProgramArguments = [
+    #       "/bin/zsh"
+    #       "-c"
+    #       ''
+    #         # Loop through each extension and install if not already present
+    #         for extension in ${toString vscodeExtensions}; do
+    #           if ! /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --list-extensions | grep -q "$extension"; then
+    #             echo "Installing VS Code extension $extension..."
+    #             /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension $extension
+    #           else
+    #             echo "VS Code extension $extension already installed."
+    #           fi
+    #         done
+    #       ''
+    #     ];
+    #     StandardOutPath = "/tmp/vscode-extension-install.log";
+    #     StandardErrorPath = "/tmp/vscode-extension-install.err";
+    #   };
+    # };
   };
 
   system = {

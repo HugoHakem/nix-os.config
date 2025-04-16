@@ -1,0 +1,7 @@
+[ // define keybindings here
+  {
+    "command": "workbench.action.terminal.moveIntoNewWindow",
+    "key": "alt+x o",
+    "when": "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported"
+  }
+]

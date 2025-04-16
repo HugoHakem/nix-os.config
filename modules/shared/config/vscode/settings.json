@@ -1,0 +1,5 @@
+// define user settings bellow:
+{
+  "remote.SSH.showLoginTerminal": true,
+  "security.workspace.trust.untrustedFiles": "open"
+}

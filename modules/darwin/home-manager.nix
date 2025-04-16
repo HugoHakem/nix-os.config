@@ -9,6 +9,13 @@ let
   # do not need for Emacs 29
   # sharedFiles = import ../shared/files.nix { inherit config pkgs; };
   additionalFiles = import ./files.nix { inherit user config pkgs; };
+
+  # vscode Config
+  vscodeExtensionsScript = "../shared/config/vscode/install-extensions.sh";
+  vscodeCodeBin = "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code";
+  vscodeExtensionsFile = "../shared/config/vscode/extensions.txt";
+  vscodeKeybindings = "../shared/config/vscode/keybindings.json";
+  vscodeSettings = "../shared/config/vscode/settings.json";
 in
 {
   imports = [
@@ -43,6 +50,17 @@ in
           { "emacs-launcher.command".source = myEmacsLauncher; }
         ];
         stateVersion = "23.11";
+        actions={
+          install-vscode-extensions = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            zsh ${vscodeExtensionsScript} ${vscodeCodeBin} ${vscodeExtensionsFile}
+          '';
+          install-vscode-keybindings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            cp ${vscodeKeybindings} ${config.xdg.configHome}/Code/User/keybindings.json
+          '';
+          install-vscode-settings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            cp ${vscodeSettings} ${config.xdg.configHome}/Code/User/settings.json
+          '';
+        };
       };
     programs = 
       let 
