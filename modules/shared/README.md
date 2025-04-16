@@ -21,3 +21,5 @@ This configuration gets imported by both modules. Some configuration examples in
 └── README.md
 
 ```
+
+`mutable.nix` is issued from [here](https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa).
