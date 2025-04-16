@@ -25,6 +25,11 @@ let
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
 
+  # vscode install extensions
+  vscodeExtensionsScript = builtins.toPath ./../shared/config/vscode/install-extensions.sh;
+  vscodeCodeBin = "${pkgs.vscode}/bin/code";
+  vscodeExtensionsFile = builtins.toPath ./../shared/config/vscode/extensions.txt;
+
 in
 {
   imports = [
@@ -37,6 +42,12 @@ in
     packages = pkgs.callPackage ./packages.nix {};
     file = sharedFiles // additionalFiles;
     stateVersion = "21.05";
+    activation = {
+      install-vscode-extensions = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        echo "Installing VS Code extensions..."
+        ${pkgs.zsh}/bin/zsh ${vscodeExtensionsScript} "${vscodeCodeBin}" ${vscodeExtensionsFile}
+      '';
+    };
   };
 
   # Use a dark theme
