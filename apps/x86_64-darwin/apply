@@ -108,6 +108,7 @@ if [[ "$OS" != "Darwin" ]]; then
   select_boot_disk
 fi
 
+# Confirmation step
 confirm_details() {
   _print "${GREEN}Username: $USERNAME"
   _print "Email: $GIT_EMAIL"
@@ -136,25 +137,31 @@ confirm_details() {
   esac
 }
 
+# Call the confirmation function
 confirm_details
 
 # Function to replace tokens in each file
 replace_tokens() {
   local file="$1"
   if [[ $(basename $1) != "apply" ]]; then
-    if [[ "$OS" == "Darwin" ]]; then
-      # macOS
-      LC_ALL=C LANG=C sed -i '' -e "s/%USER%/$USERNAME/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
-      LC_ALL=C LANG=C sed -i '' -e "s/%NAME%/$GIT_NAME/g" "$file"
+    if [[ $(basename $1) == "flake.nix" ]]; then
+      if [[ "$OS" == "Darwin" ]]; then
+        # macOS (BSD sed requires '' after -i)
+        LC_ALL=C LANG=C sed -i '' -e "s/\(user = \).*/\1\"$USERNAME\";/" "$file"
+        LC_ALL=C LANG=C sed -i '' -e "s/\(git_name = \).*/\1\"$GIT_NAME\";/" "$file"
+        LC_ALL=C LANG=C sed -i '' -e "s/\(git_email = \).*/\1\"$GIT_EMAIL\";/" "$file"
+      else
+        # Linux (GNU sed)
+        sed -i -e "s/\(user = \).*/\1\"$USERNAME\";/" "$file"
+        sed -i -e "s/\(git_name = \).*/\1\"$GIT_NAME\";/" "$file"
+        sed -i -e "s/\(git_email = \).*/\1\"$GIT_EMAIL\";/" "$file"
+      fi
     else
-      # Linux or other
-      sed -i -e "s/%USER%/$USERNAME/g" "$file"
-      sed -i -e "s/%EMAIL%/$GIT_EMAIL/g" "$file"
-      sed -i -e "s/%NAME%/$GIT_NAME/g" "$file"
-      sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
-      sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
-      sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
+      if [[ "$OS" != "Darwin" ]]; then
+        sed -i -e "s/%INTERFACE%/$PRIMARY_IFACE/g" "$file"
+        sed -i -e "s/%DISK%/$BOOT_DISK/g" "$file"
+        sed -i -e "s/%HOST%/$HOST_NAME/g" "$file"
+      fi
     fi
   fi
 }
