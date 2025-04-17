@@ -186,9 +186,4 @@
   vscode = {
     enable = true;
   };
-
-  ssh = {
-    enable = true;
-  };
-
 }

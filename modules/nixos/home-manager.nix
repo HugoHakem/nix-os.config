@@ -32,5 +32,9 @@ in
     };
   };
 
-  programs = shared-programs // {};
+  programs = shared-programs // {
+      ssh = {
+        enable = true;
+      };
+  };
 }

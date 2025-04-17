@@ -14,8 +14,8 @@ let
   # Install vscode keybindings and settings
   userDir = "/Users/${user}/Library/Application Support/Code/User";
     
-  vscodeKeybindings = builtins.toPath ./config/vscode/keybindings.json;
-  vscodeSettings = builtins.toPath ./config/vscode/settings.json;
+  vscodeKeybindings = builtins.toPath ./../shared/config/vscode/keybindings.json;
+  vscodeSettings = builtins.toPath ./../shared/config/vscode/settings.json;
 
   vscodeKeybindingsTarget = "${userDir}/keybindings.json";
   vscodeSettingsTarget = "${userDir}/settings.json";
