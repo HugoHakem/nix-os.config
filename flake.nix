@@ -36,6 +36,8 @@
   } @inputs:
     let
       user = "hhakem";
+      git_name = "Hugo";
+      git_email = "hhakem@broadinstitute.org";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
@@ -59,18 +61,12 @@
       mkLinuxApps = system: {
         "apply" = mkApp "apply" system;
         "build-switch" = mkApp "build-switch" system;
-        "copy-keys" = mkApp "copy-keys" system;
-        "create-keys" = mkApp "create-keys" system;
-        "check-keys" = mkApp "check-keys" system;
         "install" = mkApp "install" system;
       };
       mkDarwinApps = system: {
         "apply" = mkApp "apply" system;
         "build" = mkApp "build" system;
         "build-switch" = mkApp "build-switch" system;
-        "copy-keys" = mkApp "copy-keys" system;
-        "create-keys" = mkApp "create-keys" system;
-        "check-keys" = mkApp "check-keys" system;
         "rollback" = mkApp "rollback" system;
       };
     in

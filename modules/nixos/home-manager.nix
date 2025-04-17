@@ -1,8 +1,8 @@
-{ config, pkgs, lib, user, ... }:
+{ config, pkgs, lib, user, git_name, git_email, ... }:
 
 let
   xdg_configHome  = "/home/${user}/.config";
-  shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib user; };
+  shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib user git_name git_email; };
   sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
   additionalFiles = import ./files.nix { inherit user; };
 

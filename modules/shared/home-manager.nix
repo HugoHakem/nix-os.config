@@ -1,7 +1,5 @@
-{ config, pkgs, lib, user, ... }:
+{ config, pkgs, lib, user, git_name, git_email, ... }:
 
-let name = "Hugo";
-    email = "hhakem@broadinstitute.org"; in
 {
   # Shared shell configuration
   zsh = {
@@ -59,8 +57,8 @@ let name = "Hugo";
   git = {
     enable = true;
     ignores = [ "*.swp" ];
-    userName = name;
-    userEmail = email;
+    userName = git_name;
+    userEmail = git_email;
     lfs = {
       enable = true;
     };

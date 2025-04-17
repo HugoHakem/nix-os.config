@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, user, ... }:
+{ config, pkgs, lib, home-manager, user, git_name, git_email, ... }:
 
 let
   sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
@@ -51,7 +51,7 @@ in
       };
     programs = 
       let 
-        shared  = import ../shared/home-manager.nix { inherit config pkgs lib user; };
+        shared  = import ../shared/home-manager.nix { inherit config pkgs lib user git_name git_email; };
       in 
         shared // {
           zsh = shared.zsh // {
