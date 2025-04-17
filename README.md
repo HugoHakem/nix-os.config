@@ -25,7 +25,6 @@ My nix config is adapted from [here](https://github.com/dustinlyons/nixos-config
 │   │   └── README.md
 │   ├── nixos                 # specific to NixOS
 │   │   ├── config            # Home graphical interface of the server (for physical machine)
-│   │   ├── disk-config.nix   # Disk configuration
 │   │   ├── files.nix
 │   │   ├── home-manager.nix
 │   │   ├── packages.nix
@@ -50,13 +49,11 @@ My nix config is adapted from [here](https://github.com/dustinlyons/nixos-config
 
 ## setting up
 
-Change `user` in:
+In `flake.nix` change:
 
-+ `flake.nix`
-
-Change `name` and `email` in:
-
-+ `modules/shared/home-manager.nix`
++ `name`
++ `git_name`
++ `git_email`
 
 ## To-Do
 

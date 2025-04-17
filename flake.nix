@@ -23,16 +23,12 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    # disko = {
-    #   url = "github:nix-community/disko";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
     };
   };
 
-  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, disko, nix-vscode-extensions
+  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, nix-vscode-extensions
   } @inputs:
     let
       user = "hhakem";
@@ -102,7 +98,6 @@
         inherit system;
         specialArgs = {inherit user git_name git_email; } // inputs;
         modules = [
-          disko.nixosModules.disko
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;

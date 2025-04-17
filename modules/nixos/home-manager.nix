@@ -71,9 +71,6 @@ in
       lockCmd = "${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 10 15";
     };
 
-    # Auto mount devices
-    udiskie.enable = true;
-
     polybar = {
       enable = true;
       config = polybar-config;

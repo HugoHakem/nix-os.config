@@ -30,11 +30,6 @@ run_apply() {
   export USERNAME=$(cat /tmp/username.txt)
 }
 
-run_disko() {
-  sudo nix run --extra-experimental-features nix-command --extra-experimental-features flakes \
-    github:nix-community/disko -- --mode zap_create_mount ./modules/nixos/disk-config.nix
-}
-
 setup_files() {
   sudo mkdir -p /mnt/etc/nixos
   sudo cp -r * /mnt/etc/nixos
@@ -73,7 +68,6 @@ cleanup
 check_installer
 download_config
 run_apply
-run_disko
 setup_files
 install_nixos
 cleanup
