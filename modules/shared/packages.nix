@@ -10,7 +10,7 @@ with pkgs; [
   gnused # The one and only sed
   gnutar # The one and only tar
   gnumake # Necessary for emacs' vterm
-  libtool
+  libtool # for Emacs vterm
   killall # kill all the processes by name
   lsof # Files and their processes
   rsync # sync data
@@ -48,6 +48,7 @@ with pkgs; [
   jq
   jetbrains-mono
   ripgrep
+  xdg-utils
   zsh-powerlevel10k
 
   # Python Utilities
