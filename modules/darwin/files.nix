@@ -10,6 +10,15 @@ let
     #!/bin/sh
     emacsclient -c -n &
   '';
+  
+  # Install vscode keybindings and settings
+  userDir = "/Users/${user}/Library/Application Support/Code/User";
+    
+  vscodeKeybindings = builtins.toPath ./config/vscode/keybindings.json;
+  vscodeSettings = builtins.toPath ./config/vscode/settings.json;
+
+  vscodeKeybindingsTarget = "${userDir}/keybindings.json";
+  vscodeSettingsTarget = "${userDir}/settings.json";
 in
 {
   # Raycast script so that "Run Emacs" is available and uses Emacs daemon
@@ -37,5 +46,18 @@ in
       fi
     '';
   };
+  # Emacs launcher
   "emacs-launcher.command".source = myEmacsLauncher; 
+
+  # VSCode keybindings and settings
+  "${vscodeKeybindingsTarget}" = {
+    source = vscodeKeybindings; 
+    force = true;
+    mutable = true;
+  };
+  "${vscodeSettingsTarget}" = {
+    source = vscodeSettings; 
+    force = true;
+    mutable = true;
+  };
 }

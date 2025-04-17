@@ -17,7 +17,7 @@ let
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+    # initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
     # Uncomment for AMD GPU
     # initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.linuxPackages_latest;
@@ -74,15 +74,6 @@ let
       #   Option       "TripleBuffer" "on"
       # '';
 
-      displayManager = {
-        defaultSession = "none+bspwm";
-        lightdm = {
-          enable = true;
-          greeters.slick.enable = true;
-          background = ../../modules/nixos/config/login-wallpaper.png;
-        };
-      };
-
       # Tiling window manager
       windowManager.bspwm = {
         enable = true;
@@ -100,119 +91,6 @@ let
     # Let's be able to SSH into this machine
     openssh.enable = true;
 
-    # Sync state between machines
-    syncthing = {
-      enable = true;
-      openDefaultPorts = true;
-      dataDir = "/home/${user}/.local/share/syncthing";
-      configDir = "/home/${user}/.config/syncthing";
-      user = "${user}";
-      group = "users";
-      guiAddress = "127.0.0.1:8384";
-      overrideFolders = true;
-      overrideDevices = true;
-
-      settings = {
-        devices = {};
-        options.globalAnnounceEnabled = false; # Only sync on LAN
-      };
-    };
-
-    # Enable CUPS to print documents
-    # printing.enable = true;
-    # printing.drivers = [ pkgs.brlaser ]; # Brother printer driver
-
-    # Picom, my window compositor with fancy effects
-    #
-    # Notes on writing exclude rules:
-    #
-    #   class_g looks up index 1 in WM_CLASS value for an application
-    #   class_i looks up index 0
-    #
-    #   To find the value for a specific application, use `xprop` at the
-    #   terminal and then click on a window of the application in question
-    #
-    picom = {
-      enable = true;
-      settings = {
-        animations = true;
-        animation-stiffness = 300.0;
-        animation-dampening = 35.0;
-        animation-clamping = false;
-        animation-mass = 1;
-        animation-for-workspace-switch-in = "auto";
-        animation-for-workspace-switch-out = "auto";
-        animation-for-open-window = "slide-down";
-        animation-for-menu-window = "none";
-        animation-for-transient-window = "slide-down";
-        corner-radius = 12;
-        rounded-corners-exclude = [
-          "class_i = 'polybar'"
-          "class_g = 'i3lock'"
-        ];
-        round-borders = 3;
-        round-borders-exclude = [];
-        round-borders-rule = [];
-        shadow = true;
-        shadow-radius = 8;
-        shadow-opacity = 0.4;
-        shadow-offset-x = -8;
-        shadow-offset-y = -8;
-        fading = false;
-        inactive-opacity = 0.8;
-        frame-opacity = 0.7;
-        inactive-opacity-override = false;
-        active-opacity = 1.0;
-        focus-exclude = [
-        ];
-
-        opacity-rule = [
-          "100:class_g = 'i3lock'"
-          "60:class_g = 'Dunst'"
-          "100:class_g = 'Alacritty' && focused"
-          "90:class_g = 'Alacritty' && !focused"
-        ];
-
-        blur-kern = "3x3box";
-        blur = {
-          method = "kernel";
-          strength = 8;
-          background = false;
-          background-frame = false;
-          background-fixed = false;
-          kern = "3x3box";
-        };
-
-        shadow-exclude = [
-          "class_g = 'Dunst'"
-        ];
-
-        blur-background-exclude = [
-          "class_g = 'Dunst'"
-        ];
-
-        backend = "glx";
-        vsync = false;
-        mark-wmwin-focused = true;
-        mark-ovredir-focused = true;
-        detect-rounded-corners = true;
-        detect-client-opacity = false;
-        detect-transient = true;
-        detect-client-leader = true;
-        use-damage = true;
-        log-level = "info";
-
-        wintypes = {
-          normal = { fade = true; shadow = false; };
-          tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
-          dock = { shadow = false; };
-          dnd = { shadow = false; };
-          popup_menu = { opacity = 1.0; };
-          dropdown_menu = { opacity = 1.0; };
-        };
-      };
-    };
-
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
 
@@ -228,19 +106,8 @@ systemd.user.services = {
   emacs = {
     serviceConfig.TimeoutStartSec = "7min";
   };
-  # install-vscode-extension = {
-  #   description = "Install VS Code extensions";
-  #   after = [ "graphical-session.target" ]; # ensures everything is up and running
-  #   wantedBy = [ "default.target" ]; 
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     ExecStart = ;
-  #   };
-  #   };
 };
 
-# Enable sound
-# sound.enable = true;
 
 # Video support
 hardware = {

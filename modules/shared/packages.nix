@@ -1,85 +1,64 @@
 { pkgs }:
 
 with pkgs; [
-  # General packages for development and system management
-  # files
+ # Development and System Management Utilities
   bashInteractive
   coreutils
   cmake
+  emacs
   gawk
-  libtool gnumake # Necessary for emacs' vterm
   gnused # The one and only sed
   gnutar # The one and only tar
+  gnumake # Necessary for emacs' vterm
+  libtool
   killall # kill all the processes by name
   lsof # Files and their processes
-  ps # processes
   rsync # sync data
+  ps # processes
   screen
+  tmux
   tree
-  unzip # extract zips
-  wget # fetch stuff
-  # alacritty
-  aspell
-  aspellDicts.en
-  bash-completion
-  bat
-  btop
-  coreutils
-  emacs
-  gnumake
-  neofetch
-  nerdfonts
-  wezterm
-  kitty
-  # openssh
-  sqlite
-  wget
-  zip
   tldr
+  wget # fetch stuff
+  zip
+  unzip # extract zips
+  unrar
 
-
-#  # Encryption and security tools
- # age
- # age-plugin-yubikey
- # gnupg
- # libfido2
-
-  # Cloud-related tools and SDKs
+  # Cloud-related Tools and SDKs
   google-cloud-sdk
-  #docker
-  #docker-compose
 
-  # Media-related packages
+  # Media and Fonts Utilities
   emacs-all-the-icons-fonts
   dejavu_fonts
-  ffmpeg
   fd
+  ffmpeg
   font-awesome
   hack-font
   noto-fonts
   noto-fonts-emoji
   meslo-lgs-nf
 
-  # Node.js development tools
-  #nodePackages.npm # globally install npm
-  #nodePackages.prettier
-  #nodejs
-
-  # Text and terminal utilities
+  # Text and Terminal Utilities
+  bash-completion
+  bat
+  btop
   htop
   hunspell
   iftop
-  jetbrains-mono
   jq
+  jetbrains-mono
   ripgrep
-  #tree
-  #tmux
-  screen
-  unrar
-  unzip
   zsh-powerlevel10k
 
-  # Python packages
+  # Python Utilities
   python310
   python310Packages.virtualenv # globally install virtualenv
+
+  # Miscellaneous Utilities
+  aspell
+  aspellDicts.en
+  neofetch
+  nerdfonts
+  wezterm
+  sqlite
 ]
