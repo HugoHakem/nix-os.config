@@ -48,11 +48,6 @@ let
 
   # Manages keys and such
   programs = {
-    gnupg.agent.enable = true;
-
-    # Needed for anything GTK related
-    dconf.enable = true;
-
     # My shell
     zsh.enable = true;
   };
@@ -74,25 +69,16 @@ let
       #   Option       "TripleBuffer" "on"
       # '';
 
-      # Tiling window manager
-      windowManager.bspwm = {
-        enable = true;
-      };
-
       # Turn Caps Lock into Ctrl
       layout = "us";
       xkbOptions = "ctrl:nocaps";
 
       # Better support for general peripherals
       libinput.enable = true;
-
     };
 
     # Let's be able to SSH into this machine
     openssh.enable = true;
-
-    gvfs.enable = true; # Mount, trash, and other functionalities
-    tumbler.enable = true; # Thumbnail support for images
 
     # Emacs runs as a daemon
     emacs = {
