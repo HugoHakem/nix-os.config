@@ -27,3 +27,16 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
 ## Installing the configuration
+
+## Questions for Alán
+
+I don't understand the `modules/nixos/default.nix`.
+
++ boot
++ networking
++ services.xserver
++ hardware
++ virtualisation
++ openssh.authorizedKeys
++ security.sudo
++ system.stateVersion
