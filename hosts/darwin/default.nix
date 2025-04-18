@@ -55,30 +55,6 @@ in
       StandardOutPath = "/tmp/emacs.out.log";
       };
     };
-    # install-vscode-extension = {
-    #   path = [ config.environment.systemPath ];
-    #   serviceConfig = {
-    #     RunAtLoad = true;
-    #     KeepAlive = false;
-    #     ProgramArguments = [
-    #       "/bin/zsh"
-    #       "-c"
-    #       ''
-    #         # Loop through each extension and install if not already present
-    #         for extension in ${toString vscodeExtensions}; do
-    #           if ! /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --list-extensions | grep -q "$extension"; then
-    #             echo "Installing VS Code extension $extension..."
-    #             /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension $extension
-    #           else
-    #             echo "VS Code extension $extension already installed."
-    #           fi
-    #         done
-    #       ''
-    #     ];
-    #     StandardOutPath = "/tmp/vscode-extension-install.log";
-    #     StandardErrorPath = "/tmp/vscode-extension-install.err";
-    #   };
-    # };
   };
 
   system = {
