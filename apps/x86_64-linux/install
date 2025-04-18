@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-set -exu
+
+set -exu # -e: Exit on any error. -x: Print each command before executing. -u: Treat unset variables as an error.
 
 check_installer() {
-  if [ -e /etc/NIXOS ]; then
+  if [ -e /etc/NIXOS ]; then # I would instead try to add /etc/nix to make it friendly to nix as a packge manager rather than os. 
     echo -e "\e[1;32mRunning in the NixOS installer environment.\e[0m"
   else
     echo -e "\e[1;31mNot running in the NixOS installer environment.\e[0m"
@@ -10,14 +11,16 @@ check_installer() {
   fi
 }
 
+# you need to change it to the relevant file. 
 cleanup() {
   rm -rf nixos-config-main.zip nixos-config-main nixos-config
 }
 
-download_config() {
-  curl -LJ0 https://github.com/dustinlyons/nixos-config/archive/main.zip -o nixos-config-main.zip
-  unzip nixos-config-main.zip
-  mv nixos-config-main/templates/starter nixos-config
+# How to change it to my own github repo ? 
+download_config() { # CAREFUL CHANGE THE BRANCH ONCE MERGED `hh-virtual-machine` to `main`
+  curl -LJ0 https://github.com/HugoHakem/nix-os.config/archive/hh-virtual-machine.zip -o nix-os.config-hh-virtual-machine.zip
+  unzip nix-os.config-hh-virtual-machine.zip
+  mv nix-os.config-hh-virtual-machine nixos-config
   cd nixos-config
 }
 
@@ -30,6 +33,7 @@ run_apply() {
   export USERNAME=$(cat /tmp/username.txt)
 }
 
+# I don't think this is needed.
 setup_files() {
   sudo mkdir -p /mnt/etc/nixos
   sudo cp -r * /mnt/etc/nixos
@@ -52,10 +56,12 @@ install_nixos() {
       ;;
   esac
 
+  # I don't understand why we would do that and not just nix-install instead of nixos-install? 
   sudo nixos-install --flake .#$FLAKE_TARGET $@
   sudo chmod -R 775 /mnt/etc/nixos
 }
 
+# should we actually reboot ? 
 prompt_reboot() {
   read -p "Do you want to reboot now? (y/yes) " choice
   case "$choice" in
@@ -64,11 +70,109 @@ prompt_reboot() {
   esac
 }
 
+check_nvidia() {
+  if command -v nvidia-smi &> /dev/null; then
+    # NVIDIA drivers are already installed, check if it's working
+    if nvidia-smi &> /dev/null; then
+      echo -e "\e[1;32mNVIDIA drivers are already installed and the GPU is working.\e[0m"
+      return 0  # NVIDIA drivers are working
+    else
+      echo -e "\e[1;33mNVIDIA drivers are installed, but nvidia-smi is not returning valid information.\e[0m"
+      return 1  # NVIDIA drivers installed but not working
+    fi
+  else
+    echo -e "\e[1;31mNo NVIDIA drivers found on this system.\e[0m"
+    return 2  # No NVIDIA drivers installed
+  fi
+}
+
+# Prompt to install NVIDIA drivers if no GPU or not CUDA-enabled GPU
+prompt_install_nvidia() {
+  read -p "Do you want to install NVIDIA drivers (only if a CUDA-compatible GPU is available)? (y/n) " choice
+  case "$choice" in
+    y|Y|yes|YES)
+      echo -e "\e[1;32mProceeding to install NVIDIA drivers...\e[0m"
+      install_nvidia_drivers
+      ;;
+    *)
+      echo -e "\e[1;33mSkipping NVIDIA drivers installation.\e[0m"
+      ;;
+  esac
+}
+
+# Function to install the NVIDIA drivers (if not already installed)
+install_nvidia_drivers() {
+  echo -e "\e[1;34mChecking system architecture and OS...\e[0m"
+  . /etc/os-release
+  OS_ID=$ID
+  OS_VERSION_ID=$VERSION_ID
+  ARCH=$(uname -m)
+  case "$ARCH" in
+    x86_64)
+      ARCH_PATH="x86_64"
+      ;;
+    aarch64)
+      ARCH_PATH="arm64"
+      ;;
+    *)
+      echo -e "\e[1;31mUnsupported architecture: $ARCH\e[0m"
+      exit 1
+      ;;
+  esac
+
+  # Assuming we're adding CUDA repo from NVIDIA
+  echo -e "\e[1;34mInstalling CUDA drivers...\e[0m"
+  
+  if [ "$OS_ID" == "ubuntu" ]; then
+    URL="https://developer.download.nvidia.com/compute/cuda/repos/${OS_ID}${OS_VERSION_ID}/${ARCH_PATH}/cuda-keyring_1.1-1_all.deb"
+    echo -e "\e[1;34mAdding NVIDIA package repositories...\e[0m"
+    # Add the NVIDIA CUDA keyring and repo
+    wget $URL
+    sudo dpkg -i cuda-keyring_1.1-1_all.deb
+    sudo apt-get update
+    sudo apt-get -y install cuda
+    echo -e "\e[1;34mVerifying installation...\e[0m"
+
+    rm -f cuda-keyring_1.1-1_all.deb
+
+    if nvidia-smi; then
+      echo -e "\e[1;32mNVIDIA drivers installed successfully.\e[0m"
+    else
+      echo -e "\e[1;31mFailed to install NVIDIA drivers.\e[0m"
+      exit 1
+    fi
+
+  else
+    echo -e "\e[1;31mUnsupported OS version for this script (only Ubuntu is supported). Please start again but skip cuda installation\e[0m"
+    exit 1
+  fi
+
+  echo -e "\e[1;32mCUDA drivers installation complete.\e[0m"
+}
+
+# Main script execution
 cleanup
 check_installer
 download_config
 run_apply
 setup_files
 install_nixos
+check_nvidia
+case $? in
+  0)  # NVIDIA drivers are installed and working
+    echo -e "\e[1;32mNo need to install NVIDIA drivers. Proceeding...\e[0m"
+    ;;
+  1)  # NVIDIA drivers are installed but not working
+    echo -e "\e[1;33mNVIDIA drivers are installed but not working. Would you like to reinstall them?\e[0m"
+    prompt_install_nvidia
+    ;;
+  2)  # No NVIDIA drivers installed
+    prompt_install_nvidia
+    ;;
+  *)
+    echo -e "\e[1;31mUnexpected error.\e[0m"
+    exit 1
+    ;;
+esac
 cleanup
 prompt_reboot
