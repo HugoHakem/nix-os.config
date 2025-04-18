@@ -40,3 +40,9 @@ I don't understand the `modules/nixos/default.nix`.
 + openssh.authorizedKeys
 + security.sudo
 + system.stateVersion
+
+In `apps/`:
+
++ Why is there not any `build` in `apps/x86_64-linux`
++ Why is there `SYSTEM=$(uname -m)` (I imagine to identify the system and build properly.) But then why is there not that in `apps/x86_64-darwin`.
++ Why is there a `rollback` option in `apps/aarch64-darwin` but not in `apps/x86_64-darwin`.
