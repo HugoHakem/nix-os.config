@@ -35,7 +35,7 @@
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
-    # (emacs.override { withNativeCompilation = false; })
+    (emacs.override { withNativeCompilation = false; })
     (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@") 
     ]; 
 

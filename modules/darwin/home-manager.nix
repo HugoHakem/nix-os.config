@@ -58,6 +58,8 @@ in
             initExtraFirst = (shared.zsh.initExtraFirst or "") + ''
               # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
               export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+              # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
+              export PATH="$PATH:/run/current-system/sw/bin"
             '';
           };
       };
