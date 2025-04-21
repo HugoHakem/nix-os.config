@@ -94,19 +94,17 @@
         }
       );
 
-      nixosConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit user git_name git_email; } // inputs;
-        modules = [
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${user} = import ./modules/nixos/home-manager.nix;
-            };
+      linuxConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: let pkgs = nixpkgs.legacyPackages.${system};
+        in {
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            specialArgs = {inherit user git_name git_email; } // inputs;
+            modules = [
+              ./hosts/linux
+            ];
           }
-          ./hosts/nixos
-        ];
-     });
-  };
+        }
+      );
+    };
 }
+
