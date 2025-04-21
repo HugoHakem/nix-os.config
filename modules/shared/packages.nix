@@ -5,7 +5,6 @@ with pkgs; [
   bashInteractive
   coreutils
   cmake
-  emacs
   gawk
   gnused # The one and only sed
   gnutar # The one and only tar

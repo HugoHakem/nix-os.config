@@ -94,17 +94,15 @@
         }
       );
 
-      linuxConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: let pkgs = nixpkgs.legacyPackages.${system};
-        in {
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            specialArgs = {inherit user git_name git_email; } // inputs;
+      linuxConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
+        home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.${system};
+            extraSpecialArgs = {inherit user git_name git_email; } // inputs;
             modules = [
               ./hosts/linux
             ];
           }
-        }
-      );
+        );
     };
 }
 

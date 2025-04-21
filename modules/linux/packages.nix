@@ -24,4 +24,10 @@ shared-packages ++ [
 
   # Editor 
   vscode # added here because use casks for darwin
+  emacs # emacs is installed in darwin specifically in the systemPackages
+
+  # GPU 
+  cudaPackages.cudatoolkit
+  cudaPackages.cudnn
+  nvtop
 ]

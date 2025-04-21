@@ -1,8 +1,5 @@
 { config, pkgs, user,... }:
 
-let
-  vscodeExtensions = import ../../modules/shared/vscode/extensions.nix {};
-in
 {
   imports = [
     ../../modules/darwin/home-manager.nix
@@ -10,10 +7,7 @@ in
     ../../modules/shared/cachix
   ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
-  # Setup user, packages, programs
+  # Setup user, packages
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "@admin" "${user}" ];
@@ -25,20 +19,25 @@ in
       options = "--delete-older-than 30d";
     };
 
+    # Deduplicate and optimize nix store
+    optimise.automatic = true;
+
     # Turn this on to make command line easier
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
 
-  # Turn off NIX_PATH warnings now that we're using flakes
-  system.checks.verifyNixPath = false;
+  # Auto upgrade nix package and the daemon service.
+  services = {
+    nix-daemon.enable = true; 
+  };
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
-    emacs
-    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
-    ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; }); 
+    (emacs.override { withNativeCompilation = false; })
+    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool \"$@\"") 
+    ]; 
 
   # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
   launchd.user.agents = { 
@@ -60,6 +59,9 @@ in
   system = {
     stateVersion = 4;
 
+    # Turn off NIX_PATH warnings now that we're using flakes
+    checks.verifyNixPath = false;
+    
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
