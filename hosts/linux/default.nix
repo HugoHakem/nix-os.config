@@ -30,12 +30,6 @@
     '';
    };
 
-  # Manages keys and such
-programs = {
-    # My shell
-    zsh.enable = true;
-  };
-
 services = { 
   # Let's be able to SSH into this machine
   openssh.enable = true;
@@ -65,9 +59,9 @@ users.users.${user} = {
   # openssh.authorizedKeys.keys = keys;
 };
 
-users.users.root = {
-  # openssh.authorizedKeys.keys = keys;
-};
+# users.users.root = {
+#   openssh.authorizedKeys.keys = keys;
+# };
 
 # # Don't require password for users in `wheel` group for these commands
 # security.sudo = {

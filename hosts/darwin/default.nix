@@ -35,8 +35,8 @@
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
-    (emacs.override { withNativeCompilation = false; })
-    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool \"$@\"") 
+    # (emacs.override { withNativeCompilation = false; })
+    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@") 
     ]; 
 
   # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
