@@ -27,7 +27,15 @@ shared-packages ++ [
   emacs # emacs is installed in darwin specifically in the systemPackages
 
   # GPU 
-  cudaPackages.cudatoolkit
-  cudaPackages.cudnn
-  nvtop
+  btop
+  nvtopPackages.full
+
+  # fonts
+  dejavu_fonts
+  emacs-all-the-icons-fonts
+  feather-font # from overlay
+  jetbrains-mono
+  font-awesome
+  noto-fonts
+  noto-fonts-emoji
 ]

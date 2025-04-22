@@ -24,5 +24,6 @@ echo -e "${YELLOW}Checking if home-manager is installed...${NC}"
 if ! command -v home-manager >/dev/null 2>&1; then
   echo -e "${YELLOW}home-manager not found. Using nix to run it temporarily...${NC}"
   nix shell --extra-experimental-features 'nix-command flakes' nixpkgs#home-manager -c home-manager switch --flake .#${SYSTEM_TYPE} "$@"
+fi
 
 echo "${GREEN}Switch to new generation complete!${NC}"

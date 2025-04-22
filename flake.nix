@@ -95,7 +95,7 @@
         }
       );
 
-      linuxConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
+      homeConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
         home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.${system};
             extraSpecialArgs = {inherit user git_name git_email; } // inputs;
