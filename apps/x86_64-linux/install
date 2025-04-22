@@ -24,17 +24,19 @@ cleanup() {
 }
 
 # Function to check if a command is available, and use Nix if not
-check_and_run() {
-  command -v "$1" >/dev/null 2>&1 || {
-    echo -e "${YELLOW}$1 not found. Using Nix to provide it...${NC}"
-    nix --extra-experimental-features 'nix-command flakes' run nixpkgs#$1 -- "$@"
-  }
+create_shell() {
+  echo -e "${YELLOW}$1 not found. Using Nix to provide it...${NC}"
+  nix shell --extra-experimental-features 'nix-command flakes' nixpkgs#unzip nixpkgs#curl nixpkgs#wget 
+}
+
+exit_shell() {
+  exit
 }
 
 download_config() {
   echo "${YELLOW}Downloading Nix Configuration...${NC}"
-  check_and_run curl -LJ0 https://github.com/$REPO/archive/$BRANCH.zip -o nixos-config-$BRANCH.zip
-  check_and_run unzip nixos-config-$BRANCH.zip
+  curl -LJ0 https://github.com/$REPO/archive/$BRANCH.zip -o nixos-config-$BRANCH.zip
+  unzip nixos-config-$BRANCH.zip
   mv nixos-config-$BRANCH nixos-config
   cd nixos-config
 }
@@ -52,8 +54,8 @@ run_apply() {
 prompt_reboot() {
   read -p "Do you want to reboot now? (y/yes) " choice
   case "$choice" in
-  y|Y|yes|YES ) echo -e "\e[1;32mRebooting...\e[0m" && sudo reboot;;
-  * ) echo -e "\e[1;33mReboot skipped.\e[0m";;
+  y|Y|yes|YES ) echo -e "${YELLOW}Rebooting...${NC}" && sudo reboot;;
+  * ) echo -e "${RED}Reboot skipped.${NC}";;
   esac
 }
 
@@ -114,7 +116,7 @@ install_nvidia_drivers() {
     URL="https://developer.download.nvidia.com/compute/cuda/repos/${OS_ID}${OS_VERSION_ID}/${ARCH_PATH}/cuda-keyring_1.1-1_all.deb"
     echo -e "${BLUE}Adding NVIDIA package repositories...${NC}"
     # Add the NVIDIA CUDA keyring and repo
-    check_and_run wget $URL
+    wget $URL
     sudo dpkg -i cuda-keyring_1.1-1_all.deb
     sudo apt-get update
     sudo apt-get -y install cuda
@@ -138,6 +140,7 @@ install_nvidia_drivers() {
 # Main script execution
 cleanup
 check_installer
+create_shell
 download_config
 run_apply
 check_nvidia
@@ -157,4 +160,5 @@ case $? in
     ;;
 esac
 cleanup
+exit_shell
 prompt_reboot
