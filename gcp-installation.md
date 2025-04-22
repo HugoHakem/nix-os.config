@@ -28,6 +28,8 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 
 ## Installing the configuration
 
+Installation command:
+
 ```bash
 nix run --extra-experimental-features 'nix-command flakes' github:HugoHakem/nix-os.config?ref=hh-virtual-machine#install
 ```
@@ -47,6 +49,14 @@ That means you don't have the authorization to run the script. You must make the
 # CAREFUL: the [hash] after store/[hash]/apps/ might be different. Replace it by whatever fil you see. 
 sudo chmod +x /nix/store/b9aka34salpd5ixic90sdl1av5pps1km-source/apps/x86_64-linux/install
 ```
+
+Then run again the installation command. If for some reason it fails, you may want to run:
+
+```bash
+nix-collect-garbage -d
+```
+
+Then do again those steps.
 
 ### CUDA drivers
 
