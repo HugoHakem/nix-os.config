@@ -27,7 +27,7 @@ cleanup() {
 check_and_run() {
   command -v "$1" >/dev/null 2>&1 || {
     echo -e "${YELLOW}$1 not found. Using Nix to provide it...${NC}"
-    nix run nixpkgs#$1 -- "$@"
+    nix --extra-experimental-features 'nix-command' run nixpkgs#$1 -- "$@"
   }
 }
 

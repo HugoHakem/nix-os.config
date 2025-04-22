@@ -29,7 +29,23 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 ## Installing the configuration
 
 ```bash
-sudo nix run --extra-experimental-features 'nix-command flakes' github:HugoHakem/nix-os.config/tree/hh-virtual-machine#install
+nix run --extra-experimental-features 'nix-command flakes' github:HugoHakem/nix-os.config?ref=hh-virtual-machine#install
+```
+
+It will eventually fail and prompt:
+
+```bash
+:~$ nix run --extra-experimental-features 'nix-command flakes' github:HugoHakem/nix-os.config?ref=hh-virtual-machine#install
+>>> Running install for x86_64-linux
+>>> /nix/store/b10kvfv4gniyc0gdcf0g5r92ynmicxh7-install/bin/install: line 4: /nix/store/b9aka34salpd5ixic90sdl1av5pps1km-source/apps/x86_64-linux/install: Permission denied
+>>> /nix/store/b10kvfv4gniyc0gdcf0g5r92ynmicxh7-install/bin/install: line 4: exec: /nix/store/b9aka34salpd5ixic90sdl1av5pps1km-source/apps/x86_64-linux/install: cannot execute: Permission denied
+```
+
+That means you don't have the authorization to run the script. You must make the file executable:
+
+```bash
+# CAREFUL: the [hash] after store/[hash]/apps/ might be different. Replace it by whatever fil you see. 
+sudo chmod +x /nix/store/b9aka34salpd5ixic90sdl1av5pps1km-source/apps/x86_64-linux/install
 ```
 
 ### CUDA drivers
