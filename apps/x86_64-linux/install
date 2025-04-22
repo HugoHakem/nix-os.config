@@ -25,7 +25,7 @@ cleanup() {
 
 # Function to check if a command is available, and use Nix if not
 create_shell() {
-  echo -e "${YELLOW}$1 not found. Using Nix to provide it...${NC}"
+  echo -e "${YELLOW}Create a shell that provides unzip, curl and wget.${NC}"
   nix shell --extra-experimental-features 'nix-command flakes' nixpkgs#unzip nixpkgs#curl nixpkgs#wget 
 }
 
