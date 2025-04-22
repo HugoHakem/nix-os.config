@@ -23,10 +23,18 @@ cleanup() {
   rm -rf nixos-config-$BRANCH.zip nixos-config-$BRANCH
 }
 
+# Function to check if a command is available, and use Nix if not
+check_and_run() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo -e "${YELLOW}$1 not found. Using Nix to provide it...${NC}"
+    nix run nixpkgs#$1 -- "$@"
+  }
+}
+
 download_config() {
   echo "${YELLOW}Downloading Nix Configuration...${NC}"
-  curl -LJ0 https://github.com/$REPO/archive/$BRANCH.zip -o nixos-config-$BRANCH.zip
-  unzip nixos-config-$BRANCH.zip
+  check_and_run curl -LJ0 https://github.com/$REPO/archive/$BRANCH.zip -o nixos-config-$BRANCH.zip
+  check_and_run unzip nixos-config-$BRANCH.zip
   mv nixos-config-$BRANCH nixos-config
   cd nixos-config
 }
@@ -106,7 +114,7 @@ install_nvidia_drivers() {
     URL="https://developer.download.nvidia.com/compute/cuda/repos/${OS_ID}${OS_VERSION_ID}/${ARCH_PATH}/cuda-keyring_1.1-1_all.deb"
     echo -e "${BLUE}Adding NVIDIA package repositories...${NC}"
     # Add the NVIDIA CUDA keyring and repo
-    wget $URL
+    check_and_run wget $URL
     sudo dpkg -i cuda-keyring_1.1-1_all.deb
     sudo apt-get update
     sudo apt-get -y install cuda
