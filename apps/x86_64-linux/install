@@ -8,8 +8,11 @@ YELLOW='\033[1;33m'
 RED='\033[1;31m'
 NC='\033[0m'
 
+GITUSERNAME="HugoHakem"
+REPO="nix-os.config"
 BRANCH="hh-virtual-machine"
-REPO="HugoHakem/nix-os.config"
+
+
 
 check_installer() {
   if ! command -v nix &> /dev/null; then
@@ -20,7 +23,7 @@ check_installer() {
 
 # you need to change it to the relevant file. 
 cleanup() {
-  rm -rf nixos-config-$BRANCH.zip nixos-config-$BRANCH
+  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH
 }
 
 # Function to check if a command is available, and use Nix if not
@@ -38,9 +41,9 @@ check_and_run() {
 
 download_config() {
   echo "${YELLOW}Downloading Nix Configuration...${NC}"
-  check_and_run curl -LJ0 https://github.com/$REPO/archive/$BRANCH.zip -o nixos-config-$BRANCH.zip
-  check_and_run unzip nixos-config-$BRANCH.zip
-  mv nixos-config-$BRANCH nixos-config
+  check_and_run curl -LJ0 https://github.com/$GITUSERNAME/$REPO/archive/$BRANCH.zip -o $REPO-$BRANCH.zip
+  check_and_run unzip $REPO-$BRANCH.zip
+  mv $REPO-$BRANCH nixos-config
   cd nixos-config
 }
 
