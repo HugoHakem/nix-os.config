@@ -26,6 +26,18 @@ In particular, from the [NixOS documentation](https://nixos.org/download/#nix-in
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
+Then you want to add some extra functionality. Please run:
+
+```bash
+sudo nano /etc/nix/nix.conf
+```
+
+And add:
+
+```bash
+experimental-features = nix-command flakes
+```
+
 ## Installing the configuration
 
 Installation command:

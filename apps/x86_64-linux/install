@@ -23,7 +23,8 @@ check_installer() {
 
 # you need to change it to the relevant file. 
 cleanup() {
-  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH
+  cd 
+  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH /tmp/username.txt
 }
 
 # Function to check if a command is available, and use Nix if not
@@ -54,6 +55,11 @@ run_apply() {
     exit 1
   fi
   export USERNAME=$(cat /tmp/username.txt)
+}
+
+run_build_switch() {
+  echo -e "${YELLOW}Run home-manager config...${NC}"
+  ./apps/x86_64-linux/build-switch
 }
 
 # should we actually reboot ? 
@@ -164,5 +170,6 @@ case $? in
     exit 1
     ;;
 esac
+run_build_switch
 cleanup
 prompt_reboot
