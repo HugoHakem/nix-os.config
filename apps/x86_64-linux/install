@@ -24,7 +24,7 @@ check_installer() {
 # you need to change it to the relevant file. 
 cleanup() {
   cd 
-  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH /tmp/username.txt
+  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH #/tmp/username.txt
 }
 
 # Function to check if a command is available, and use Nix if not
@@ -48,19 +48,19 @@ download_config() {
   cd nixos-config
 }
 
-run_apply() {
-  ./apps/x86_64-linux/apply
-  if [ ! -f /tmp/username.txt ]; then
-    echo -e "${RED}Error: /tmp/username.txt does not exist.${NC}"
-    exit 1
-  fi
-  export USERNAME=$(cat /tmp/username.txt)
-}
+# run_apply() {
+#   ./apps/x86_64-linux/apply
+#   if [ ! -f /tmp/username.txt ]; then
+#     echo -e "${RED}Error: /tmp/username.txt does not exist.${NC}"
+#     exit 1
+#   fi
+#   export USERNAME=$(cat /tmp/username.txt)
+# }
 
-run_build_switch() {
-  echo -e "${YELLOW}Run home-manager config...${NC}"
-  ./apps/x86_64-linux/build-switch
-}
+# run_build_switch() {
+#   echo -e "${YELLOW}Run home-manager config...${NC}"
+#   ./apps/x86_64-linux/build-switch
+# }
 
 # should we actually reboot ? 
 prompt_reboot() {
@@ -153,7 +153,8 @@ install_nvidia_drivers() {
 cleanup
 check_installer
 download_config
-run_apply
+# run_apply
+# run_build_switch
 check_nvidia
 case $? in
   0)  # NVIDIA drivers are installed and working
@@ -170,6 +171,5 @@ case $? in
     exit 1
     ;;
 esac
-run_build_switch
 cleanup
 prompt_reboot
