@@ -40,5 +40,9 @@ in
         enable =true;
         nix-direnv.enable = true;
       };
+      vscode = {
+        enable = true;
+        package = pkgs.vscode;
+      };
   };
 }
