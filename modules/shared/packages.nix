@@ -50,11 +50,6 @@ with pkgs; [
   xdg-utils
   zsh-powerlevel10k
 
-  # GPU utilities
-  nvtopPackages.full
-  btop
-  htop
-
   # Python Utilities
   python310
   python310Packages.virtualenv # globally install virtualenv

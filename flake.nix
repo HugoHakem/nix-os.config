@@ -23,19 +23,17 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-    };
   };
 
-  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs, nix-vscode-extensions
-  } @inputs:
+  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, home-manager, nixpkgs } @inputs:
     let
       user = "hhakem";
       git_name = "Hugo";
       git_email = "hhakem@broadinstitute.org";
+
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
+
       forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {
@@ -45,6 +43,7 @@
           '';
         };
       };
+
       mkApp = scriptName: system: {
         type = "app";
         program = "${(nixpkgs.legacyPackages.${system}.writeScriptBin scriptName ''
@@ -66,6 +65,33 @@
         "build-switch" = mkApp "build-switch" system;
         "rollback" = mkApp "rollback" system;
       };
+
+      # Def nixpkgs
+      emacsOverlaySha256 = "06413w510jmld20i4lik9b36cfafm501864yq8k4vxl5r4hn0j0h";
+      pkgsSystem = (system: 
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowInsecure = false;
+            allowUnsupportedSystem = true;
+          };
+
+          overlays =
+            # Apply each overlay found in the /overlays directory
+            let path = ./overlays; in with builtins;
+            map (n: import (path + ("/" + n)))
+                (filter (n: match ".*\\.nix" n != null ||
+                            pathExists (path + ("/" + n + "/default.nix")))
+                        (attrNames (readDir path)))
+                        
+            ++ [(import (builtins.fetchTarball {
+                    url = "https://github.com/dustinlyons/emacs-overlay/archive/refs/heads/master.tar.gz";
+                    sha256 = emacsOverlaySha256;
+                }))];
+        }
+      );
     in
     {
       devShells = forAllSystems devShell;
@@ -73,6 +99,7 @@
 
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: darwin.lib.darwinSystem {
           inherit system;
+          pkgs = pkgsSystem system;
           specialArgs = {inherit user git_name git_email; } // inputs;
           modules = [
             home-manager.darwinModules.home-manager
@@ -97,7 +124,7 @@
 
       homeConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
         home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.${system};
+            pkgs = pkgsSystem system;
             extraSpecialArgs = {inherit user git_name git_email; } // inputs;
             modules = [
               ./hosts/linux

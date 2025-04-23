@@ -25,6 +25,11 @@ shared-packages ++ [
   vscode # added here because use casks for darwin
   emacs # emacs is installed in darwin specifically in the systemPackages
 
+  # GPU utilities
+  nvtopPackages.full
+  btop
+  htop
+
   # fonts
   dejavu_fonts
   emacs-all-the-icons-fonts

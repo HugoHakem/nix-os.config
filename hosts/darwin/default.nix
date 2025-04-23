@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/darwin/home-manager.nix
-    ../../modules/shared
     ../../modules/shared/cachix
   ];
 
@@ -14,7 +13,11 @@
 
     gc = {
       automatic = true;
-      frequency = "weekly";
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
       options = "--delete-older-than 30d";
     };
 
