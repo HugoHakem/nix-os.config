@@ -5,6 +5,7 @@ with pkgs; [
   bashInteractive
   coreutils
   cmake
+  git
   gawk
   gnused # The one and only sed
   gnutar # The one and only tar
@@ -19,6 +20,7 @@ with pkgs; [
   tree
   tldr
   wget # fetch stuff
+  curl # fetch stuff
   zip
   unzip # extract zips
   unrar
@@ -40,8 +42,6 @@ with pkgs; [
   # Text and Terminal Utilities
   bash-completion
   bat
-  btop
-  htop
   hunspell
   iftop
   jq
@@ -50,9 +50,17 @@ with pkgs; [
   xdg-utils
   zsh-powerlevel10k
 
+  # GPU utilities
+  nvtopPackages.full
+  btop
+  htop
+
   # Python Utilities
   python310
   python310Packages.virtualenv # globally install virtualenv
+
+  # Environment Management
+  direnv
 
   # Miscellaneous Utilities
   aspell

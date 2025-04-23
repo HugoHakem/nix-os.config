@@ -12,7 +12,6 @@ shared-packages ++ [
   bc # old school calculator
 
   # Testing and development tools
-  direnv
   postgresql
 
   # Text and terminal utilities
@@ -25,10 +24,6 @@ shared-packages ++ [
   # Editor 
   vscode # added here because use casks for darwin
   emacs # emacs is installed in darwin specifically in the systemPackages
-
-  # GPU 
-  btop
-  nvtopPackages.full
 
   # fonts
   dejavu_fonts
