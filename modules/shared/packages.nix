@@ -61,7 +61,8 @@ with pkgs; [
   aspell
   aspellDicts.en
   neofetch
-  nerdfonts
   wezterm
   sqlite
 ]
+# If you need all the nerd-fonts
+# ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)
