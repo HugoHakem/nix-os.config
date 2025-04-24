@@ -81,25 +81,5 @@ in
     { path = "${pkgs.wezterm}/Applications/Wezterm.app/"; }
     { path = "/Applications/Visual Studio Code.app/"; }
     { path = "/System/Applications/Launchpad.app/"; }
-   
-    # {
-    #   path = toString myEmacsLauncher;
-    #   section = "others";
-    # }
-    
-    # Add the share file to the dock in the section "others"
-    # {
-    #   path = "${config.users.users.${user}.home}/.local/share/";
-    #   section = "others";
-    #   options = "--sort name --view grid --display folder";
-    # }
-
-    # Add the download file to the dock in the section "others"
-    # {
-    #   path = "${config.users.users.${user}.home}/downloads";
-    #   section = "others";
-    #   options = "--sort name --view grid --display stack";
-    # }
   ];
-
 }
