@@ -67,7 +67,7 @@
       };
 
       # Def nixpkgs
-      emacsOverlaySha256 = "sha256:1dv12aj346851mcczqa2rfnc6mbbw6wmpjzx6s3462m6isyfmidh";
+      # emacsOverlaySha256 = "sha256:1dv12aj346851mcczqa2rfnc6mbbw6wmpjzx6s3462m6isyfmidh";
       pkgsSystem = (system: 
         import nixpkgs {
           inherit system;
@@ -84,12 +84,12 @@
             map (n: import (path + ("/" + n)))
                 (filter (n: match ".*\\.nix" n != null ||
                             pathExists (path + ("/" + n + "/default.nix")))
-                        (attrNames (readDir path)))
-                        
-            ++ [(import (builtins.fetchTarball {
-                    url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-                    sha256 = emacsOverlaySha256;
-                }))];
+                        (attrNames (readDir path)));
+            # EMACS UTILITIES
+            # ++ [(import (builtins.fetchTarball {
+            #         url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+            #         sha256 = emacsOverlaySha256;
+            #     }))];
         }
       );
     in

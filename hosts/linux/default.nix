@@ -28,18 +28,20 @@
 services = { 
   # Let's be able to SSH into this machine
   ssh-agent.enable = true;
-
-    # Emacs runs as a daemon
-  emacs = {
-    enable = true;
-    package = pkgs.emacs-unstable;
-  };
+  
+  # EMACS UTILITIES
+  # Emacs runs as a daemon
+  # emacs = {
+  #   enable = true;
+  #   package = pkgs.emacs-unstable;
+  # };
 };
 
+# EMACS UTILITIES
 # When emacs builds from no cache, it exceeds the 90s timeout default
-systemd.user.services = {
-  emacs = {
-    serviceConfig.TimeoutStartSec = "7min";
-  };
-};
+# systemd.user.services = {
+#   emacs = {
+#     serviceConfig.TimeoutStartSec = "7min";
+#   };
+# };
 }

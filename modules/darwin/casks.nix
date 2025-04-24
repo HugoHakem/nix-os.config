@@ -20,7 +20,8 @@ _:
   # Productivity Tools
   # "zotero" # Since I already downloaded zotero, it conflict with my version. Need to fix this.
   "notion"
-  "raycast" # used in files.nix to create a symlink to the app
+  # EMACS UTILITIES
+  # "raycast" # used in files.nix to create a symlink to the app for EMACS
 
   # Browsers
   "google-chrome"

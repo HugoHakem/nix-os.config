@@ -5,7 +5,6 @@ let shared-packages = import ../shared/packages.nix { inherit pkgs; }; in
 shared-packages ++ [
 
   # App and package management
-  appimage-run
   home-manager
 
   # Productivity tools
@@ -17,25 +16,18 @@ shared-packages ++ [
   # Text and terminal utilities
   unixtools.ifconfig
   unixtools.netstat
-  xclip # For the org-download package in Emacs
+  xclip # clipboard manipulation tool
   xorg.xwininfo # Provides a cursor to click and learn about windows
   xorg.xrandr
 
   # Editor 
   vscode # added here because use casks for darwin
-  emacs # emacs is installed in darwin specifically in the systemPackages
-
+  
   # GPU utilities
   nvtopPackages.full
   btop
   htop
 
-  # fonts
-  dejavu_fonts
-  emacs-all-the-icons-fonts
-  feather-font # from overlay
-  jetbrains-mono
-  font-awesome
-  noto-fonts
-  noto-fonts-emoji
+  # EMACS UTILITIES
+  # emacs # In darwin, is specifically installed in the systemPackages
 ]

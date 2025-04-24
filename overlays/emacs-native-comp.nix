@@ -1,5 +1,6 @@
+# EMACS UTILITIES
 self: super: {
-  emacs = super.emacs.override {
-    withNativeCompilation = false;
-  };
+  # emacs = super.emacs.override {
+  #   withNativeCompilation = false;
+  # };
 }

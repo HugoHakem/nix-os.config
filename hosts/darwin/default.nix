@@ -27,29 +27,6 @@
     '';
   };
 
-  # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs; [
-    emacs
-    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@") 
-    ]; 
-
-  # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
-  launchd.user.agents = { 
-    emacs = {
-      path = [ config.environment.systemPath ]; 
-      serviceConfig = {
-        KeepAlive = true;
-        ProgramArguments = [
-          "/bin/sh"
-          "-c"
-          "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
-        ];
-      StandardErrorPath = "/tmp/emacs.err.log";
-      StandardOutPath = "/tmp/emacs.out.log";
-      };
-    };
-  };
-
   system = {
     stateVersion = 4;
 
@@ -90,4 +67,28 @@
       };
     };
   };
+
+  # Load configuration that is shared across users
+  # EMACS UTILITIES
+  # environment.systemPackages = with pkgs; [
+  #   emacs
+  #   (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
+  #   ]; 
+
+  # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
+  # launchd.user.agents = { 
+  #   emacs = {
+  #     path = [ config.environment.systemPath ]; 
+  #     serviceConfig = {
+  #       KeepAlive = true;
+  #       ProgramArguments = [
+  #         "/bin/sh"
+  #         "-c"
+  #         "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+  #       ];
+  #     StandardErrorPath = "/tmp/emacs.err.log";
+  #     StandardOutPath = "/tmp/emacs.out.log";
+  #     };
+  #   };
+  # };
 }
