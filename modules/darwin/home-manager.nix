@@ -1,6 +1,7 @@
 { config, pkgs, lib, home-manager, user, git_name, git_email, ... }:
 
 let
+  sharedPrograms  = import ../shared/programs.nix { inherit config pkgs lib user git_name git_email; };
   sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
   additionalFiles = import ./files.nix { inherit config pkgs user; };
 
@@ -50,20 +51,17 @@ in
         };
       };
     programs = 
-      let 
-        shared  = import ../shared/home-manager.nix { inherit config pkgs lib user git_name git_email; };
-      in 
-        shared // {
-          zsh = shared.zsh // {
-            # when using lib.mkBefore, the code is wrap in a set wit { _type=...;, content=[THE CODE]; priority=500; }
-            # to extend the code it suffice to takt the argument of the set shared.zsh.initContent.content
-            initContent = lib.mkBefore (shared.zsh.initContent.content  + ''
-              # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
-              export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
-              # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
-              export PATH="$PATH:/run/current-system/sw/bin"
-            '');
-          };
+      sharedPrograms // {
+        zsh = sharedPrograms.zsh // {
+          # when using lib.mkBefore, the code is wrap in a set wit { _type=...;, content=[THE CODE]; priority=500; }
+          # to extend the code it suffice to takt the argument of the set shared.zsh.initContent.content
+          initContent = lib.mkBefore (sharedPrograms.zsh.initContent.content  + ''
+            # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
+            export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+            # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
+            export PATH="$PATH:/run/current-system/sw/bin"
+          '');
+        };
       };
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
