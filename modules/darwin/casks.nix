@@ -8,17 +8,24 @@ _:
   # Communication Tools
   "zoom"
   "slack"
-  
-  # Utility Tools
-  "syncthing"
+
+  # Browsers
+  "google-chrome"
+
+  # My terminal
+  "wezterm"
 
   # Productivity Tools
-  # "zotero" # Since I already downloaded zotero, it conflict with my version. Need to fix this.
   "notion"
+  "zotero"
+  "rectangle" 
+
+  # Utility Tools
+  # "syncthing"
   
   # EMACS UTILITIES
   # "raycast" # used in files.nix to create a symlink to the app for EMACS
 
-  # Browsers
-  "google-chrome"
+
+
 ]

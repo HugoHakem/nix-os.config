@@ -76,7 +76,7 @@ in
     { path = "/Applications/Zotero.app/"; }
     { path = "/Applications/Notion.app/"; }
     { path = "/Applications/Google Chrome.app/"; }
-    { path = "${pkgs.wezterm}/Applications/Wezterm.app/"; }
+    { path = "/Applications/Wezterm.app/"; }
     { path = "/Applications/Visual Studio Code.app/"; }
     { path = "/System/Applications/Launchpad.app/"; }
   ];
