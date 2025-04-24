@@ -12,8 +12,6 @@ GITUSERNAME="HugoHakem"
 REPO="nix-os.config"
 BRANCH="hh-virtual-machine"
 
-
-
 check_installer() {
   if ! command -v nix &> /dev/null; then
     echo "${RED}Nix is not installed. Please install it first.${NC}"
@@ -23,8 +21,7 @@ check_installer() {
 
 # you need to change it to the relevant file. 
 cleanup() {
-  cd 
-  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH #/tmp/username.txt
+  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH
 }
 
 # Function to check if a command is available, and use Nix if not
@@ -45,24 +42,8 @@ download_config() {
   check_and_run curl -LJ0 https://github.com/$GITUSERNAME/$REPO/archive/$BRANCH.zip -o $REPO-$BRANCH.zip
   check_and_run unzip $REPO-$BRANCH.zip
   mv $REPO-$BRANCH nixos-config
-  cd nixos-config
 }
 
-# run_apply() {
-#   ./apps/x86_64-linux/apply
-#   if [ ! -f /tmp/username.txt ]; then
-#     echo -e "${RED}Error: /tmp/username.txt does not exist.${NC}"
-#     exit 1
-#   fi
-#   export USERNAME=$(cat /tmp/username.txt)
-# }
-
-# run_build_switch() {
-#   echo -e "${YELLOW}Run home-manager config...${NC}"
-#   ./apps/x86_64-linux/build-switch
-# }
-
-# should we actually reboot ? 
 prompt_reboot() {
   read -p "Do you want to reboot now? (y/yes) " choice
   case "$choice" in
@@ -104,10 +85,13 @@ prompt_install_nvidia() {
 # Function to install the NVIDIA drivers (if not already installed)
 install_nvidia_drivers() {
   echo -e "${BLUE}Checking system architecture and OS...${NC}"
+  # Retrieve your OS name, and version
   . /etc/os-release
   OS_ID=$ID
   OS_VERSION_ID=$VERSION_ID
   ARCH=$(uname -m)
+
+  # Retrieve your architecture
   case "$ARCH" in
     x86_64)
       ARCH_PATH="x86_64"
@@ -121,12 +105,13 @@ install_nvidia_drivers() {
       ;;
   esac
 
-  # Assuming we're adding CUDA repo from NVIDIA
   echo -e "${BLUE}Installing CUDA drivers...${NC}"
   
   if [ "$OS_ID" == "ubuntu" ]; then
+    # Build a URL from those information from where to retrieve the installation kit in the NVIDIA archive
     URL="https://developer.download.nvidia.com/compute/cuda/repos/${OS_ID}${OS_VERSION_ID}/${ARCH_PATH}/cuda-keyring_1.1-1_all.deb"
     echo -e "${BLUE}Adding NVIDIA package repositories...${NC}"
+
     # Add the NVIDIA CUDA keyring and repo
     check_and_run wget $URL
     sudo dpkg -i cuda-keyring_1.1-1_all.deb
@@ -134,13 +119,15 @@ install_nvidia_drivers() {
     sudo apt-get -y install cuda
     echo -e "${BLUE}Verifying installation...${NC}"
 
+    # Remove not needed installer
     rm -f cuda-keyring_1.1-1_all.deb
 
     if nvidia-smi; then
       echo -e "${GREEN}NVIDIA drivers installed successfully.${NC}"
     else
-      echo -e "${RED}Failed to install NVIDIA drivers.${NC}"
-      exit 1
+      echo -e "${YELLOW}Installation completed, but 'nvidia-smi' failed.${NC}"
+      echo -e "${YELLOW}This is likely because a reboot is required.${NC}"
+      echo -e "${YELLOW}Please reboot the machine and re-run 'nvidia-smi' to verify installation.${NC}"
     fi
 
   else
@@ -153,8 +140,7 @@ install_nvidia_drivers() {
 cleanup
 check_installer
 download_config
-# run_apply
-# run_build_switch
+cleanup
 check_nvidia
 case $? in
   0)  # NVIDIA drivers are installed and working
@@ -171,5 +157,4 @@ case $? in
     exit 1
     ;;
 esac
-cleanup
 prompt_reboot

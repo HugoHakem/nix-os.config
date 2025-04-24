@@ -66,7 +66,7 @@ confirm_details() {
 
   case "$choice" in
     [Nn] | [Nn][Oo] ) 
-      _print "${RED}Exiting script.${NC}" 
+      _print "${RED}Exiting script. You may want to change the flake.nix manually if not satisfied.${NC}" 
       exit 1
       ;;
     [Yy] | [Yy][Ee][Ss] ) 
@@ -105,6 +105,4 @@ replace_tokens() {
 # Traverse directories and call replace_tokens on each Nix file
 export -f replace_tokens
 find . -type f -exec bash -c 'replace_tokens "$0"' {} \;
-
-echo "$USERNAME" > /tmp/username.txt
 _print "${GREEN}User $USERNAME information applied.${NC}"
