@@ -30,9 +30,21 @@ check_and_run() {
   shift
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo -e "${YELLOW}${cmd} not found. Using Nix to provide it...${NC}"
-    nix shell --extra-experimental-features 'nix-command flakes' "nixpkgs#${cmd}" -c "${cmd}" "$@"
+    nix --extra-experimental-features 'nix-command flakes' shell "nixpkgs#${cmd}" -c "${cmd}" "$@"
   else
     "${cmd}" "$@"
+  fi
+}
+
+# Function to check if a command is available, and use Nix if not. Additionally run in sudo mode.
+check_and_run_sudo() {
+  local cmd="$1"
+  shift
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo -e "${YELLOW}${cmd} not found. Using Nix to provide it...${NC}"
+    nix --extra-experimental-features 'nix-command flakes' shell "nixpkgs#${cmd}" -c "sudo ${cmd}" "$@"
+  else
+    sudo "${cmd}" "$@"
   fi
 }
 
@@ -114,7 +126,7 @@ install_nvidia_drivers() {
 
     # Add the NVIDIA CUDA keyring and repo
     check_and_run wget $URL
-    sudo dpkg -i cuda-keyring_1.1-1_all.deb
+    check_and_run_sudo dpkg -i cuda-keyring_1.1-1_all.deb
     sudo apt-get update
     sudo apt-get -y install cuda
     echo -e "${BLUE}Verifying installation...${NC}"
