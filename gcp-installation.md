@@ -158,7 +158,13 @@ Finally every time you have done changes to your config, run the following comma
 nix run .#build-switch
 ```
 
-Additionally there are some utilities to rollback to a previous version, please check the [manual](https://nix-community.github.io/home-manager/index.xhtml#sec-usage-rollbacks)
+There are some utilities to rollback to a previous version, that can be runed with:
+
+```bash
+nix run .#rollback
+```
+
+You will be prompt which generation to rollback to. It might be useful to retrieve a working system. But it wont give you back your `nixos-config` files. This is why it is advice to init a github repository with your `nixos-config/` folder.
 
 ### For maintenance purposes
 

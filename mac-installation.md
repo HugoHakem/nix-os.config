@@ -65,11 +65,13 @@ To actually apply your config:
 nix run .#build-switch
 ```
 
-There are some utilities to rollback to a previous version, please check the [`rollback`](apps/aarch64-darwin/rollback) implementation here that could be implemented run with:
+There are some utilities to rollback to a previous version, that can be runed with:
 
 ```bash
 nix run .#rollback
 ```
+
+You will be prompt which generation to rollback to. It might be useful to retrieve a working system. But it wont give you back your `nixos-config` files. This is why it is advice to init a github repository with your `nixos-config/` folder.
 
 ### For maintenance purposes
 
@@ -84,6 +86,21 @@ Then in your `nixos-config/` folder you will run:
 ```bash
 nix run .#build-switch
 ```
+
+Sometimes, whenever you want to install a package with a certain version, you may want to try it first this way:
+
+```bash
+nix shell nixpkgs#[name-of-the-package]
+```
+
+If you want a certain version of that package and you can make it happen through the `nix shell` command but not by using this config, it might be because the `flake.lock` refer to previous versions of your `flake.nix` `inputs`. In that case you may want to try:
+
+```bash
+nix flake update 
+# optionally you can specify the input you want to update
+```
+
+Please refer to the documentation on [`nix flake update`](https://nix.dev/manual/nix/2.25/command-ref/new-cli/nix3-flake-update). Be aware that by updating your input, things might break because options are no longer supported, or syntax has changed etc. Do not use if you don't need it. I advice you init a git repo of your `nixos-config/` so you can revert the lock changes anytime.
 
 ### Use template
 
