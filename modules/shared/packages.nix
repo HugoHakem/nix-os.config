@@ -53,8 +53,6 @@ with pkgs; [
   ## spell checker
   aspell 
   aspellDicts.en
-  ## my terminal
-  wezterm
   ## SQL
   sqlite
   ## Environment Management
