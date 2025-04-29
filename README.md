@@ -102,7 +102,7 @@ As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). 
 + [Nix Darwin Manual](https://nix-darwin.github.io/nix-darwin/manual/)
 + [Nix Darwin option for MacOS](https://mynixos.com/nix-darwin/options)
 + [NixOS installation guide for Google Cloud Engine](https://nixos.wiki/wiki/Install_NixOS_on_GCE). Here it move completely away from linux and really install NixOS. Maybe less beginner friendly but might be worth exploring for full reproducibility / control over the system.
-+ [Non official but curated dev book](https://dev.jmgilman.com/)
++ [Non official but curated development handbook](https://dev.jmgilman.com/environment/tools/nix/)
 
 ### GitHub Repo
 
