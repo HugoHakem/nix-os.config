@@ -8,8 +8,9 @@
 │   └── ...
 ├── p10k.zsh
 ├── README.md
-└── vscode
+├── vscode
     └── ...
+└── wezterm.lua
 ```
 
 ## Vscode config
@@ -58,6 +59,15 @@ Once in a while, you may want to:
 ## Zsh config
 
 My zsh shell config is extracted from [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config). It is enabled in the [modules/shared/programs.nix](../programs.nix#L15-L17).
+
+## Wezterm config
+
+A very basic wezterm config (almost the default one). This is provided as an example of what can be done to set-up your wezterm config. For more details, please visit the [official documentation](https://wezterm.org/config/files.html).
+
+Some blog or github repo you mght find useful to work on your Wezterm config:
+
++ [Josean how to zet up wezterm terminal](https://www.josean.com/posts/how-to-setup-wezterm-terminal)
++ [Sravioli config](https://github.com/sravioli/wezterm)
 
 ## Emacs config
 

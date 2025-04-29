@@ -86,6 +86,7 @@ As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). 
 + [ ] Try config on a new Mac and add installation guide
   + [ ] Complete [mac-installation.md]
 + [ ] Learn Emacs or Vim and provide my custom config as a safeguard for system where VSCode remote-ssh won't be possible.
++ [ ] Provide custom config for wezterm and zsh
 
 ## Ressources to keep in mind
 

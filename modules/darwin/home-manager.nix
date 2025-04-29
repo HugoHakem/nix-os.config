@@ -62,6 +62,11 @@ in
             export PATH="$PATH:/run/current-system/sw/bin"
           '');
         };
+        wezterm = {
+          enable = true;
+          enableZshIntegration = true;
+          extraConfig = builtins.readFile ../shared/config/wezterm.lua;
+        };
       };
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344

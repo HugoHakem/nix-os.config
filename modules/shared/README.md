@@ -9,7 +9,8 @@ Much of the code running on both MacOS or NixOS is found here.
 ├── config             # Config files not written in Nix
 │   ├── emacs          # to update emacs config
 │   ├── p10k.zsh       # to update zsh visual config
-│   └── vscode         # to update vscode config
+│   ├── vscode         # to update vscode config
+│   └── wezterm.lua    # to update wezterm config
 ├── cachix             # Defines cachix, a global cache for builds
 ├── files.nix          # Non-Nix, static configuration files (immutable by default, option for mutable)
 ├── mutable.nix        # add options to home.file to make file mutable
