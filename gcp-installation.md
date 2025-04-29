@@ -2,13 +2,7 @@
 
 ## Contextualization
 
-### Introduction
-
-When setting up a virtual machine building an adequate developer environment might be difficult or fail for obscure reasons. This repo make use of **Nix Package Manager** as a work around. Why this choice ? Because nix is fully:
-
-+ **Reproducible**: works on any hardware.
-+ **Declarative**: easy to share environments.
-+ **Reliable**: an installation cannot break other packages and roll back to previous versions is possible.
+When setting up a virtual machine building an adequate developer environment might be difficult or fail for obscure reasons. This repo make use of **Nix Package Manager** as a work around.
 
 This guide assumes the following [Pre-Requisites](#0-pre-requisite) which is simpply having a virtual machine running. This tutorial will take the example of the Google Cloud Virtual Machine, but it *supposedly* (please open an issue if you encounter any problems) works on any Linux machine.
 
@@ -21,6 +15,8 @@ Afterward, here is what you will do:
 5. [Apply your environment](#5-apply-your-environment)
 
 Once it is finished, you should have a working environment with any basic utilities you may need.
+
+To jump to how to use this config and add project templates, go to [workflow](#workflow).
 
 ## Installation Guidelines
 
@@ -144,10 +140,40 @@ nix run .#build-switch
 
 Again if you are curious, the `build-switch` app is defined [apps/x86_64-linux/build-switch](apps/x86_64-linux/build-switch).
 
-## Workflow when updating your `nixos-config/`
+## Workflow
 
-## For maintenance purposes
+### Add new system packages
+
++ The standard way to add new packages will be by updating the `modules/shared/packages.nix`(modules/shared/packages.nix). Please visit [modules/shared/README.md](modules/shared/README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
+
++ Additonally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/linux/](nixos-config/modules/linux/README.md) config
+
++ If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](nixos-config/overlays/README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
+
+Additionnally, know that this the [hosts/linux.nix](hosts/README.md) exists but on a day to day basis, you won't modify this file.
+
+Finally every time you have done changes to your config, run the following command to actually apply those changes to your system:
+
+```bash
+nix run .#build-switch
+```
+
+Additionally there are some utilities to rollback to a previous version, please check the [manual](https://nix-community.github.io/home-manager/index.xhtml#sec-usage-rollbacks)
+
+### For maintenance purposes
+
+When doing multiple builds or heavily changing your configuration. It might happen that some packages are still present in your `/nix/store` or that previous version of your [`home-manager`](https://github.com/nix-community/home-manager) configuration are still saved in case you wanted to roll back to them. It is then wise, from time to time to trigger the following command.
 
 ```bash
 nix-collect-garbage -d
 ```
+
+Then in your `nixos-config/` folder you will run:
+
+```bash
+nix run .#build-switch
+```
+
+### Use template
+
+The goal of setting up your environment is ultimately to do coding projects. In the [templates/](templates/README.md) folder, you will find a first template for Machine Learning Project on Python.
