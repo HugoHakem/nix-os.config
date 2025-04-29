@@ -174,6 +174,21 @@ Then in your `nixos-config/` folder you will run:
 nix run .#build-switch
 ```
 
+Sometimes, whenever you want to install a package with a certain version, you may want to try it first this way:
+
+```bash
+nix shell nixpkgs#[name-of-the-package]
+```
+
+If you want a certain version of that package and you can make it happen through the `nix shell` command but not by using this config, it might be because the `flake.lock` refer to previous versions of your `flake.nix` `inputs`. In that case you may want to try:
+
+```bash
+nix flake update 
+# optionally you can specify the input you want to update
+```
+
+Please refer to the documentation on [`nix flake update`](https://nix.dev/manual/nix/2.25/command-ref/new-cli/nix3-flake-update). Be aware that by updating your input, things might break because options are no longer supported, or syntax has changed etc. Do not use if you don't need it. I advice you init a git repo of your `nixos-config/` so you can revert the lock changes anytime.
+
 ### Use template
 
 The goal of setting up your environment is ultimately to do coding projects. In the [templates/](templates/README.md) folder, you will find a first template for Machine Learning Project on Python.
