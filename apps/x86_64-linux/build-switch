@@ -20,6 +20,8 @@ case "$SYSTEM" in
     ;;
 esac
 
+export NIXPKGS_ALLOW_UNFREE=1
+
 echo -e "${YELLOW}Checking if home-manager is installed...${NC}"
 if command -v home-manager >/dev/null 2>&1; then
   home-manager switch --flake .#${SYSTEM_TYPE} "$@"
