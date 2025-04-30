@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -e
 
 set -exu # -e: Exit on any error. -x: Print each command before executing. -u: Treat unset variables as an error.
 
