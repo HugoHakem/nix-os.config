@@ -9,34 +9,10 @@ For now, use the [dustinlyons installation](https://github.com/dustinlyons/nixos
 
 ### Make App executable
 
-To make the app from your system executable but disabling the app from the other system
+Maybe you won't be able to run the apps because they are not executable. To work around that:
 
 ```bash
-ARCH=$(uname -m | sed 's/arm64/aarch64/'); [ "$ARCH" = "x86_64" ] && OTHER="aarch64" || OTHER="x86_64"; FILES="apply build build-switch create-keys copy-keys check-keys rollback"; NAMES=$(printf -- '-name %s -o ' $FILES | sed 's/ -o $//'); find apps/${ARCH}-darwin -type f \( $NAMES \) -exec chmod +x {} \; && find apps/${OTHER}-darwin -type f \( $NAMES \) -exec chmod -x {} \;
-```
-
-Make it a script ?
-
-```bash
-# Detect architecture
-ARCH=$(uname -m | sed 's/arm64/aarch64/')
-if [ "$ARCH" = "x86_64" ]; then
-    OTHER="aarch64"
-elif [ "$ARCH" = "aarch64" ]; then
-    OTHER="x86_64"
-else
-    echo "Unsupported architecture: $(uname -m)"
-    exit 1
-fi
-
-# List of executables
-EXECUTABLES="apply build build-switch create-keys copy-keys check-keys rollback"
-
-# Make executables for the current system
-find apps/${ARCH}-darwin -type f \( $(printf -- '-name %s -o ' $EXECUTABLES | sed 's/ -o $//') \) -exec chmod +x {} \;
-
-# Remove executables for the other system
-find apps/${OTHER}-darwin -type f \( $(printf -- '-name %s -o ' $EXECUTABLES | sed 's/ -o $//') \) -exec chmod -x {} \;
+find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o -name build -o -name build-switch -o -name create-keys -o -name copy-keys -o -name check-keys -o -name rollback \) -exec chmod +x {} \;
 ```
 
 ## Workflow
