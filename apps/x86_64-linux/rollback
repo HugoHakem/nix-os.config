@@ -6,7 +6,7 @@ RED='\033[1;31m'
 NC='\033[0m'
 
 echo "${YELLOW}Available generations:${NC}"
-/run/current-system/sw/bin/darwin-rebuild --list-generations
+home-manager generations
 
 echo "${YELLOW}Enter the generation number for rollback:${NC}"
 read GEN_NUM
@@ -17,6 +17,7 @@ if [ -z "$GEN_NUM" ]; then
 fi
 
 echo "${YELLOW}Rolling back to generation $GEN_NUM...${NC}"
-/run/current-system/sw/bin/darwin-rebuild --switch-generation $GEN_NUM
+COMMAND_PATH=$(home-manager generations | awk -v gen="$GEN_NUM" '$5 == gen { print $7 }')
+"$COMMAND_PATH/activate"
 
 echo "${GREEN}Rollback to generation $GEN_NUM complete!${NC}"

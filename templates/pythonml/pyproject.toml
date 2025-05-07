@@ -1,0 +1,67 @@
+[project]
+name = "thursday"
+version = "0.1.0"
+description = "build vision models fast"
+readme = "README.md"
+authors = [
+    { name = "Hugo Hakem", email = "hhakem@broadinstitute.org" }
+]
+requires-python = ">=3.10"
+dependencies = [
+  "ultralytics",
+  "fiftyone",
+  "label-studio",
+  "label-studio-sdk"
+]
+
+[project.optional-dependencies]
+cpu = [
+  "torch",
+  "torchvision",
+]
+cu128 = [
+  "torch",
+  "torchvision",
+]
+dev = [
+  "ipython",
+  "marimo",
+  "pytest",
+  "ruff",
+  "marimo"
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cu128" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu128", extra = "cu128" },
+]
+torchvision = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu128", extra = "cu128" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[project.scripts]
+thursday = "thursday:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

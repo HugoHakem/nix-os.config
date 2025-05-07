@@ -3,5 +3,25 @@
     "command": "workbench.action.terminal.moveIntoNewWindow",
     "key": "alt+x o",
     "when": "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+shift+u",
+    "command": "editor.action.transformToUppercase"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "editor.action.transformToLowercase"
+  },
+  {
+    "key": "ctrl+shift+k",
+    "command": "editor.action.transformToKebabcase"
+  },
+  {
+    "key": "ctrl+shift+p",
+    "command": "editor.action.transformToPascalcase"
+  },
+  {
+    "key": "ctrl+shift+s",
+    "command": "editor.action.transformToSnakecase"
   }
 ]

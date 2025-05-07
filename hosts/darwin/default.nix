@@ -1,27 +1,23 @@
 { config, pkgs, user,... }:
 
-let
-  vscodeExtensions = import ../../modules/shared/vscode/extensions.nix {};
-in
 {
   imports = [
     ../../modules/darwin/home-manager.nix
-    ../../modules/shared
     ../../modules/shared/cachix
   ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
-  # Setup user, packages, programs
+  # Setup user, packages
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "@admin" "${user}" ];
 
     gc = {
-      user = "root";
       automatic = true;
-      interval = { Weekday = 0; Hour = 2; Minute = 0; };
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
       options = "--delete-older-than 30d";
     };
 
@@ -31,59 +27,12 @@ in
     '';
   };
 
-  # Turn off NIX_PATH warnings now that we're using flakes
-  system.checks.verifyNixPath = false;
-
-  # Load configuration that is shared across systems
-  environment.systemPackages = with pkgs; [
-    emacs
-    (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
-    ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; }); 
-
-  # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
-  launchd.user.agents = { 
-    emacs = {
-      path = [ config.environment.systemPath ]; 
-      serviceConfig = {
-        KeepAlive = true;
-        ProgramArguments = [
-          "/bin/sh"
-          "-c"
-          "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
-        ];
-      StandardErrorPath = "/tmp/emacs.err.log";
-      StandardOutPath = "/tmp/emacs.out.log";
-      };
-    };
-    # install-vscode-extension = {
-    #   path = [ config.environment.systemPath ];
-    #   serviceConfig = {
-    #     RunAtLoad = true;
-    #     KeepAlive = false;
-    #     ProgramArguments = [
-    #       "/bin/zsh"
-    #       "-c"
-    #       ''
-    #         # Loop through each extension and install if not already present
-    #         for extension in ${toString vscodeExtensions}; do
-    #           if ! /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --list-extensions | grep -q "$extension"; then
-    #             echo "Installing VS Code extension $extension..."
-    #             /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --install-extension $extension
-    #           else
-    #             echo "VS Code extension $extension already installed."
-    #           fi
-    #         done
-    #       ''
-    #     ];
-    #     StandardOutPath = "/tmp/vscode-extension-install.log";
-    #     StandardErrorPath = "/tmp/vscode-extension-install.err";
-    #   };
-    # };
-  };
-
   system = {
     stateVersion = 4;
 
+    # Turn off NIX_PATH warnings now that we're using flakes
+    checks.verifyNixPath = false;
+    
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
@@ -118,4 +67,28 @@ in
       };
     };
   };
+
+  # Load configuration that is shared across users
+  # EMACS UTILITIES
+  # environment.systemPackages = with pkgs; [
+  #   emacs
+  #   (pkgs.writeShellScriptBin "glibtool" "exec ${pkgs.libtool}/bin/libtool $@")
+  #   ]; 
+
+  # See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-launchd.user.agents
+  # launchd.user.agents = { 
+  #   emacs = {
+  #     path = [ config.environment.systemPath ]; 
+  #     serviceConfig = {
+  #       KeepAlive = true;
+  #       ProgramArguments = [
+  #         "/bin/sh"
+  #         "-c"
+  #         "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+  #       ];
+  #     StandardErrorPath = "/tmp/emacs.err.log";
+  #     StandardOutPath = "/tmp/emacs.out.log";
+  #     };
+  #   };
+  # };
 }

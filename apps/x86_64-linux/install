@@ -1,0 +1,172 @@
+#!/bin/sh -e
+
+set -exu # -e: Exit on any error. -x: Print each command before executing. -u: Treat unset variables as an error.
+
+BLUE='\033[1;34m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+GITUSERNAME="HugoHakem"
+REPO="nix-os.config"
+BRANCH="main"
+
+check_installer() {
+  if ! command -v nix &> /dev/null; then
+    echo "${RED}Nix is not installed. Please install it first.${NC}"
+    exit 1
+  fi
+}
+
+# you need to change it to the relevant file. 
+cleanup() {
+  rm -rf $REPO-$BRANCH.zip $REPO-$BRANCH
+}
+
+# Function to check if a command is available, and use Nix if not
+check_and_run() {
+  local cmd="$1"
+  shift
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo -e "${YELLOW}${cmd} not found. Using Nix to provide it...${NC}"
+    nix --extra-experimental-features 'nix-command flakes' shell "nixpkgs#${cmd}" -c "${cmd}" "$@"
+  else
+    "${cmd}" "$@"
+  fi
+}
+
+# Function to check if a command is available, and use Nix if not. Additionally run in sudo mode.
+check_and_run_sudo() {
+  local cmd="$1"
+  shift
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo -e "${YELLOW}${cmd} not found. Using Nix to provide it...${NC}"
+    nix --extra-experimental-features 'nix-command flakes' shell "nixpkgs#${cmd}" -c "sudo ${cmd}" "$@"
+  else
+    sudo "${cmd}" "$@"
+  fi
+}
+
+
+download_config() {
+  echo "${YELLOW}Downloading Nix Configuration...${NC}"
+  check_and_run curl -LJ0 https://github.com/$GITUSERNAME/$REPO/archive/$BRANCH.zip -o $REPO-$BRANCH.zip
+  check_and_run unzip $REPO-$BRANCH.zip
+  mv $REPO-$BRANCH nixos-config
+}
+
+prompt_reboot() {
+  read -p "Do you want to reboot now? (y/yes) " choice
+  case "$choice" in
+  y|Y|yes|YES ) echo -e "${YELLOW}Rebooting...${NC}" && sudo reboot;;
+  * ) echo -e "${RED}Reboot skipped.${NC}";;
+  esac
+}
+
+check_nvidia() {
+  if command -v nvidia-smi &> /dev/null; then
+    # NVIDIA drivers are already installed, check if it's working
+    if nvidia-smi &> /dev/null; then
+      echo -e "${GREEN}NVIDIA drivers are already installed and the GPU is working.${NC}"
+      return 0  # NVIDIA drivers are working
+    else
+      echo -e "${YELLOW}NVIDIA drivers are installed, but nvidia-smi is not returning valid information.${NC}"
+      return 1  # NVIDIA drivers installed but not working
+    fi
+  else
+    echo -e "${RED}No NVIDIA drivers found on this system.${NC}"
+    return 2  # No NVIDIA drivers installed
+  fi
+}
+
+# Prompt to install NVIDIA drivers if no GPU or not CUDA-enabled GPU
+prompt_install_nvidia() {
+  read -p "Do you want to install NVIDIA drivers (only if a CUDA-compatible GPU is available)? (y/n) " choice
+  case "$choice" in
+    y|Y|yes|YES)
+      echo -e "${YELLOW}Proceeding to install NVIDIA drivers...${NC}"
+      install_nvidia_drivers
+      ;;
+    *)
+      echo -e "${YELLOW}Skipping NVIDIA drivers installation.${NC}"
+      ;;
+  esac
+}
+
+# Function to install the NVIDIA drivers (if not already installed)
+install_nvidia_drivers() {
+  echo -e "${BLUE}Checking system architecture and OS...${NC}"
+  # Retrieve your OS name, and version
+  . /etc/os-release
+  OS_ID=$ID
+  OS_VERSION_ID=$VERSION_ID
+  ARCH=$(uname -m)
+
+  # Retrieve your architecture
+  case "$ARCH" in
+    x86_64)
+      ARCH_PATH="x86_64"
+      ;;
+    aarch64)
+      ARCH_PATH="arm64"
+      ;;
+    *)
+      echo -e "${RED}Unsupported architecture: $ARCH${NC}"
+      exit 1
+      ;;
+  esac
+
+  echo -e "${BLUE}Installing CUDA drivers...${NC}"
+  
+  if [ "$OS_ID" == "ubuntu" ]; then
+    # Build a URL from those information from where to retrieve the installation kit in the NVIDIA archive
+    URL="https://developer.download.nvidia.com/compute/cuda/repos/${OS_ID}${OS_VERSION_ID}/${ARCH_PATH}/cuda-keyring_1.1-1_all.deb"
+    echo -e "${BLUE}Adding NVIDIA package repositories...${NC}"
+
+    # Add the NVIDIA CUDA keyring and repo
+    check_and_run wget $URL
+    check_and_run_sudo dpkg -i cuda-keyring_1.1-1_all.deb
+    sudo apt-get update
+    sudo apt-get -y install cuda
+    echo -e "${BLUE}Verifying installation...${NC}"
+
+    # Remove not needed installer
+    rm -f cuda-keyring_1.1-1_all.deb
+
+    if nvidia-smi; then
+      echo -e "${GREEN}NVIDIA drivers installed successfully.${NC}"
+    else
+      echo -e "${YELLOW}Installation completed, but 'nvidia-smi' failed.${NC}"
+      echo -e "${YELLOW}This is likely because a reboot is required.${NC}"
+      echo -e "${YELLOW}Please reboot the machine and re-run 'nvidia-smi' to verify installation.${NC}"
+    fi
+
+  else
+    echo -e "${RED}Unsupported OS version for this script (only Ubuntu is supported). Please start again but skipping cuda installation.${NC}"
+    exit 1
+  fi
+}
+
+# Main script execution
+cleanup
+check_installer
+download_config
+cleanup
+check_nvidia
+case $? in
+  0)  # NVIDIA drivers are installed and working
+    echo -e "${YELLOW}No need to install NVIDIA drivers. Proceeding...${NC}"
+    ;;
+  1)  # NVIDIA drivers are installed but not working
+    prompt_install_nvidia
+    ;;
+  2)  # No NVIDIA drivers installed
+    prompt_install_nvidia
+    ;;
+  *)
+    echo -e "${RED}Unexpected error.${NC}"
+    exit 1
+    ;;
+esac
+prompt_reboot
