@@ -10,7 +10,7 @@ NC='\033[0m'
 
 GITUSERNAME="HugoHakem"
 REPO="nix-os.config"
-BRANCH="hh-virtual-machine"
+BRANCH="main"
 
 check_installer() {
   if ! command -v nix &> /dev/null; then

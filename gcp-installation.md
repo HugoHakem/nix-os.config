@@ -76,7 +76,7 @@ Now that nix package manager is available, you will pull the configuration file 
 Run the following:
 
 ```bash
-nix --extra-experimental-features 'nix-command flakes' run github:HugoHakem/nix-os.config?ref=hh-virtual-machine#install
+nix --extra-experimental-features 'nix-command flakes' run github:HugoHakem/nix-os.config?ref=main#install
 ```
 
 Few things will occur here:
