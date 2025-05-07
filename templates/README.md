@@ -92,6 +92,15 @@ In any case, both are easy to handle using `uv`, but `pyproject.toml` is the new
   
   For more details on using `uv` see the [uv cookbook](https://docs.astral.sh/uv/getting-started/features/#python-versions).
 
+### Miscellaneous
+
+When loading the environment, `uv sync` is run automatically thanks to [this line](pythonml/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note that:
+
++ You can customize the `ShellHook` to your needs.
++ In particular, for development purposes, you may want to update `uv sync` with some extra dependencies specified in the `pyproject.toml` such as `uv sync --extra cu128`. Also you may keep the base `uv sync` and just not to run your own `sync` whenever you need it.
+
+The `pyproject.toml` is only here as an example. Feel free to discard it and replace it by your own.
+
 ### Conda ?
 
 If you really want to use conda as your package manager, please open an issue and I will eventually provide a flake.nix to do so.
