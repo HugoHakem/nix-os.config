@@ -74,7 +74,7 @@ To set-up a new project with `templates/pythonml`, add it to your project direct
 
 ```bash
 mkdir projects
-cp nixos-config/templates/pythonml projects/[name-of-the-project]
+cp -r nixos-config/templates/pythonml projects/[name-of-the-project]
 ```
 
 For further detail, refer to the [`templates/`](templates/README.md)
