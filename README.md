@@ -51,6 +51,8 @@ This Nix config relies on **Nix Home Manager** and I higly advice to check the [
 │   └── README.md
 ├── README.md
 └── templates               # project templates
+    ├── deprecated          # here for archived / learning purposes
+    │   └── ...
     ├── pythonml
     │   └── ...
     └── README.md
