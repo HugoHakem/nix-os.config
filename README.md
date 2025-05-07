@@ -11,12 +11,12 @@ My Nix config is heavily inspired from:
 I made Nix my Package Manager because it enables:
 
 + **A Declarative Configuration:** you can specify your configuration like a recipe, and Nix will be able to recreate it seamlessly for any system it was intended for. It is now easy to share config / environment!
-+ **It is Reproducible:** If it work on my machines, it will work on yours! With its inhere `.lock` file, package versionning is additionnally guaranteed to be the same.
++ **It is Reproducible:** If it work on my machines, it will work on yours! With its inhere `.lock` file, package versioning is additionally guaranteed to be the same.
 + **It is Reliable:** even if your build fail, you won't break the previously installed packages and you will even be able to rollback to previous build versions.
 
 Note that [NixOS](https://nixos.org/) is an OS in its own right and is built on this whole concept. It's even more configuratble, with hardware specification etc. I haven't chosen this option as it is more advanced and is less beginner friendly. It's possible though to install NixOS on GCP (see [Ressources](#ressources-to-keep-in-mind)) and I will eventually explore that aspect if I find the use case for it.
 
-This Nix config relies on **Nix Home Manager** and I higly advice to check the [home-manager tutorial](#github-repo)down bellow in ressources, if you want to get familiar with the Nix syntax and how a minimal configuration can be obtained.
+This Nix config relies on **Nix Home Manager** and I higly advice to check the [home-manager tutorial](#github-repo) down bellow in ressources, if you want to get familiar with the Nix syntax and how a minimal configuration can be obtained.
 
 ## Project Layout
 
