@@ -99,7 +99,7 @@ When loading the environment, `uv sync` is run automatically thanks to [this lin
 + You can customize the `ShellHook` to your needs.
 + In particular, for development purposes, you may want to update `uv sync` with some extra dependencies specified in the `pyproject.toml` such as `uv sync --extra cu128`. Also you may keep the base `uv sync` and just not to run your own `sync` whenever you need it.
 
-The `pyproject.toml` is only here as an example. Feel free to discard it and replace it by your own.
+The `pyproject.toml` is only here as an example. Feel free to discard it and replace it by your own. You may refer to the guide on [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
 
 ### Conda ?
 
