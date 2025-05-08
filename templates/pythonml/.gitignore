@@ -9,3 +9,5 @@ wheels/
 # Virtual environments
 .venv
 .direnv
+pid.txt
+error.log

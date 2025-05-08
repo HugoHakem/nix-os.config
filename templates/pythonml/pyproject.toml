@@ -11,7 +11,8 @@ dependencies = [
   "ultralytics",
   "fiftyone",
   "label-studio",
-  "label-studio-sdk"
+  "label-studio-sdk",
+  "jupyter"
 ]
 
 [project.optional-dependencies]
