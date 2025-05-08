@@ -14,9 +14,9 @@ I made Nix my Package Manager because it enables:
 + **It is Reproducible:** If it work on my machines, it will work on yours! With its inhere `.lock` file, package versioning is additionally guaranteed to be the same.
 + **It is Reliable:** even if your build fail, you won't break the previously installed packages and you will even be able to rollback to previous build versions.
 
-Note that [NixOS](https://nixos.org/) is an OS in its own right and is built on this whole concept. It's even more configuratble, with hardware specification etc. I haven't chosen this option as it is more advanced and is less beginner friendly. It's possible though to install NixOS on GCP (see [Ressources](#ressources-to-keep-in-mind)) and I will eventually explore that aspect if I find the use case for it.
+Note that [NixOS](https://nixos.org/) is an OS in its own right and is built on this whole concept. It's even more configurable, with hardware specification etc. I haven't chosen this option as it is more advanced and is less beginner friendly. It's possible though to install NixOS on GCP (see [Resources](#resources-to-keep-in-mind)) and I will eventually explore that aspect if I find the use case for it.
 
-This Nix config relies on **Nix Home Manager** and I higly advice to check the [home-manager tutorial](#github-repo) down bellow in ressources, if you want to get familiar with the Nix syntax and how a minimal configuration can be obtained.
+This Nix config relies on **Nix Home Manager** and I highly advice to check the [home-manager tutorial](#github-repo) down bellow in resources, if you want to get familiar with the Nix syntax and how a minimal configuration can be obtained.
 
 ## Project Layout
 
@@ -92,16 +92,16 @@ As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). 
 + [ ] Learn Emacs or Vim and provide my custom config as a safeguard for system where VSCode remote-ssh won't be possible.
 + [ ] Provide custom config for wezterm and zsh
 
-## Ressources to keep in mind
+## Resources to keep in mind
 
-### Nix official ressources
+### Nix official resources
 
 #### Search
 
 + [Nix home-manager options](https://home-manager-options.extranix.com/)
 + [Nix packages](https://search.nixos.org/packages)
 + [Nix options](https://search.nixos.org/options), useful to search for `services`
-+ [Noogle to seach functions and their documentation](https://noogle.dev/)
++ [Noogle to search functions and their documentation](https://noogle.dev/)
 
 #### Manual
 
@@ -119,8 +119,8 @@ As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). 
 
 ## Acknowledgement
 
-As mentionned above this configuration relies heavily on the NixOS/MacOS backbone provided by [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main), as well as on the [afermg: Moby Config](https://github.com/afermg/nix-configs) [leoank: Neusis Config](https://github.com/leoank/neusis/tree/main).
+As mentioned above this configuration relies heavily on the NixOS/MacOS backbone provided by [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main), as well as on the [afermg: Moby Config](https://github.com/afermg/nix-configs) [leoank: Neusis Config](https://github.com/leoank/neusis/tree/main).
 
-I am particularly thankful to [Alán](https://github.com/afermg) for getting me introduced to Nix and for his mentoring throughout my learning. I am also thankful to [Ank](https://github.com/leoank) for the fruitful discussion that helped me affining my understanding about Nix.
+I am particularly thankful to [Alán](https://github.com/afermg) for getting me introduced to Nix and for his mentoring throughout my learning. I am also thankful to [Ank](https://github.com/leoank) for the fruitful discussion that helped me refining my understanding about Nix.
 
-To whom it may concern, I am still learning abouth Nix, so if there is anything I missed, bugs, or functionality that should be made available, feel free to open an issue.
+To whom it may concern, I am still learning about Nix, so if there is anything I missed, bugs, or functionality that should be made available, feel free to open an issue.

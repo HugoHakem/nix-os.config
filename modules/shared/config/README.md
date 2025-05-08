@@ -49,7 +49,7 @@ Once in a while, you may want to:
     code --list-extensions > nixos-config/modules/shared/config/vscode/extensions.txt
     ```
 
-+ copy past the file that you will find here `/Users/${user}/Library/Application Support/Code/User/` to [`nixos-config/modules/shared/config/vscode/`](config/vscode/keybindings.json). An exemple of bash command could be:
++ copy past the file that you will find here `/Users/${user}/Library/Application Support/Code/User/` to [`nixos-config/modules/shared/config/vscode/`](config/vscode/keybindings.json). An example of bash command could be:
 
     ```bash
     cp Library/Application\ Support/Code/User/keybindings.json nixos-config/modules/shared/config/vscode/keybindings.json
@@ -64,7 +64,7 @@ My zsh shell config is extracted from [dustinlyons](https://github.com/dustinlyo
 
 A very basic wezterm config (almost the default one). This is provided as an example of what can be done to set-up your wezterm config. For more details, please visit the [official documentation](https://wezterm.org/config/files.html).
 
-Some blog or github repo you mght find useful to work on your Wezterm config:
+Some blog or github repo you might find useful to work on your Wezterm config:
 
 + [Josean how to zet up wezterm terminal](https://www.josean.com/posts/how-to-setup-wezterm-terminal)
 + [Sravioli config](https://github.com/sravioli/wezterm)
