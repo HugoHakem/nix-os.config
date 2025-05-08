@@ -91,3 +91,7 @@ This is where the core of the Emacs configuration get defined.
 + Right now the config is extracted from [Dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config/emacs). I might prefer using a different config such as the one from [here](https://github.com/HugoHakem/nix-configs) or better from [Alán's](https://github.com/afermg/nix-configs).
 + Also I might want to enable my [simple doom config](https://github.com/HugoHakem/doom) or even more complex the original [doom](https://github.com/doomemacs/doomemacs)
 + I don't exclude the fact that I will move completely away from Emacs to try out Vim. A simple Vim config is already present in [programs](../../programs.nix#L59) and is coming from [Dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I will eventually get inspiration from [neovim](https://github.com/neovim/neovim), or even better [AstroNvim](https://github.com/AstroNvim/AstroNvim) or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) config from Ank.
+
+## Gcp ssh script
+
+Script to automatize the `ProxyCommand` in a **SSH Host Config**. Please refer to the **Remote SSH section** in [gcp-installation.md](../../../gcp-installation.md#remote-ssh).
