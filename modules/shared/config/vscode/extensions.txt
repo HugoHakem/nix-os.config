@@ -34,6 +34,7 @@ ms-azuretools.vscode-docker
 
 ## markdown
 davidanson.vscode-markdownlint
+yzhang.markdown-all-in-one
 
 ## remote
 ms-vscode-remote.remote-containers
@@ -42,3 +43,6 @@ ms-vscode-remote.remote-ssh-edit
 ms-vscode-remote.remote-wsl
 ms-vscode.remote-explorer
 ms-vscode.remote-server
+
+## spell checker
+streetsidesoftware.code-spell-checker
