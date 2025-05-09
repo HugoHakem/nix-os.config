@@ -70,12 +70,10 @@ with pkgs; [
   # gnumake # Necessary for emacs' vterm
 
   # FONTS UTILITIES
-  # dejavu_fonts
-  # font-awesome
-  # hack-font
-  # noto-fonts
-  # noto-fonts-emoji
-  # meslo-lgs-nf
+  # for my oh-my-bash powerline theme
+  powerline-fonts 
+  nerd-fonts.fira-code 
+  nerd-fonts.fira-mono
 ]
 # If you need all the nerd-fonts
 # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)

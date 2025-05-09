@@ -50,6 +50,7 @@ in
           '';
         };
       };
+    fonts.fontconfig.enable = true;
     programs = 
       sharedPrograms // {
         zsh = sharedPrograms.zsh // {

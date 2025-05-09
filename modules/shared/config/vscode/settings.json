@@ -1,5 +1,14 @@
 // define user settings bellow:
 {
   "remote.SSH.showLoginTerminal": true,
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+  "editor.fontFamily": "FiraCode Nerd Font, monospace"
 }
+
