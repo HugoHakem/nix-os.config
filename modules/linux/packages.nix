@@ -27,7 +27,7 @@ shared-packages ++ [
   nvtopPackages.full
   btop
   htop
-
+  
   # EMACS UTILITIES
   # emacs # In darwin, is specifically installed in the systemPackages
 ]

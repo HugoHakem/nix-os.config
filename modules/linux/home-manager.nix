@@ -3,7 +3,7 @@
 let
   sharedPrograms = import ../shared/programs.nix { inherit config pkgs lib user git_name git_email; };
   sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
-  additionalFiles = import ./files.nix { inherit user; };
+  additionalFiles = import ./files.nix { inherit pkgs; };
 
   # vscode install extensions
   vscodeExtensionsScript = builtins.toPath ./../shared/config/vscode/install-extensions.sh;
@@ -31,100 +31,75 @@ in
     };
   };
 
+  # enable usage of fonts installed packages
+  fonts.fontconfig.enable = true;
+
   programs = sharedPrograms // {
     bash = {
       enable = true;
       enableCompletion = true;
       historyControl = ["ignoreboth"];
       historyFileSize = 2000;
-      shellAliases = {
-        # some more ls aliases
-        ll = "ls -alF";
-        la = "ls -A";
-        l = "ls -CF";
-        alert = ''
-  notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
-'';
+      initExtra = 
+        let 
+          oshPath = "${pkgs.oh-my-bash}";
+          bashrcTemplate = builtins.readFile "${oshPath}/templates/bashrc.osh-template";
+          patchedBashrc = builtins.replaceStrings 
+            [ 
+              "OSH_THEME=\"font\""
+              "export OSH=~/.oh-my-bash" 
+              "completions=(\n"
+            ] 
+            [ 
+              "OSH_THEME=\"powerline-icon\""
+              "export OSH=${oshPath}" 
+              "completions=(\n\tuv\n"
+            ] 
+            bashrcTemplate;
+        in 
+          ''export HISTIGNORE="pwd:ls:cd"'' + patchedBashrc + 
+          ''
+            # BAR STYLE
+            ## Date Format 
+            OMB_THEME_POWERLINE_ICON_CLOCK="%H:%M"
 
-      };
-      initExtra = ''
-        export HISTIGNORE="pwd:ls:cd"
-        
-        # If not running interactively, don't do anything
-        case $- in
-            *i*) ;;
-              *) return;;
-        esac
+            ## Icons
+            USER_INFO_SSH_CHAR=$'\uef09  '
+            
+            OMB_THEME_POWERLINE_ICON_USER=$'\uf007 '
+            OMB_THEME_POWERLINE_ICON_HOME=$'\uf015 '
+            OMB_THEME_POWERLINE_ICON_EXIT_FAILURE=$'\uf00d '
+            OMB_THEME_POWERLINE_ICON_EXIT_SUCCESS=$'\uf00c'
 
-        # Just in case add the PATH (it's extracted from the original backup .profile of the VM)
-        # set PATH so it includes user's private bin if it exists
-        if [ -d "$HOME/bin" ] ; then
-            PATH="$HOME/bin:$PATH"
-        fi
+            PYTHON_VENV_CHAR=$'\ue606 '
+            
 
-        # set PATH so it includes user's private bin if it exists
-        if [ -d "$HOME/.local/bin" ] ; then
-            PATH="$HOME/.local/bin:$PATH"
-        fi
-        # check the window size after each command and, if necessary,
-        # update the values of LINES and COLUMNS.
-        shopt -s checkwinsize
+            ## color mapping see ANSI table https://gist.github.com/JBlond/2fea43a3049b38287e5e9cefc87b2124
+            
 
-        # make less more friendly for non-text input files, see lesspipe(1)
-        [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+            USER_INFO_THEME_PROMPT_COLOR=16 # Black Blue
+            USER_INFO_THEME_PROMPT_SECONDARY_COLOR="-"  # Slightly lighter navy
+            USER_INFO_THEME_PROMPT_COLOR_SUDO=202
 
-        # set variable identifying the chroot you work in (used in the prompt below)
-        if [ -z "''${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-            debian_chroot=$(cat /etc/debian_chroot)
-        fi
+            # Clock Segment
+            CLOCK_THEME_PROMPT_COLOR=16         # Muted indigo/blue-gray
+            
+            # Current Working Directory
+            CWD_THEME_PROMPT_COLOR=27           # Standard blue
 
-        # set a fancy prompt (non-color, unless we know we "want" color)
-        case "$TERM" in
-            xterm-color|*-256color) color_prompt=yes;;
-        esac
+            # Python venv
+            PYTHON_VENV_THEME_PROMPT_COLOR=21   # Dark Blue with hint of purple
 
-        # uncomment for a colored prompt, if the terminal has the capability; turned
-        # off by default to not distract the user: the focus in a terminal window
-        # should be on the output of commands, not on the prompt
-        #force_color_prompt=yes
+            # Git Segment
+            SCM_THEME_PROMPT_DIRTY_COLOR=124    # Red (uncommitted changes)
+            SCM_THEME_PROMPT_UNSTAGED_COLOR=99  # Soft violet (unstaged changes)
+            SCM_THEME_PROMPT_STAGED_COLOR=32    # Aquamarine / teal (staged)
+            SCM_THEME_PROMPT_CLEAN_COLOR=39     # Clean sky blue
 
-        if [ -n "$force_color_prompt" ]; then
-            if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-            # We have color support; assume it's compliant with Ecma-48
-            # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-            # a case would tend to support setf rather than setaf.)
-            color_prompt=yes
-            else
-            color_prompt=
-            fi
-        fi
-
-        if [ "$color_prompt" = yes ]; then
-            PS1=' ''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-        else
-            PS1=' ''${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-        fi
-        unset color_prompt force_color_prompt
-
-        # If this is an xterm set the title to user@host:dir
-        case "$TERM" in
-        xterm*|rxvt*)
-            PS1="\[\e]0;''${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-            ;;
-        *)
-            ;;
-        esac
-
-        # enable color support of ls and also add handy aliases
-        if [ -x /usr/bin/dircolors ]; then
-          test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-          alias ls='ls --color=auto'
-          alias grep='grep --color=auto'
-          alias fgrep='fgrep --color=auto'
-          alias egrep='egrep --color=auto'
-        fi
-
-      '';
+            # DO NOT TOUCH
+            LAST_STATUS_THEME_PROMPT_COLOR=52 # darkestred
+            LAST_STATUS_THEME_PROMPT_COLOR_SUCCESS=42 # green
+          '';
     };
     direnv = {
       enable = true;
