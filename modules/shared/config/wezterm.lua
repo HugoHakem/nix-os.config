@@ -8,7 +8,8 @@ config = wezterm.config_builder()
 
 config.font_size = 19
 config.default_cursor_style = "SteadyBlock"
--- config.color_scheme = 'Batman'
+config.color_scheme = 'Dark Pastel'
+config.font = wezterm.font("FiraCode Nerd Font")
 
 -- tab bar
 -- local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")

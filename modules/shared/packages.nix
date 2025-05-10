@@ -60,20 +60,18 @@ with pkgs; [
   ## Video processing needs
   # ffmpeg
 
-  # PYTHON UTILITIES # Rather defined in templates for python project specific.
-  # python310
-  # python310Packages.virtualenv # globally install virtualenv
-
-  # EMACS UTILITIES
-  # emacs-all-the-icons-fonts
-  # libtool # for Emacs vterm
-  # gnumake # Necessary for emacs' vterm
 
   # FONTS UTILITIES
   # for my oh-my-bash powerline theme
   powerline-fonts 
   nerd-fonts.fira-code 
   nerd-fonts.fira-mono
+
+  # EMACS UTILITIES
+  # emacs-all-the-icons-fonts
+  # libtool # for Emacs vterm
+  # gnumake # Necessary for emacs' vterm
+
 ]
 # If you need all the nerd-fonts
 # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)
