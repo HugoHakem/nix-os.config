@@ -44,9 +44,17 @@ ms-vscode-remote.remote-wsl
 ms-vscode.remote-explorer
 ms-vscode.remote-server
 
-## utilities
-### spell checker
+## spell checker
 streetsidesoftware.code-spell-checker
 
-### file icons
+## file icons
 jamesmaj.easy-icons
+
+## makefile
+ms-vscode.makefile-tools
+
+## toml
+tamasfe.even-better-toml
+
+## yaml
+redhat.vscode-yaml
