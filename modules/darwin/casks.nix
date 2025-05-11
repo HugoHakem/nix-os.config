@@ -21,6 +21,7 @@ _:
   "rectangle" 
 
   # Utility Tools
+  "keyboardcleantool" # lock keys to clean
   # "syncthing"
   
   # EMACS UTILITIES

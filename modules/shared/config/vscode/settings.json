@@ -9,6 +9,7 @@
     "scminput": false
   },
   "terminal.integrated.fontFamily": "FiraCode Nerd Font",
-  "editor.fontFamily": "FiraCode Nerd Font, monospace"
+  "editor.fontFamily": "FiraCode Nerd Font, monospace",
+  "workbench.iconTheme": "easy-icons"
 }
 
