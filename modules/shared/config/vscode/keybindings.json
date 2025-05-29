@@ -1,7 +1,7 @@
 [ // define keybindings here
   {
-    "command": "workbench.action.terminal.moveIntoNewWindow",
     "key": "alt+x o",
+    "command": "workbench.action.terminal.moveIntoNewWindow",
     "when": "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported"
   },
   {
@@ -23,5 +23,13 @@
   {
     "key": "ctrl+shift+s",
     "command": "editor.action.transformToSnakecase"
+  },
+  {
+    "key": "alt+x shift+r",
+    "command": "ruff.executeAutofix"
+  },
+  {
+    "key": "ctrl+cmd+o",
+    "command": "workbench.action.chat.openInNewWindow"
   }
 ]

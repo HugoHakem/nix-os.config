@@ -58,3 +58,8 @@ tamasfe.even-better-toml
 
 ## yaml
 redhat.vscode-yaml
+
+## miscellaneous
+alexcvzz.vscode-sqlite
+github.vscode-github-actions
+ms-azuretools.vscode-containers

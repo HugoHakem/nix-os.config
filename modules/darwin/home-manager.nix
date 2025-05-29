@@ -55,7 +55,7 @@ in
       sharedPrograms // {
         zsh = sharedPrograms.zsh // {
           # when using lib.mkBefore, the code is wrap in a set wit { _type=...;, content=[THE CODE]; priority=500; }
-          # to extend the code it suffice to takt the argument of the set shared.zsh.initContent.content
+          # to extend the code it suffice to take the argument of the set shared.zsh.initContent.content
           initContent = lib.mkBefore (sharedPrograms.zsh.initContent.content  + ''
             # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
             export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
