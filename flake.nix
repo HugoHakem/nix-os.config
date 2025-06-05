@@ -23,9 +23,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    nixgl.url = "github:nix-community/nixGL";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, nixgl, } @inputs:
     let
       user = "hhakem";
       git_name = "Hugo";
@@ -80,10 +81,19 @@
           overlays =
             # Apply each overlay found in the /overlays directory
             let path = ./overlays; in with builtins;
-            map (n: import (path + ("/" + n)))
-                (filter (n: match ".*\\.nix" n != null ||
-                            pathExists (path + ("/" + n + "/default.nix")))
-                        (attrNames (readDir path)));
+            map (n:
+            let 
+              overlayPath = path + ("/" + n);
+              overlay = import overlayPath;
+              args = functionArgs overlay;
+            in
+              if isFunction overlay && hasAttr "inputs" args
+              then overlay {inherit inputs; }
+              else overlay
+            )
+            (filter (n: match ".*\\.nix" n != null ||
+                        pathExists (path + ("/" + n + "/default.nix")))
+                    (attrNames (readDir path)));
         }
       );
     in

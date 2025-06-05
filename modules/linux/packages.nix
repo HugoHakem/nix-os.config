@@ -27,6 +27,10 @@ shared-packages ++ [
   nvtopPackages.full
   btop
   htop
+  nixgl.nixGLIntel
+  nixgl.auto.nixGLNvidia
+  virtualgl
+
   
   # EMACS UTILITIES
   # emacs # In darwin, is specifically installed in the systemPackages
