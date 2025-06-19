@@ -1,0 +1,22 @@
+{
+    "cSpell.enabledFileTypes": {
+        "python": false,
+        "toml": false,
+        "yaml": false,
+        "shellscript": false
+    },
+    "cSpell.words": [
+        // whatever word to add to dictionary
+    ],
+    // if using esbonio for automatic sphinx doc generation
+    "esbonio.server.pythonPath": "${workspaceFolder}/.venv/bin/python",
+    "esbonio.sphinx.buildDir": "${workspaceFolder}/docs/build",
+    "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
+    "esbonio.server.logLevel": "debug",
+    "restructuredtext.linter.rstcheck.extraArgs": [
+        "--ignore D001"
+    ],
+    "restructuredtext.linter.doc8.extraArgs": [
+        "--ignore D001"
+    ],
+}

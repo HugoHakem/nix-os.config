@@ -1,3 +1,6 @@
 .DS_Store
 .markdownlint.json
 .vscode/
+
+# EXCEPTION: allow .vscode in templates/pythonml
+!templates/pythonml/.vscode
