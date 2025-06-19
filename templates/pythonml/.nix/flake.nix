@@ -30,15 +30,19 @@
           config.allowUnfree = true;
           config.cudaSupport = true;
         };
+        customPackages = import ./packages { inherit pkgs; };
 
         # General packages for your dev shell
         packages = (with pkgs; [
-          # e.g., duckdb 
-        ]) ++ (with mpkgs; [
-          uv  # pull latest uv from nixpkgs master
+          # e.g., pandoc, duckdb 
+        ]) ++ (with mpkgs; [# latest nixpkgs master
+          uv
+        ]) ++ (with customPackages; [
+          # e.g, package-name
         ]);
 
         venvDir = "./.venv";
+        venvBinLinks = [ ]; # e.g, pkgs.pandoc may be required for some python lib and this make sure they are available
         
       in
       with pkgs;
@@ -64,6 +68,18 @@
                 else
                   echo "Creating new venv environment in path: '${venvDir}'"
                   uv venv "${venvDir}"
+
+                  # Symlink selected binaries into .venv/bin if any are specified
+                  if [ ${toString (builtins.length venvBinLinks)} -gt 0 ]; then
+                    echo "Linking requested CLI tools into ${venvDir}/bin..."
+                  ${lib.concatStringsSep "\n" (map (pkg: ''
+                    for bin in ${pkg}/bin/*; do
+                      ln -sf "$bin" "${venvDir}/bin/$(basename "$bin")"
+                      echo " → Linked $(basename "$bin")"
+                    done
+                  '') venvBinLinks)}
+                  fi
+
                 fi
 
                 # FEEL FREE TO UPDATE WITH --extra name-of-extra-dependencies-in-pyproject.toml
