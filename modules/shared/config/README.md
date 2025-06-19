@@ -22,8 +22,9 @@
 ├── extensions.txt
 ├── install-extensions.sh
 ├── keybindings.json
-├── README.md
-└── settings.json
+├── settings.json
+└── snippets
+    └── python.json
 ```
 
 #### Vscode - Details
@@ -33,9 +34,11 @@ The core of your pre-defined vscode config is defined here.
 + In `extension.txt` you can define any extension you may need. It will be download from source with the `code`, the **vscode CLI**.
   + It is called in [modules/darwin/home-manager](../../darwin/home-manager.nix#L47-L50) and in [modules/linux/home-manager](../../linux/home-manager.nix#L27-L30).
 + In `keybindings.json` you will define any keybindings for your vscode config. Those are only applied in your Darwin config (This make sense because you will usually simply ssh to your server, you won't run vscode from here).
-  + It is called in [modules/darwin/files](../../darwin/files.nix#L19-L23).
+  + It is called in [modules/darwin/files](../../darwin/files.nix#L27-L31).
 + `settings.json` you will define any setting for your vscode config.
-  + It is called in [modules/darwin/files](../../darwin/files.nix#L24-L28).
+  + It is called in [modules/darwin/files](../../darwin/files.nix#L32-L36).
++ `snippets` you will define any setting for your vscode snipper config.
+  + It is called in [modules/darwin/files](../../darwin/files.nix#L38-L49).
 
 **CAREFUL**:
 
@@ -88,7 +91,7 @@ This is where the core of the Emacs configuration get defined.
 
 + Right now, I gave up on Emacs as I rather prefer working with vscode for now. In addition it builds quite slowly on the GCP and I rather prefer this config to be a general purpose one (and you will concede that there is not so many Emacs users...).
   + I made easy the process of enabling Emacs though, it suffice to uncomment any code under `# EMACS UTILITIES`.
-+ Right now the config is extracted from [Dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config/emacs). I might prefer using a different config such as the one from [here](https://github.com/HugoHakem/nix-configs) or better from [Alán's](https://github.com/afermg/nix-configs).
++ Right now the config is extracted from [Dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config/emacs). I might prefer using a different config such as the one from [the moby server](https://github.com/HugoHakem/nix-configs) or better from [Alán's](https://github.com/afermg/nix-configs).
 + Also I might want to enable my [simple doom config](https://github.com/HugoHakem/doom) or even more complex the original [doom](https://github.com/doomemacs/doomemacs)
 + I don't exclude the fact that I will move completely away from Emacs to try out Vim. A simple Vim config is already present in [programs](../../programs.nix#L59) and is coming from [Dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I will eventually get inspiration from [neovim](https://github.com/neovim/neovim), or even better [AstroNvim](https://github.com/AstroNvim/AstroNvim) or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) config from Ank.
 

@@ -17,6 +17,7 @@ ms-toolsai.jupyter-keymap
 ms-toolsai.jupyter-renderers
 ms-toolsai.vscode-jupyter-cell-tags
 ms-toolsai.vscode-jupyter-slideshow
+xelad0m.jupyter-toc
 
 ## copilot
 github.copilot
@@ -35,6 +36,12 @@ ms-azuretools.vscode-docker
 ## markdown
 davidanson.vscode-markdownlint
 yzhang.markdown-all-in-one
+darkriszty.markdown-table-prettify
+
+## restructuredtext
+lextudio.restructuredtext
+swyddfa.esbonio
+trond-snekvik.simple-rst
 
 ## remote
 ms-vscode-remote.remote-containers

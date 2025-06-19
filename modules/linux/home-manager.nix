@@ -5,10 +5,11 @@ let
   sharedFiles = import ../shared/files.nix { inherit config pkgs user; };
   additionalFiles = import ./files.nix { inherit pkgs; };
 
+  ## They are not necessarily useful on a gcp server. May be discarded.
   # vscode install extensions
-  vscodeExtensionsScript = builtins.toPath ./../shared/config/vscode/install-extensions.sh;
-  vscodeCodeBin = "${pkgs.vscode}/bin/code";
-  vscodeExtensionsFile = builtins.toPath ./../shared/config/vscode/extensions.txt;
+  # vscodeExtensionsScript = builtins.toPath ./../shared/config/vscode/install-extensions.sh;
+  # vscodeCodeBin = "${pkgs.vscode}/bin/code";
+  # vscodeExtensionsFile = builtins.toPath ./../shared/config/vscode/extensions.txt;
 
 in
 {
@@ -24,10 +25,10 @@ in
     file = sharedFiles // additionalFiles;
     stateVersion = "21.05";
     activation = {
-      install-vscode-extensions = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        echo "Installing VS Code extensions..."
-        ${pkgs.zsh}/bin/zsh ${vscodeExtensionsScript} "${vscodeCodeBin}" ${vscodeExtensionsFile}
-      '';
+    #   install-vscode-extensions = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #     echo "Installing VS Code extensions..."
+    #     ${pkgs.zsh}/bin/zsh ${vscodeExtensionsScript} "${vscodeCodeBin}" ${vscodeExtensionsFile}
+    #   '';
     };
   };
 
