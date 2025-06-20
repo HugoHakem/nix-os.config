@@ -20,6 +20,9 @@ _:
   "zotero"
   "rectangle" 
 
+  # Leisure
+  "spotify"
+
   # Utility Tools
   "keyboardcleantool" # lock keys to clean
   # "syncthing"
