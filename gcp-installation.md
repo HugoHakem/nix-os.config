@@ -93,7 +93,7 @@ Save your modification and close the file. Note that `sudo` was required because
 
 ### 3 Pull the configuration file
 
-Now that nix package manager is available, you will pull the configuration file from this repo. Nix is also convenient for that and allows to run flake that are hosted on git repos. Here you will run the `#installation` command that I have specified in [`apps/x86_64-linux/install`](apps/x86_64-linux/install) as a shell script. It is made available as a nix app with the `mkApp` function in the [`flake.nix`](flake.nix).
+Now that nix package manager is available, you will pull the configuration file from this repo. Nix is also convenient for that and allows to run flake that are hosted on git repos. Here you will run the `#installation` command that I have specified in [`apps/x86_64-linux/install`](./apps/x86_64-linux/install) as a shell script. It is made available as a nix app with the `mkApp` function in the [`flake.nix`](./flake.nix).
 
 Run the following:
 
@@ -115,7 +115,7 @@ check_nvidia        # check if NVIDIA drivers are installed
 prompt_reboot       # ask you whether you want to reboot your machine (recommended if NVIDIA drivers are installed)
 ```
 
-When checking for the NVIDIA drivers, the installer will check if `nvidia-smi` is running as it should. If it doesn't you will be prompt whether you want to install them through the installer. Please see this note on [nvidia drivers installation](apps/x86_64-linux/nvidia-drivers-installation.md) to have a detailed explanation of what is happening here. If you rather prefer not doing it, because your machine just doesn't have any GPU, or because you rather prefer doing it yourself just answer `no`.
+When checking for the NVIDIA drivers, the installer will check if `nvidia-smi` is running as it should. If it doesn't you will be prompt whether you want to install them through the installer. Please see this note on [nvidia drivers installation](./apps/x86_64-linux/nvidia-drivers-installation.md) to have a detailed explanation of what is happening here. If you rather prefer not doing it, because your machine just doesn't have any GPU, or because you rather prefer doing it yourself just answer `no`.
 
 ### 4 Apply your credentials
 
@@ -136,13 +136,13 @@ Run the following command:
     cd nixos-config/
     ```
 
-2. Run the apply function (which, if you are curious is a bash script detailed [`apps/x86_64-linux/apply`](apps/x86_64-linux/apply)):
+2. Run the apply function (which, if you are curious is a bash script detailed [`apps/x86_64-linux/apply`](./apps/x86_64-linux/apply)):
 
     ```bash
     nix run .#apply
     ```
 
-This will override the following lines in the [flake.nix](flake.nix):
+This will override the following lines in the [flake.nix](./flake.nix):
 
 ```nix
 user = "hhakem";
@@ -160,19 +160,19 @@ You are now ready to apply your environment configuration. Run this command (whi
 nix run .#build-switch
 ```
 
-Again if you are curious, the `build-switch` app is defined [apps/x86_64-linux/build-switch](apps/x86_64-linux/build-switch).
+Again if you are curious, the `build-switch` app is defined [apps/x86_64-linux/build-switch](./apps/x86_64-linux/build-switch).
 
 ## Workflow
 
 ### Add new system packages
 
-- The standard way to add new packages will be by updating the `modules/shared/packages.nix`(modules/shared/packages.nix). Please visit [modules/shared/README.md](modules/shared/README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
+- The standard way to add new packages will be by updating the `modules/shared/packages.nix`(modules/shared/packages.nix). Please visit [modules/shared/README.md](./modules/shared/README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
 
-- Additionally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/linux/](nixos-config/modules/linux/README.md) config
+- Additionally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/linux/](./modules/linux/README.md) config
 
-- If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](nixos-config/overlays/README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
+- If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](./overlays/README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
 
-Additionnally, know that this the [hosts/linux.nix](hosts/README.md) exists but on a day to day basis, you won't modify this file.
+Additionnally, know that this the [hosts/linux.nix](./hosts/README.md) exists but on a day to day basis, you won't modify this file.
 
 Finally every time you have done changes to your config, run the following command to actually apply those changes to your system:
 
@@ -219,7 +219,7 @@ Please refer to the documentation on [`nix flake update`](https://nix.dev/manual
 
 ### Use template
 
-The goal of setting up your environment is ultimately to do coding projects. In the [templates/](templates/README.md) folder, you will find a first template for Machine Learning Project on Python.
+The goal of setting up your environment is ultimately to do coding projects. In the [templates/](./templates/README.md) folder, you will find a first template for Machine Learning Project on Python.
 
 ### Connect to the VM with vscode
 
@@ -365,7 +365,7 @@ Installation Root: [<GCLOUD_PATH>] # Note that here <GCLOUD.py> = <GCLOUD_PATH>/
 
 Hence the idea of creating a custom **SSH Host config**, where the `ProxyCommand` would point toward a certain script that would fetch the `<PYTHON-BIN>` and the `<GCLOUD_PATH>` from the `gcloud info` and then compose the actual `ProxyCommand`.
 
-This is what the [modules/shared/config/gcp-ssh-script.sh](modules/shared/config/gcp-ssh-script.sh) does. It is suposedly the default but you may have to make it executable: Run in your home:
+This is what the [modules/shared/config/gcp-ssh-script.sh](./modules/shared/config/gcp-ssh-script.sh) does. It is suposedly the default but you may have to make it executable: Run in your home:
 
 ```bash
 chmod +x nixos-config/modules/shared/config/gcp-ssh-script.sh

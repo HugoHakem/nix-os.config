@@ -62,11 +62,11 @@ This Nix config relies on **Nix Home Manager** and I highly advice to check the 
 
 To set-up a new machine, please follow the corresponding guide:
 
-+ For Linux: [`gcp-installation.md`](nixos-config/gcp-installation.md)
++ For Linux: [`gcp-installation.md`](./gcp-installation.md)
   + **Note:** it is originally intended for setting up a Google Cloud Virtual Machine.
-  + **Note:** it internally support installation of the CUDA drivers. Please the corresponding note at [nvidia-drivers-installation.md](apps/x86_64-linux/nvidia-drivers-installation.md).
+  + **Note:** it internally support installation of the CUDA drivers. Please the corresponding note at [nvidia-drivers-installation.md](./apps/x86_64-linux/nvidia-drivers-installation.md).
 
-+ For MacOS: [`mac-installation.md`](mac-installation.md)
++ For MacOS: [`mac-installation.md`](./mac-installation.md)
 
 Note that those guides will refer you to the different `README.md` outlined in the [Project Layout](#project-layout). You will find useful explanation to help you dissect the code and getting familiar with Nix as a Package Manager. Useful command and traditional workflow can be found there.
 
@@ -77,11 +77,11 @@ mkdir projects
 cp -r nixos-config/templates/pythonml projects/[name-of-the-project]
 ```
 
-For further detail, refer to the [`templates/`](templates/README.md)
+For further detail, refer to the [`templates/`](./templates/README.md)
 
 ### Note on my editor
 
-As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). In this configuration, you may however find some `Emacs` related code like here [modules/shared/config/emacs/](modules/shared/config/emacs/README.md). As I pause my Emacs journey for now any `Emacs` code has been commented out. See a note on my editor in [modules/shared/config/README.md](modules/shared/config/README.md) to see how to change the configuration of Visual Studio Code for your [need](modules/shared/config/README.md#vscode-config).
+As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). In this configuration, you may however find some `Emacs` related code like in [modules/shared/config/emacs/](./modules/shared/config/emacs/). As I pause my Emacs journey for now any `Emacs` code has been commented out. See a note on my editor in [modules/shared/config/README.md](./modules/shared/config/README.md) to see how to change the configuration of Visual Studio Code for your [need](./modules/shared/config/README.md#vscode-config).
 
 ## To-Do
 

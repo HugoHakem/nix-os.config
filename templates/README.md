@@ -58,7 +58,7 @@ Python Project are managed thanks to `uv` (see the [subsequent reason](#note-on-
 
 ### Python ML
 
-This templates provide an example of how to set up a **Machine Learning project**. Note that it has only been tested on Linux, but it should also work on MacOS. For NixOS, you will need additional functionality, please refer to [deprecated](deprecated/README.md).
+This templates provide an example of how to set up a **Machine Learning project**. Note that it has only been tested on Linux, but it should also work on MacOS. For NixOS, you will need additional functionality, please refer to [deprecated](./deprecated/README.md).
 
 #### Note on the Package managers
 
@@ -88,7 +88,7 @@ In any case, both are easy to handle using `uv`, but `pyproject.toml` is the new
 
 #### How to add new packages
 
-1. **Non Python Packages** should be added in the [flake.nix](pythonml/flake.nix#L34-39)
+1. **Non Python Packages** should be added in the [flake.nix](./pythonml/.nix/flake.nix#L34-39)
 
    ```nix
    # General packages for your dev shell
@@ -109,7 +109,7 @@ In any case, both are easy to handle using `uv`, but `pyproject.toml` is the new
 
 ### Miscellaneous
 
-When loading the environment, `uv sync` is run automatically thanks to [this line](pythonml/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note that:
+When loading the environment, `uv sync` is run automatically thanks to [this line](./pythonml/.nix/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note that:
 
 - You can customize the `ShellHook` to your needs.
 - In particular, for development purposes, you may want to update `uv sync` with some extra dependencies specified in the `pyproject.toml` such as `uv sync --extra cu128`. Also you may keep the base `uv sync` and just not to run your own `sync` whenever you need it.

@@ -19,13 +19,13 @@ find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o 
 
 ### Add new system packages
 
-+ The standard way to add new packages will be by updating the `modules/shared/packages.nix`(modules/shared/packages.nix). Please visit [modules/shared/README.md](modules/shared/README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
++ The standard way to add new packages will be by updating the `modules/shared/packages.nix`(./modules/shared/packages.nix). Please visit [modules/shared/README.md](./modules/shared/README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
 
-+ Additionally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/darwin/](nixos-config/modules/darwin/README.md) config
++ Additionally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/darwin/](./modules/darwin/README.md) config
 
-+ If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](nixos-config/overlays/README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
++ If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](./overlays/README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
 
-Additionnally, know that this the [hosts/darwin.nix](hosts/README.md) exists but on a day to day basis, you won't modify this file.
+Additionnally, know that this the [hosts/darwin.nix](./hosts/README.md) exists but on a day to day basis, you won't modify this file.
 
 Finally every time you have done changes to your config, run the following command to actually apply those changes to your system:
 
@@ -80,4 +80,4 @@ Please refer to the documentation on [`nix flake update`](https://nix.dev/manual
 
 ### Use template
 
-The goal of setting up your environment is ultimately to do coding projects. In the [templates/](templates/README.md) folder, you will find a first template to play with for Machine Learning Project on Python.
+The goal of setting up your environment is ultimately to do coding projects. In the [templates](./templates/README.md) folder, you will find a first template to play with for Machine Learning Project on Python.

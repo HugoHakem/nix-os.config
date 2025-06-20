@@ -32,13 +32,13 @@
 The core of your pre-defined vscode config is defined here.
 
 + In `extension.txt` you can define any extension you may need. It will be download from source with the `code`, the **vscode CLI**.
-  + It is called in [modules/darwin/home-manager](../../darwin/home-manager.nix#L47-L50) and in [modules/linux/home-manager](../../linux/home-manager.nix#L27-L30).
+  + It is called in [modules/darwin/home-manager](./../../darwin/home-manager.nix#L47-L50) and in [modules/linux/home-manager](./../../linux/home-manager.nix#L27-L30).
 + In `keybindings.json` you will define any keybindings for your vscode config. Those are only applied in your Darwin config (This make sense because you will usually simply ssh to your server, you won't run vscode from here).
-  + It is called in [modules/darwin/files](../../darwin/files.nix#L27-L31).
+  + It is called in [modules/darwin/files](./../../darwin/files.nix#L27-L31).
 + `settings.json` you will define any setting for your vscode config.
-  + It is called in [modules/darwin/files](../../darwin/files.nix#L32-L36).
+  + It is called in [modules/darwin/files](./../../darwin/files.nix#L32-L36).
 + `snippets` you will define any setting for your vscode snipper config.
-  + It is called in [modules/darwin/files](../../darwin/files.nix#L38-L49).
+  + It is called in [modules/darwin/files](./../../darwin/files.nix#L38-L49).
 
 **CAREFUL**:
 
@@ -52,7 +52,7 @@ Once in a while, you may want to:
     code --list-extensions > nixos-config/modules/shared/config/vscode/extensions.txt
     ```
 
-+ copy past the file that you will find here `/Users/${user}/Library/Application Support/Code/User/` to [`nixos-config/modules/shared/config/vscode/`](config/vscode/keybindings.json). An example of bash command could be:
++ copy past the file that you will find here `/Users/${user}/Library/Application Support/Code/User/` to [`nixos-config/modules/shared/config/vscode/`](./vscode/keybindings.json). An example of bash command could be:
 
     ```bash
     cp Library/Application\ Support/Code/User/keybindings.json nixos-config/modules/shared/config/vscode/keybindings.json
@@ -61,7 +61,7 @@ Once in a while, you may want to:
 
 ## Zsh config
 
-My zsh shell config is extracted from [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config). It is enabled in the [modules/shared/programs.nix](../programs.nix#L15-L17).
+My zsh shell config is extracted from [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config). It is enabled in the [modules/shared/programs.nix](./../programs.nix#L15-L17).
 
 ## Wezterm config
 
@@ -93,8 +93,8 @@ This is where the core of the Emacs configuration get defined.
   + I made easy the process of enabling Emacs though, it suffice to uncomment any code under `# EMACS UTILITIES`.
 + Right now the config is extracted from [Dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config/emacs). I might prefer using a different config such as the one from [the moby server](https://github.com/HugoHakem/nix-configs) or better from [Alán's](https://github.com/afermg/nix-configs).
 + Also I might want to enable my [simple doom config](https://github.com/HugoHakem/doom) or even more complex the original [doom](https://github.com/doomemacs/doomemacs)
-+ I don't exclude the fact that I will move completely away from Emacs to try out Vim. A simple Vim config is already present in [programs](../../programs.nix#L59) and is coming from [Dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I will eventually get inspiration from [neovim](https://github.com/neovim/neovim), or even better [AstroNvim](https://github.com/AstroNvim/AstroNvim) or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) config from Ank.
++ I don't exclude the fact that I will move completely away from Emacs to try out Vim. A simple Vim config is already present in [programs](./../programs.nix#L59) and is coming from [Dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I will eventually get inspiration from [neovim](https://github.com/neovim/neovim), or even better [AstroNvim](https://github.com/AstroNvim/AstroNvim) or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) config from Ank.
 
 ## Gcp ssh script
 
-Script to automatize the `ProxyCommand` in a **SSH Host Config**. Please refer to the **Remote SSH section** in [gcp-installation.md](../../../gcp-installation.md#remote-ssh).
+Script to automatize the `ProxyCommand` in a **SSH Host Config**. Please refer to the **Remote SSH section** in [gcp-installation.md](./../../../gcp-installation.md#remote-ssh).
