@@ -45,6 +45,10 @@
       rebase.autoStash = true;
     };
   };
+  direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   vim = {
     enable = true;
