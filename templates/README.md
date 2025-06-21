@@ -16,6 +16,7 @@ You will find here project template to set up a running nix environment.
     - [Miscellaneous](#miscellaneous)
     - [Conda ?](#conda-)
     - [Working on a persistent Jupyter](#working-on-a-persistent-jupyter)
+      - [**Copy url kernel**](#copy-url-kernel)
   - [References](#references)
 
 ## Layout
@@ -157,7 +158,9 @@ Which will display the running server with a URL looking like this:
 http://localhost:8888/?token=f1d62a4e83c474ae1e6bf4c6e2ffc130f5d43ce37ce81ac9
 ```
 
-You can simply copy past it the `URL` <a id=copy-url-kernel></a> into your notebook kernel by clicking on the kernel in the upper right corner and choosing `Select Another Kernel`.
+You can simply copy past it the `URL` into your notebook kernel by clicking on the kernel in the upper right corner and choosing `Select Another Kernel`.
+
+#### **Copy url kernel**
 
 > Note that you can also kill the process by doing:
 >

@@ -37,7 +37,7 @@ The core of your pre-defined vscode config is defined here.
   + It is called in [modules/darwin/files](./../../darwin/files.nix#L27-L31).
 + `settings.json` you will define any setting for your vscode config.
   + It is called in [modules/darwin/files](./../../darwin/files.nix#L32-L36).
-+ `snippets` you will define any setting for your vscode snipper config.
++ `snippets` you will define any setting for your vscode snippet config.
   + It is called in [modules/darwin/files](./../../darwin/files.nix#L38-L49).
 
 **CAREFUL**:

@@ -164,6 +164,7 @@ requires-dist = [
     { name = "esbonio" },
     { name = "furo" },
     { name = "myst-parser" },
+    { name = "myst-parser", extras = ["deflist"] },
     { name = "rstcheck" },
     { name = "sphinx" },
     { name = "sphinx-copybutton" },
