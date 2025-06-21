@@ -102,10 +102,6 @@ in
             LAST_STATUS_THEME_PROMPT_COLOR_SUCCESS=42 # green
           '';
     };
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
     vscode = {
       enable = true;
       package = pkgs.vscode;
