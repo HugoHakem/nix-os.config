@@ -32,6 +32,10 @@ in
       # FEEL FREE TO UPDATE WITH --extra name-of-extra-dependencies-in-pyproject.toml
       uv sync
       source "${venvDir}/bin/activate"
+
+      # update requirements.txt for github workflows
+      mkdir -p .gh-workflows
+      uv pip compile pyproject.toml -q -o .gh-workflows/requirements.txt
     '';
   }
 
