@@ -1,18 +1,25 @@
-# [TITLE]
+---
+name: Pull request
+about: Suggest modification and/or closes issues.
+title: ""
+labels: enhancement
+assignees: ''
 
-## Context
+---
+
+### Context
 
 Please explain the reason of your pull request.
 
-## Related Issues
+### Related Issues
 
 Closes #<issue_number>
 
-## Solution
+### Solution
 
 Please explain the changes you're proposing.
 
-## Checklist
+### Checklist
 
 - [ ] I have tested the changes locally
 - [ ] I have updated relevant documentation
