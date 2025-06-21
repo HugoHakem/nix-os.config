@@ -98,7 +98,7 @@ Save your modification and close the file. Note that `sudo` was required because
 
 ### 3 Pull the configuration file
 
-Now that nix package manager is available, you will pull the configuration file from this repo. Nix is also convenient for that and allows to run flake that are hosted on git repos. Here you will run the `#installation` command that I have specified in [`apps/x86_64-linux/install`](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/apps/x86_64-linux/install) as a shell script. It is made available as a nix app with the `mkApp` function in the [`flake.nix`](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/flake.nix).
+Now that nix package manager is available, you will pull the configuration file from this repo. Nix is also convenient for that and allows to run flake that are hosted on git repos. Here you will run the `#installation` command that I have specified in [`apps/x86_64-linux/install`](https://github.com/HugoHakem/nix-os.config/blob/main/apps/x86_64-linux/install) as a shell script. It is made available as a nix app with the `mkApp` function in the [`flake.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/flake.nix).
 
 Run the following:
 
@@ -141,13 +141,13 @@ Run the following command:
     cd nixos-config/
     ```
 
-2. Run the apply function (which, if you are curious is a bash script detailed [`apps/x86_64-linux/apply`](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/apps/x86_64-linux/apply)):
+2. Run the apply function (which, if you are curious is a bash script detailed [`apps/x86_64-linux/apply`](https://github.com/HugoHakem/nix-os.config/blob/main/apps/x86_64-linux/apply)):
 
     ```bash
     nix run .#apply
     ```
 
-This will override the following lines in the [flake.nix](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/flake.nix):
+This will override the following lines in the [flake.nix](https://github.com/HugoHakem/nix-os.config/blob/main/flake.nix):
 
 ```nix
 user = "hhakem";
@@ -165,7 +165,7 @@ You are now ready to apply your environment configuration. Run this command (whi
 nix run .#build-switch
 ```
 
-Again if you are curious, the `build-switch` app is defined [apps/x86_64-linux/build-switch](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/apps/x86_64-linux/build-switch).
+Again if you are curious, the `build-switch` app is defined [apps/x86_64-linux/build-switch](https://github.com/HugoHakem/nix-os.config/blob/main/apps/x86_64-linux/build-switch).
 
 ## Workflow
 
@@ -372,7 +372,7 @@ Installation Root: [<GCLOUD_PATH>] # Note that here <GCLOUD.py> = <GCLOUD_PATH>/
 
 Hence the idea of creating a custom **SSH Host config**, where the `ProxyCommand` would point toward a certain script that would fetch the `<PYTHON-BIN>` and the `<GCLOUD_PATH>` from the `gcloud info` and then compose the actual `ProxyCommand`.
 
-This is what the [modules/shared/config/gcp-ssh-script.sh](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/modules/shared/config/gcp-ssh-script.sh) does. It is suposedly the default but you may have to make it executable: Run in your home:
+This is what the [modules/shared/config/gcp-ssh-script.sh](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/config/gcp-ssh-script.sh) does. It is suposedly the default but you may have to make it executable: Run in your home:
 
 ```bash
 chmod +x nixos-config/modules/shared/config/gcp-ssh-script.sh

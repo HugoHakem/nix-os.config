@@ -84,7 +84,7 @@ For further detail, refer to the [`templates/`](templates-README.md)
 
 ### Note on my editor
 
-As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). In this configuration, you may however find some `Emacs` related code like in [modules/shared/config/emacs/](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/modules/shared/config/emacs). As I pause my Emacs journey for now any `Emacs` code has been commented out. See a note on my editor in [modules/shared/config/README.md](config-README.md) to see how to change the configuration of Visual Studio Code for your [need](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/modules/shared/config/README.md#vscode-config).
+As of today, my editor is [Visual Studio Code](https://code.visualstudio.com/). In this configuration, you may however find some `Emacs` related code like in [modules/shared/config/emacs/](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/config/emacs). As I pause my Emacs journey for now any `Emacs` code has been commented out. See a note on my editor in [modules/shared/config/README.md](config-README.md) to see how to change the configuration of Visual Studio Code for your [need](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/config/README.md#vscode-config).
 
 ## To-Do
 

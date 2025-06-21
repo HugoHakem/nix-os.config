@@ -27,12 +27,12 @@ Much of the code running on both MacOS or NixOS is found here.
 
 ### Some Utilities
 
-+ [`cachix`](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/modules/shared/cachix/default.nix) define substituter which are some additional store from which Nix will obtain some objects rather than building them from source. It enables faster build and you typically won't have to modify that file. For more documentation read through [Nix Reference Manual](https://nix.dev/manual/nix/2.17/command-ref/conf-file#conf-substituters).
++ [`cachix`](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/cachix/default.nix) define substituter which are some additional store from which Nix will obtain some objects rather than building them from source. It enables faster build and you typically won't have to modify that file. For more documentation read through [Nix Reference Manual](https://nix.dev/manual/nix/2.17/command-ref/conf-file#conf-substituters).
 + `mutable.nix` is issued from [here](https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa). It adds two flags to `home.file = { }`:
   + `mutable = true;` whether the file created or symlinked can be modified.
   + `force = true;` which is required if `mutable = true;`.
 
-    An example of its usage can be found in [`modules/darwin/files.nix`](https://github.com/HugoHakem/nix-os.config/blob/hh-docs/modules/darwin/files.nix#L18-L28) to define **vscode keybindings and settings** which by essence must be mutable as vscode will override this when defining new keybindings. See [config/vscode](config-README.md) for more details.
+    An example of its usage can be found in [`modules/darwin/files.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/modules/darwin/files.nix#L18-L28) to define **vscode keybindings and settings** which by essence must be mutable as vscode will override this when defining new keybindings. See [config/vscode](config-README.md) for more details.
 
 ### The Core of what you will modify
 

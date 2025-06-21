@@ -34,7 +34,7 @@ myst_heading_anchors = 5
 
 # === SECTION: Dynamic TOC ===
 
-GITHUB_BASE = "https://github.com/HugoHakem/nix-os.config/blob/hh-docs/"
+GITHUB_BASE = "https://github.com/HugoHakem/nix-os.config/blob/main/"
 
 def rewrite_and_clean_markdown(content, md_path, md_to_rst_map, base_dir):
     """
