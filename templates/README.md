@@ -16,7 +16,7 @@ You will find here project template to set up a running nix environment.
     - [Miscellaneous](#miscellaneous)
     - [Conda ?](#conda-)
     - [Working on a persistent Jupyter](#working-on-a-persistent-jupyter)
-- [References](#references)
+  - [References](#references)
 
 ## Layout
 
@@ -181,7 +181,7 @@ jupyter notebook
 
 Then you exit the `tmux` session and you can copy past the URL as done [before](#copy-url-kernel).
 
-# References
+## References
 
 You may want to read through the following references:
 
