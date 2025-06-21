@@ -1,5 +1,9 @@
 # MacOS/Linux - Nix config
 
+For full documentation, visit [hugohakem.github.io/nix-os.config](https://hugohakem.github.io/nix-os.config/).
+
+---
+
 My Nix config is heavily inspired from:
 
 + [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main) for base NixOS + MacOS configuration
