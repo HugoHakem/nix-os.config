@@ -20,7 +20,7 @@ jobs:
         sudo apt-get update
         python -m pip install --upgrade pip
     - uses: actions/checkout@master
-    - name: Install python depedencies
+    - name: Install python dependencies
       run: |
         cd docs
         pip install .
