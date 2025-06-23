@@ -10,6 +10,14 @@ Nixos-Config Documentation
 .. `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
 .. documentation for details.
 
+.. note::
+
+   If you find this project useful, consider starring it on GitHub. ⭐️
+   
+   .. image:: https://img.shields.io/github/stars/HugoHakem/nix-os.config?style=social
+      :target: https://github.com/HugoHakem/nix-os.config
+      :alt: GitHub stars badge
 
 .. include:: _index/index.md
    :parser: myst_parser.sphinx_
+
