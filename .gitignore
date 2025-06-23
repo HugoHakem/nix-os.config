@@ -3,6 +3,8 @@
 .vscode/
 .direnv/
 .venv/
+__pycache__/
+*.egg-info/
 
 # EXCEPTION: allow .vscode in templates/pythonml
 !templates/pythonml/.vscode

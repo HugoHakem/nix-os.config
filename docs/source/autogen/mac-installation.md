@@ -1,18 +1,18 @@
 <!-- AUTO-GENERATED FILE. DO NOT EDIT. -->
 <!-- markdownlint-disable MD041 MD047 MD059 -->
 
-# Installation Tutorial for MacOS
+# Installation Tutorial for macOS
 
-To complete...
-For now, use the [dustinlyons installation](https://github.com/dustinlyons/nixos-config)
+To be completed...
+For now, please refer to the [dustinlyons installation guide](https://github.com/dustinlyons/nixos-config).
 
-## Contextualization
+## Context
 
 ## Installation Guidelines
 
-### Make App executable
+### Make App Executable
 
-Maybe you won't be able to run the apps because they are not executable. To work around that:
+You may encounter issues running the apps because they are not executable by default. To resolve this, run:
 
 ```bash
 find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o -name build -o -name build-switch -o -name create-keys -o -name copy-keys -o -name check-keys -o -name rollback \) -exec chmod +x {} \;
@@ -20,67 +20,67 @@ find apps/$(uname -m | sed 's/arm64/aarch64/')-darwin -type f \( -name apply -o 
 
 ## Workflow
 
-### Add new system packages
+### Adding New System Packages
 
-+ The standard way to add new packages will be by updating the `modules/shared/packages.nix`(./modules/shared/packages.nix). Please visit [modules/shared/README.md](shared-README.md) for more details. You will find explanations and example on how to add new **packages**, how to create **files** directly (case that won't happen so often), or how to configure **programs**.
++ The standard way to add new packages is by updating [`modules/shared/packages.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/packages.nix). Please visit [modules/shared/README.md](shared-README.md) for more details. You will find explanations and examples on how to add new **packages**, create **files** directly (which is less common), or configure **programs**.
 
-+ Additionally you may think the package you want to install is linux specific. This config is indeed intended to be both MacOS and Linux compatible. In that case, you will rather modify the [modules/darwin/](darwin-README.md) config
++ If you believe the package you want to install is Linux-specific, note that this configuration is intended to be compatible with both macOS and Linux. In such cases, you should modify the [modules/darwin/](darwin-README.md) configuration.
 
-+ If a nix packages, for some reason doesn't work. Patches will be applied in the [overlay directory](overlays-README.md). Other use case for `overlays` could be to override certain attributes of packages. An example of such needs can be when on MacOS, you update your MacOS version. Packages might break as of the update and require patches.
++ If a Nix package does not work for some reason, patches should be applied in the [overlays directory](overlays-README.md). Another use case for `overlays` is to override certain package attributes. For example, after updating your macOS version, some packages might break and require patches.
 
-Additionnally, know that this the [hosts/darwin.nix](hosts-README.md) exists but on a day to day basis, you won't modify this file.
+Additionally, note that [hosts/darwin.nix](hosts-README.md) exists, but you typically won't need to modify this file on a day-to-day basis.
 
-Finally every time you have done changes to your config, run the following command to actually apply those changes to your system:
+After making changes to your configuration, run the following commands to apply those changes to your system:
 
-To safely build your configuration and checking there are no errors.
+To safely build your configuration and check for errors:
 
 ```bash
 nix run .#build
 ```
 
-To actually apply your config:
+To actually apply your configuration:
 
 ```bash
 nix run .#build-switch
 ```
 
-There are some utilities to rollback to a previous version, that can be run with:
+To roll back to a previous version, use:
 
 ```bash
 nix run .#rollback
 ```
 
-You will be prompt which generation to rollback to. It might be useful to retrieve a working system. But it wont give you back your `nixos-config` files. This is why it is advice to init a github repository with your `nixos-config/` folder.
+You will be prompted to select which generation to roll back to. This can be useful for restoring a working system, but it will not restore your `nixos-config` files. Therefore, it is recommended to initialize a GitHub repository with your `nixos-config/` folder.
 
-### For maintenance purposes
+### Maintenance
 
-When doing multiple builds or heavily changing your configuration. It might happen that some packages are still present in your `/nix/store` or that previous version of your [`home-manager`](https://github.com/nix-community/home-manager) configuration are still saved in case you wanted to roll back to them. It is then wise, from time to time to trigger the following command.
+When performing multiple builds or making significant changes to your configuration, some packages may remain in your `/nix/store`, or previous versions of your [`home-manager`](https://github.com/nix-community/home-manager) configuration may still be saved for rollback purposes. It is advisable to periodically run:
 
 ```bash
 nix-collect-garbage -d
 ```
 
-Then in your `nixos-config/` folder you will run:
+Then, in your `nixos-config/` folder, run:
 
 ```bash
 nix run .#build-switch
 ```
 
-Sometimes, whenever you want to install a package with a certain version, you may want to try it first this way:
+If you want to try installing a package with a specific version, you can test it first with:
 
 ```bash
 nix shell nixpkgs#[name-of-the-package]
 ```
 
-If you want a certain version of that package and you can make it happen through the `nix shell` command but not by using this config, it might be because the `flake.lock` refer to previous versions of your `flake.nix` `inputs`. In that case you may want to try:
+If you are able to get a certain version of a package using `nix shell` but not through this configuration, it may be because your `flake.lock` refers to previous versions of your `flake.nix` inputs. In that case, try:
 
 ```bash
 nix flake update 
-# optionally you can specify the input you want to update
+# Optionally, specify the input you want to update
 ```
 
-Please refer to the documentation on [`nix flake update`](https://nix.dev/manual/nix/2.25/command-ref/new-cli/nix3-flake-update). Be aware that by updating your input, things might break because options are no longer supported, or syntax has changed etc. Do not use if you don't need it. I advice you init a git repo of your `nixos-config/` so you can revert the lock changes anytime.
+Please refer to the documentation on [`nix flake update`](https://nix.dev/manual/nix/2.25/command-ref/new-cli/nix3-flake-update). Be aware that updating your inputs may cause breaking changes due to unsupported options or syntax changes. Only update if necessary. It is recommended to initialize a Git repository for your `nixos-config/` so you can revert lock changes if needed.
 
-### Use template
+### Using Templates
 
-The goal of setting up your environment is ultimately to do coding projects. In the [templates](templates-README.md) folder, you will find a first template to play with for Machine Learning Project on Python.
+The goal of setting up your environment is ultimately to work on coding projects. In the [templates](templates-README.md) folder, you will find a template for a Python Machine Learning project to get started.

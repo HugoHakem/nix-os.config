@@ -1,10 +1,9 @@
 <!-- AUTO-GENERATED FILE. DO NOT EDIT. -->
 <!-- markdownlint-disable MD041 MD047 MD059 -->
 
-
 # Templates
 
-You will find here project template to set up a running nix environment.
+This directory contains project templates to help you set up a working Nix environment.
 
 ## Table of Contents
 
@@ -12,14 +11,14 @@ You will find here project template to set up a running nix environment.
   - [Table of Contents](#table-of-contents)
   - [Layout](#layout)
   - [Details](#details)
-  - [Templates Description](#templates-description)
+  - [Template Descriptions](#template-descriptions)
     - [Python ML](#python-ml)
-      - [Note on the Package managers](#note-on-the-package-managers)
-      - [How to add new packages](#how-to-add-new-packages)
+      - [Note on Package Managers](#note-on-package-managers)
+      - [How to Add New Packages](#how-to-add-new-packages)
     - [Miscellaneous](#miscellaneous)
-    - [Conda ?](#conda-)
-    - [Working on a persistent Jupyter](#working-on-a-persistent-jupyter)
-      - [**Copy url kernel**](#copy-url-kernel)
+    - [Conda?](#conda)
+    - [Working with a Persistent Jupyter Server](#working-with-a-persistent-jupyter-server)
+      - [**Copy URL Kernel**](#copy-url-kernel)
   - [References](#references)
 
 ## Layout
@@ -28,168 +27,178 @@ You will find here project template to set up a running nix environment.
 .
 ├── deprecated
 │   └── ...
-├── pythonml
-│   ├── .envrc
-│   ├── .gitignore
-│   ├── flake.nix
-│   ├── pyproject.toml
-│   ├── README.md
-│   └── src
-└── README.md
+└── pythonml
+    ├── .envrc
+    ├── .gitignore
+    ├── .nix
+    │   ├── flake.nix
+    │   └── packages
+    │       ├── default.nix
+    │       ├── README.md
+    │       └── tmp.nix
+    ├── .vscode
+    │   └── settings.json
+    ├── pyproject.toml
+    ├── README.md
+    └── src/
+
 ```
 
 ## Details
 
-The philosophy here is to provide a `flake.nix` that will set up a running nix shell that is specific to your project.
+The philosophy here is to provide a `flake.nix` that sets up a Nix shell specific to your project.
 
-Whenever you are in the folder of your project, it will activate automatically thanks to [`direnv`](https://direnv.net/) that makes use of `.envrc`. In the `.envrc`, you will often only set: `use flake .` or eventually `use flake . --impure`, and set up everything else in the `flake.nix`.
+Whenever you are in your project folder, the environment will activate automatically thanks to [`direnv`](https://direnv.net/), which uses `.envrc`. In `.envrc`, you typically set: `use flake .` or, if needed, `use flake . --impure`, and configure everything else in `flake.nix`.
 
-When entering your project, direnv is not allowed by default. You need to run in the project folder:
+When entering your project, direnv is not allowed by default. You need to run the following in your project folder:
 
 ```bash
 direnv allow
 ```
 
-If you rather prefer not making use of direnv, you may use everytime you want to load your nix shell:
+If you prefer not to use direnv, you can load your Nix shell at any time with:
 
 ```bash
-nix develop . 
+nix develop .
 ```
 
-Python Project are managed thanks to `uv` (see the [subsequent reason](#note-on-the-package-managers)  for this choice).
+Python projects are managed using `uv` (see the [section below](#note-on-package-managers) for the rationale).
 
-## Templates Description
+## Template Descriptions
 
 ### Python ML
 
-This templates provide an example of how to set up a **Machine Learning project**. Note that it has only been tested on Linux, but it should also work on MacOS. For NixOS, you will need additional functionality, please refer to [deprecated](https://github.com/HugoHakem/nix-os.config/blob/main/templates/deprecated/README.md).
+This template provides an example of how to set up a **Machine Learning project**. Note that it has only been tested on Linux, but it should also work on macOS. For NixOS, you may need additional functionality; please refer to [deprecated](deprecated-README.md).
 
-#### Note on the Package managers
+#### Note on Package Managers
 
-Packages are handled both through `nix`, and through `uv`.
+Packages are managed both through `nix` and `uv`.
 
-- As for your nixos-config, you may handle any of your package dependencies with the `nix` in the `flake.nix` file.
-  - For instance there might be external system packages that should be available on your system so that the python packages work correctly. Or you may just want to specify other packages specific to your project such as `duckdb`
-- As for a standard python project, you will handle all the python packages with `uv`.
+- As with your nixos-config, you can manage any package dependencies with Nix in the `flake.nix` file.
+  - For example, there may be external system packages required for your Python packages to work correctly, or you may want to specify other project-specific packages such as `duckdb`.
+- For standard Python project dependencies, you will use `uv`.
 
-**Why `uv` and not another package manager ?**
+**Why `uv` and not another package manager?**
 
-> [`uv`](https://docs.astral.sh/uv/) is an extremely fast Python package and project manager, written in Rust. It is meant to replace `poetry`, `pyenv`, `pip`, `virtualenv`.
+> [`uv`](https://docs.astral.sh/uv/) is an extremely fast Python package and project manager, written in Rust. It is intended to replace `poetry`, `pyenv`, `pip`, and `virtualenv`.
 
-For pure Python development, `uv` is a lighter, faster alternative to `conda`. See the [Python Developper Tooling Handbook](https://pydevtools.com/handbook/explanation/why-should-i-choose-conda/#when-conda-may-not-be-ideal-1) for a discussion about it. `conda` can be preferred for project involving other languages (but then you won't be using that template).
+For pure Python development, `uv` is a lighter, faster alternative to `conda`. See the [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/why-should-i-choose-conda/#when-conda-may-not-be-ideal-1) for a discussion. `conda` is preferable for projects involving other languages, but then you likely won't use this template.
 
-If you are wondering whether you should be using `requirement.txt` file or `pyproject.toml` file to manage your python dependencies, please read through this [Python Developper Tooling Handbook](https://pydevtools.com/handbook/explanation/pyproject-vs-requirements/).
+If you are wondering whether to use a `requirements.txt` file or a `pyproject.toml` file to manage your Python dependencies, please read this [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/pyproject-vs-requirements/).
 
-In brief, `pyproject.toml` is a `requirement.txt` file on steroid, it it used for:
+In brief, `pyproject.toml` is a more powerful and modern alternative to `requirements.txt`. It is used for:
 
-- packages dependencies
-- packages version pinning
-- python version required
-- add project metadata (description etc.)
+- Package dependencies
+- Package version pinning
+- Specifying the required Python version
+- Adding project metadata (description, etc.)
 
-`requirement.txt` file is solely for the two first points.
-In any case, both are easy to handle using `uv`, but `pyproject.toml` is the newest and **official recommended** way to proceed (even though `requirement.txt` might feel easier to play with at the begining).
+A `requirements.txt` file is only for the first two points. Both are easy to handle using `uv`, but `pyproject.toml` is the newest and **officially recommended** approach (even though `requirements.txt` might feel easier at first).
 
-#### How to add new packages
+#### How to Add New Packages
 
-1. **Non Python Packages** should be added in the [flake.nix](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix#L34-39)
+1. **Non-Python Packages** should be added in [flake.nix](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix#L34-39):
 
    ```nix
    # General packages for your dev shell
    packages = (with pkgs; [
-    # e.g., duckdb 
+     # e.g., duckdb 
    ]) ++ (with mpkgs; [
-    uv  # pull latest uv from nixpkgs master
+     uv  # pull latest uv from nixpkgs master
    ]);
    ```
 
-2. **Python Packages** using `uv`
+   Note that you can only do so if the package is listed under [NixOS Search - Packages](https://search.nixos.org/packages)
+
+2. **Non-Python Packages not available in NixOS search**
+   If desired package is not natively available with nix, then you must register it as a CustomPackages. Please follow the associated [.nix/packages/add-custom-packages.md](add-custom-packages.md).
+
+3. **Python Packages** using `uv`:
 
    ```bash
    uv add [name-of-the-package]
    ```
   
-  For more details on using `uv` see the [uv cookbook](https://docs.astral.sh/uv/getting-started/features/#python-versions).
+   For more details on using `uv`, see the [uv cookbook](https://docs.astral.sh/uv/getting-started/features/#python-versions).
 
 ### Miscellaneous
 
-When loading the environment, `uv sync` is run automatically thanks to [this line](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note that:
+When loading the environment, `uv sync` is run automatically thanks to [this line](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note:
 
 - You can customize the `ShellHook` to your needs.
-- In particular, for development purposes, you may want to update `uv sync` with some extra dependencies specified in the `pyproject.toml` such as `uv sync --extra cu128`. Also you may keep the base `uv sync` and just not to run your own `sync` whenever you need it.
+- For development purposes, you may want to update `uv sync` with extra dependencies specified in `pyproject.toml`, such as `uv sync --extra cu128`. You can keep the base `uv sync` and run your own `sync` as needed.
 
-The `pyproject.toml` is only here as an example. Feel free to discard it and replace it by your own. You may refer to the guide on [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
+The provided `pyproject.toml` is only an example. Feel free to replace it with your own. Refer to the guide on [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
 
-### Conda ?
+### Conda?
 
-If you really want to use conda as your package manager, please open an issue and I will eventually provide a flake.nix to do so.
+If you would like to use conda as your package manager, please open an issue and I will consider providing a `flake.nix` for that purpose.
 
-Otherwise, the simplest is probably not to mix package manager. Conda is supposed to be a generic package manager as Nix is, so there is not much point of using both. Instead please install Conda with whatever flavor you like by following their installation guide:
+Otherwise, it is generally best not to mix package managers. Conda is a generic package manager, as is Nix, so there is little benefit in using both. Instead, install Conda with your preferred method by following their installation guide:
 
 - [Conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
-- [Miniconda installer](https://www.anaconda.com/docs/getting-started/miniconda/install#linux).
+- [Miniconda installer](https://www.anaconda.com/docs/getting-started/miniconda/install#linux)
 
-### Working on a persistent Jupyter
+### Working with a Persistent Jupyter Server
 
-There is two ways of doing this (whether you use the template or Conda):
+There are two ways to do this (whether you use the template or Conda):
 
-**Template way**:
+**Template method:**
 
-If you work with the template, you can create a `.ipynb` file and this will detect seamlessly your environment. However, you may want to make your jupyter notebook persistent.
+If you use the template, you can create a `.ipynb` file and your environment will be detected seamlessly. However, you may want to make your Jupyter notebook persistent.
 
-You can do so by simply doing in your project directory:
+You can do so by running the following in your project directory:
 
 ```bash
 nohup .venv/bin/jupyter lab --allow-root --no-browser > error.log & echo $! > pid.txt
 ```
 
-`nohup` will create a background process with a jupyter server. Additionally you redirect every error into `error.log` and you move the `PID` into a `pid.txt` so you can kill the process if you need to by simply doing:
+`nohup` will create a background process with a Jupyter server. Additionally, errors are redirected to `error.log` and the process ID is saved to `pid.txt`, so you can kill the process if needed:
 
 ```bash
 kill $(cat pid.txt)
 ```
 
-You can connect to the jupyter server such that:
+You can check running Jupyter servers with:
 
 ```bash
 jupyter server list
 ```
 
-Which will display the running server with a URL looking like this:
+This will display the running server with a URL like:
 
 ```bash
 http://localhost:8888/?token=f1d62a4e83c474ae1e6bf4c6e2ffc130f5d43ce37ce81ac9
 ```
 
-You can simply copy past it the `URL` into your notebook kernel by clicking on the kernel in the upper right corner and choosing `Select Another Kernel`.
+Simply copy and paste the URL into your notebook kernel by clicking on the kernel in the upper right corner and choosing "Select Another Kernel".
 
-#### **Copy url kernel**
+#### **Copy URL Kernel**
 
-> Note that you can also kill the process by doing:
+> You can also kill the process by running:
 >
 > ```bash
 > jupyter notebook stop 8888
 > ```
 >
-> Then if you don't like having pid.txt or error.log in your file directory you can remove them from the command.
+> If you do not want `pid.txt` or `error.log` in your directory, you can remove them from the command.
 
-**Conda Way**:
+**Conda method:**
 
-You can run the jupyter notebook process in the background thanks to `tmux` (or `screen`). Then you can do:
+You can run the Jupyter notebook process in the background using `tmux` (or `screen`). For example:
 
 ```bash
-tmux new jupyter
+tmux new -s jupyter
 
 conda activate <your_conda_env>
 
 jupyter notebook
 ```
 
-Then you exit the `tmux` session and you can copy past the URL as done [before](#copy-url-kernel).
+Then exit the `tmux` session and copy the URL as described [above](#copy-url-kernel).
 
 ## References
 
-You may want to read through the following references:
+You may find the following references helpful:
 
-- [`NixOS Wiki Python`](https://nixos.wiki/wiki/Python)
-  Explains the standard in terms of using NixOS and Python. Careful, not everything applies to our use case since we are on Linux and not on the NixOS
+- [`NixOS Wiki Python`](https://nixos.wiki/wiki/Python): Explains the standard approach for using NixOS and Python. Note that not everything applies to our use case since we are on Linux and not NixOS.

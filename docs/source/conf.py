@@ -4,7 +4,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 from pathlib import Path
-from .scripts import autogenerate_markdown
+from src.parser import autogenerate_markdown
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -30,7 +30,7 @@ templates_path = ['_templates']
 exclude_patterns = []
 myst_heading_anchors = 5
 
-# === SECTION: Dynamic TOC ===
+# === SECTION: Dynamic markdown generation ===
 
 confpy_path = Path(__file__).resolve() # is the path to conf.py
 base_dir = confpy_path.parent.parent.parent
@@ -38,7 +38,6 @@ autogenerate_markdown(
     base_dir=base_dir,
     autogen_dir=confpy_path.parent / "autogen"
 )
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
