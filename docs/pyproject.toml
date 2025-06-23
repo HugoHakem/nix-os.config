@@ -16,6 +16,9 @@ dependencies = [
     "esbonio",
 ]
 
+[tool.setuptools]
+package-dir = { "" = "source" }
+
 [tool.setuptools.packages.find]
 where = ["source"]
 include = ["src.*"]

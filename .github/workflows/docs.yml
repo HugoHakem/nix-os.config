@@ -19,9 +19,13 @@ jobs:
       run: |
         sudo apt-get update
         python -m pip install --upgrade pip
+        cd docs
+        pip install .
+        cd ..
     - id: deployment
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source/
-        requirements_path: docs/.gh-workflows/requirements.txt
+        requirements_path: ""
+        pyproject_extras: ""
         
