@@ -1,54 +1,52 @@
+# Templates (Deprecated)
 
-# Templates
+> **Note:** This section is primarily for my own learning purposes and is not necessarily useful for most users, as it targets NixOS rather than Linux.
 
-You can discard this note. It is rather for my own learning puporses, and it is not necessarly useful for us since we are not on NixOS but on Linux.
+Here you will find deprecated project templates for setting up a Nix environment.
 
-You will find here deprecated project template to set up a running nix environment.
-
-The current single template `nixos-pythonml/` is not to use for python machine learning project development on Linux as it will fail. It was originally meant for full NixOS environment.
+The current template, `nixos-pythonml/`, should **not** be used for Python machine learning project development on Linux, as it will fail. It was originally intended for a full NixOS environment.
 
 ## Layout
 
 ```text
 .
-├── nixos-pythonml
-│   ├── .envrc
-│   ├── .gitignore
-│   ├── .python-version
-│   ├── flake.nix
-│   ├── pyproject.toml
-│   ├── README.md
-│   └── src
-└── README.md
+└── nixos-pythonml
+    ├── .envrc
+    ├── .gitignore
+    ├── .python-version
+    ├── flake.nix
+    ├── pyproject.toml
+    ├── README.md
+    └── src
 ```
 
-## Templates Description
+## Template Description
 
 ### NixOS Python ML
 
-#### Note on the Package managers
+#### Note on Package Managers
 
-Packages are handled both through `nix`, and through `uv`. As a rule of thumb:
+Packages are managed both through `nix` and `uv`. As a rule of thumb:
 
-+ You may handle any of your python packages with `uv` and anything else through `nix`. For instance there might be external system packages that should be available on your system so that the python packages work correctly. `nix` would be used in those cases.
-+ You will specify your python version with `nix` for perfect reproducibility. (We don't do it in the Linux Environment because nix python expect some libraries to be on the `/nix/store`. It won't look at your `/usr/lib` or other proprietary library placeholder on linux. Then it requires extension with `LD_LIBRARY_PATH` (see bellow discussion) but it particularly fail for CUDA drivers)
-+ If you have packages that is not working when installing from `uv`, you may want to specify it with `nix`
-  + e.g. `pytorch`, might not recognize your GPU, and specifying with `nix` might solve the issue. However its version will be immutable and won't be able to change unless you do it through `nix`. Additionally when built from the first time, it will build from the source which is prohibitively long.
-  + Hence, the reason why `uv` is more preferred to handle python dependencies.
++ Handle your Python packages with `uv` and everything else through `nix`. For instance, there may be external system packages required for your Python packages to work correctly—use `nix` for those cases.
++ Specify your Python version with `nix` for perfect reproducibility. (This is not done in the Linux environment because Nix Python expects some libraries to be in `/nix/store`, not in `/usr/lib` or other proprietary library locations on Linux. This requires extending `LD_LIBRARY_PATH`—see below—but particularly fails for CUDA drivers.)
++ If a package does not work when installed from `uv`, you may want to specify it with `nix`.
+  + For example, `pytorch` might not recognize your GPU, and specifying it with `nix` might solve the issue. However, its version will be immutable and can only be changed through `nix`. Additionally, building from source can be prohibitively slow.
+  + This is why `uv` is generally preferred for handling Python dependencies.
 
-#### How to add new packages
+#### How to Add New Packages
 
-If you want to skip the contextualisation, jump directly at the [Summary Section](#to-summarise)
+If you want to skip the context, jump directly to the [Summary Section](#to-summarise).
 
-There are **4 ways to add new packages**. Even though you should be aware of the different options (for debugging time), your day to day workflow will only use last way (`uv`).
+There are **four ways to add new packages**. While you should be aware of the different options (for debugging), your day-to-day workflow will primarily use the last method (`uv`).
 
-This pythonML template is meant to work on the following systems (MacOS, Linux, NixOS (supposedly Windows as well)). Let's try to understand the distinction between `nix` installed programs and the others.
+This Python ML template is intended to work on the following systems: macOS, Linux, NixOS (and supposedly Windows). Let's clarify the distinction between `nix`-installed programs and others.
 
-+ In NixOS, and (also in our case with Nix Package Manager), packages installed will be stored in path like `/nix/store/[hash]-[package-name]` and dependecy will be listed internally such that packages installed through `nix` only look at for their dependencies in that store. This provide a complete isolation between packages and enable to add multiple version of a same packages. It contributes to the reliability and reproducibility of `nix` system.
-+ The problem is that most of the programs will expect to have access to certain *runtime libraries*, such as C compiler or GPU toolkit etc. For programs installed from `nix` dependencies are handled, as mentionned, through the `nix/store`. But for foreign programs, they don't know that the `/nix/store/` exists. In Linux system the *runtime libraries* are instead expected to be listed under the `LD_LIBRARY_PATH` with the `.so` file extension. On MacOS, the equivalent would be the `DYLD_LIBRARY_PATH` and `.dyld` file extension (not that the `DYLD_LIBRARY_PATH` is not defined by default, but you can specify your runtime packages path under that variablen name).
-  + **What problem this causes?**  On pure NixOS system, the `LD_LIBRARY_PATH` variable is not defined by default. Hence when installing packages from other source (like python packages from `uv`), they will still expect their *runtime dependencies* to be present in the `LD_LIBRARY_PATH`. So even though you may have the right packages installed in your `/nix/store/` you have to add those in the `LD_LIBRARY_PATH`.
-    + This is what [`nix-ld`](https://github.com/nix-community/nix-ld/tree/main) is for (but it is only available fo `NixOS`).
-    + Or alternatively, we can manually extend the `LD_LIBRARY_PATH`, which is the way chosen in the `flake.nix` for compatibility purposes between system.
++ In NixOS (and also when using the Nix Package Manager), packages are installed in paths like `/nix/store/[hash]-[package-name]`, and dependencies are managed internally so that packages installed through `nix` only look for their dependencies in that store. This provides complete isolation between packages and enables multiple versions of the same package, contributing to the reliability and reproducibility of the Nix system.
++ The problem is that most programs expect access to certain *runtime libraries*, such as a C compiler or GPU toolkit. For programs installed from `nix`, dependencies are handled through the `/nix/store`. But for foreign programs, they are unaware of `/nix/store/`. On Linux, runtime libraries are expected to be listed under the `LD_LIBRARY_PATH` with `.so` file extensions. On macOS, the equivalent is `DYLD_LIBRARY_PATH` and `.dylib` file extensions (note that `DYLD_LIBRARY_PATH` is not defined by default, but you can specify your runtime package paths under that variable).
+  + **What problem does this cause?** On pure NixOS systems, the `LD_LIBRARY_PATH` variable is not defined by default. When installing packages from other sources (like Python packages from `uv`), they will still expect their *runtime dependencies* to be present in `LD_LIBRARY_PATH`. So even if you have the right packages installed in `/nix/store/`, you have to add them to `LD_LIBRARY_PATH`.
+    + This is what [`nix-ld`](https://github.com/nix-community/nix-ld/tree/main) is for (but it is only available for NixOS).
+    + Alternatively, you can manually extend `LD_LIBRARY_PATH`, which is the approach chosen in `flake.nix` for compatibility between systems.
 
       ```nix
       let
@@ -59,11 +57,10 @@ This pythonML template is meant to work on the following systems (MacOS, Linux, 
                 # ADD NEEDED PACKAGES HERE
                 stdenv.cc.cc     # useful for compiling C/C++ code
                 glib             # core application building blocks for libraries written in C
-                libGL            # useful for graphical rendering, (for e.g. is required for matplotlib)
+                libGL            # useful for graphical rendering, e.g., required for matplotlib
                 ...
             ]) ++ pkgs.lib.optionals pkgs.stdenv.isLinux 
-            (with pkgs; [ # ADD NEEDED PACKAGES HERE IF ONLY REQUIRED BY LINUX 
-                # Add packages that should only be present for Linux
+            (with pkgs; [ # ADD PACKAGES HERE IF ONLY REQUIRED BY LINUX 
                 cudatoolkit      # required for GPU libraries
                 ...
             ])
@@ -75,11 +72,10 @@ This pythonML template is meant to work on the following systems (MacOS, Linux, 
             default = mkShell {
                 # DEFINE THE CUSTOM LD_LIBRARY_PATH
                 NIX_LD_LIBRARY_PATH = lib.makeLibraryPath LD_pkgs;
-                # we add the LD_pkgs in the shell as a rule of thumb
-                # what actually matter the most is that they are present in the custom LD_LIBRARY_PATH
+                # Add LD_pkgs to the shell as a rule of thumb
                 packages = ... ++ LD_pkgs; 
                 shellHook = ''
-                # Extend the original LD_LIBRARY_PATH with the `NIX_LD_LIBRARY_PATH` (but only for that shell)
+                # Extend the original LD_LIBRARY_PATH with the `NIX_LD_LIBRARY_PATH` (only for this shell)
                 export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
                 ...
                 '';
@@ -88,22 +84,22 @@ This pythonML template is meant to work on the following systems (MacOS, Linux, 
         ...
       ```
 
-  + **Does it apply to us with our Ubuntu machine + Nix as a package manager ?**
-    + **No** because on `linux` machine or `MacOS` machine, those runtime packages will most of the time be already present. The `LD_LIBRARY_PATH` for `linux` is already set and there should be all the utilities you will ever need and same for `MacOS` (again `DYLD_LIBRARY_PATH` is not set by default but the *runtime dependencies* are already in things like `/usr/bin/`).
-    + **Maybe**, because bug happens... Packages may still not work properly (and it's not because you are using nix as a package manager)
-      + If it requires an external *runtime package*, (the error being something like `cannot found [name of the packages]`), extending the `LD_LIBRARY_PATH` should make the trick! And the code snippet above guarantee that you do it in an isolated fashion, and it won't corrupt your whole system. **Note:** this flake takes the assumption that you won't have any problem with your MacOS set up. Indeed, it only modify the `LD_LIBRARY_PATH` which is completly ignored on MacOS. So if you are running into errors, you may want to modify the `LD_LIBRARY_PATH` into `DYLD_LIBRARY_PATH`.
+  + **Does this apply to us with our Ubuntu machine + Nix as a package manager?**
+    + **No**, because on Linux or macOS, those runtime packages are usually already present. The `LD_LIBRARY_PATH` for Linux is already set and should include all the utilities you need; the same applies for macOS (though `DYLD_LIBRARY_PATH` is not set by default, runtime dependencies are already in locations like `/usr/bin/`).
+    + **Maybe**, because bugs can still occur. Packages may not work properly (and it's not necessarily because you are using Nix as a package manager).
+      + If an external *runtime package* is required (the error might be something like `cannot find [name of the package]`), extending `LD_LIBRARY_PATH` should resolve the issue. The code snippet above ensures this is done in an isolated fashion and won't corrupt your system. **Note:** This flake assumes you won't have issues with your macOS setup. It only modifies `LD_LIBRARY_PATH`, which is ignored on macOS. If you encounter errors, you may want to modify `DYLD_LIBRARY_PATH` instead.
 
-In the code snippet above, you already been introduced with **1 way to add packages**. It is related to `LD_LIBRARY_PATH`, and you may be specific to Linux or any system. Those packages will be stored in the `LD_pkgs` variable.
+In the code snippet above, you have already seen **one way to add packages**—those related to `LD_LIBRARY_PATH`, which may be specific to Linux or any system. These packages are stored in the `LD_pkgs` variable.
 
-The next **3 ways to add new packages** are detailed in the [Summary Section](#to-summarise), but in short, they are meant for:
+The next **three ways to add new packages** are detailed in the [Summary Section](#to-summarise), but in short, they are for:
 
-+ Adding `nix` packages that are not *runtime dependencies* (hence that should not be present in the `LD_LIBRARY_PATH`). This concern `uv`, or your Python version or the Python ShellHook (tool that create `.venv`)). But it could also be some specific packages your project may requires. Like `duckdb` for fast database query.
-+ Adding python packages but with `nix`. Again, this shouldn't be the default and to use only if you cannot make it work through `uv`.
-+ Adding python packages with `uv`. This will be your standard workflow.
++ Adding `nix` packages that are not *runtime dependencies* (i.e., should not be present in `LD_LIBRARY_PATH`). This includes `uv`, your Python version, or the Python ShellHook (the tool that creates `.venv`). It could also be specific packages your project requires, like `duckdb` for fast database queries.
++ Adding Python packages with `nix`. This should not be the default and should only be used if you cannot make it work through `uv`.
++ Adding Python packages with `uv`. This will be your standard workflow.
 
-#### To summarise
+#### To Summarise
 
-1. Packages that will be present in the `LD_LIBRARY_PATH`, that should be on every OS, and that you can find listed on [Nix Packages Search](https://search.nixos.org/packages). Those are stored in `LD_pkgs`.
+1. Packages that will be present in `LD_LIBRARY_PATH`, should be on every OS, and can be found on [Nix Packages Search](https://search.nixos.org/packages). These are stored in `LD_pkgs`.
 
    ```nix
     LD_pkgs = 
@@ -117,7 +113,7 @@ The next **3 ways to add new packages** are detailed in the [Summary Section](#t
         ]);
    ```
 
-2. Packages installed for python, through `nix`, because you cannot make them work with `uv`.
+2. Packages installed for Python through `nix`, because you cannot make them work with `uv`.
 
     ```nix
     python_with_pkgs = pkgs.python311.withPackages (pp: with pp [
@@ -126,7 +122,7 @@ The next **3 ways to add new packages** are detailed in the [Summary Section](#t
     ]);
     ```
 
-3. Packages that should be installed through `nix` that are not python packages, and should not be available in the `LD_LIBRARY_PATH` (which are not runtime *dependencies*)
+3. Packages that should be installed through `nix` that are not Python packages and should not be available in `LD_LIBRARY_PATH` (i.e., not runtime dependencies):
 
    ```nix
     shell_packages = 
@@ -138,30 +134,30 @@ The next **3 ways to add new packages** are detailed in the [Summary Section](#t
             ])
    ```
 
-4. **The standard way** to install packages with the `uv` (this should be the default, and is actually the most important one, the others option are here for debugging purposes):
+4. **The standard way** to install packages with `uv` (this should be the default and is the most important; the other options are mainly for debugging):
 
   ```bash
   uv pip install [name-of-the-package]
   ```
 
-#### How to change Python version
+#### How to Change Python Version
 
-Change the python distribution in `nix` [here](nixos-config/templates/pythonml/flake.nix#L48-L54)
-You can then use the following command to update the `.python-version` file.
+Change the Python distribution in `nix` the [flake.nix](./nixos-pythonml/flake.nix#L48-L54).
+You can then update the `.python-version` file with:
 
 ```bash
 uv python pin
 ```
 
-### Another Template that would have been FHS compliant
+### Another Template: FHS-Compliant
 
-**FHS** stands for Filesystem Hierarchy Standard. It is nothing else than a map that tells where to find the tools that you need. Something along the lines of `/usr/bin/`. On NixOs, the `/usr/bin` folder doesn't exist and every tools are located in `/nix/store/` as mentionned above.
-Again, it enables to have different versions of programs and any programs has view on what it needs and nothing else.
-The problem is that some programs or languages do expect and **FHS** system, (like `R`) it does expect to have a `/usr/bin` folder. Then you need to add the tool of the `/nix/store` into a project specific `/usr/bin`. This is what the `pkgs.BuildFHSEnv` is for.
+**FHS** stands for Filesystem Hierarchy Standard. It is essentially a map that tells you where to find the tools you need, such as `/usr/bin/`. On NixOS, the `/usr/bin` folder doesn't exist and all tools are located in `/nix/store/`, as mentioned above.
+This enables multiple versions of programs and ensures each program only sees what it needs.
+However, some programs or languages (like `R`) expect an **FHS** system, i.e., a `/usr/bin` folder. In such cases, you need to add tools from `/nix/store/` into a project-specific `/usr/bin`. This is what `pkgs.BuildFHSEnv` is for.
 
 You may want to read the [`NixOS Wiki`](https://nixos.wiki/wiki/Python#:~:text=Installing%20packages%20with,you%20could%20use%3A) on the subject.
 
-You could therefore have a `flake.nix` that looks like this which is from the [Ank's Neosis Set-Up](https://github.com/leoank/neusis/blob/main/templates/fhspythonml/flake.nix):
+You could therefore have a `flake.nix` like the one from [Ank's Neusis Setup](https://github.com/leoank/neusis/blob/main/templates/fhspythonml/flake.nix):
 
 ```nix
 {
@@ -245,9 +241,9 @@ You could therefore have a `flake.nix` that looks like this which is from the [A
 # https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/
 ```
 
-This is a slightly more complicated environment that the one proposed in the previous template. It is not necessarly recommended as it brings its lot of confusion. It is somewhat equivalent to override the `LD_LIBRARY_PATH` for your project but it is actually even stronger. You don't want to go for this option as it conflicts with `nix` spirit to build isolated environment thanks to the `/nix/store/`. Instead here it symlink packages from the `/nix/store/` and add it in the `/usr/bin` and if I am not mistaken also in other directories ? See the documentation of [`BuildFHSEnv`](https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/).
+This is a slightly more complex environment than the one proposed in the previous template. It is not necessarily recommended, as it can be confusing. It is somewhat equivalent to overriding `LD_LIBRARY_PATH` for your project, but even stronger. You generally do not want to use this option, as it conflicts with the Nix philosophy of building isolated environments using `/nix/store/`. Instead, it symlinks packages from `/nix/store/` and adds them to `/usr/bin` (and possibly other directories). See the documentation for [`BuildFHSEnv`](https://ryantm.github.io/nixpkgs/builders/special/fhs-environments/).
 
-# References
+## References
 
 + [`NixOS Wiki Python`](https://nixos.wiki/wiki/Python)
-+ **You want to read more on `LD_LIBRARY_PATH` ?** You may want to refer to this [`LD_LIBARY_PATH`](https://www.hpc.dtu.dk/?page_id=1180) or this for [`DYLD_LIBRARY_PATH`](https://medium.com/macos-is-not-linux-and-other-nix-reflections/d-o-y-ou-ld-library-path-you-6ab0a6135a33)
++ **Want to read more on `LD_LIBRARY_PATH`?** See this [LD_LIBRARY_PATH resource](https://www.hpc.dtu.dk/?page_id=1180) or this article on [`DYLD_LIBRARY_PATH`](https://medium.com/macos-is-not-linux-and-other-nix-reflections/d-o-y-ou-ld-library-path-you-6ab0a6135a33)

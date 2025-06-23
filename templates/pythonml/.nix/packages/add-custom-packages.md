@@ -4,14 +4,14 @@ This folder is intended for defining custom Nix packages that are not available 
 
 ## When to Use
 
-- **Unavailable Packages:** If you need a package or a tool (for example, from a GitHub repository) that cannot be found in the official Nixpkgs repository, you can add it here.
+- **Unavailable Packages:** If you need a package or tool (for example, from a GitHub repository) that cannot be found in the official Nixpkgs repository, you can add it here.
 - **Custom Builds:** If you want to override the build process or patch a package in a way that is not possible through overlays or upstream Nixpkgs.
 
 ## How It Works
 
 - Each `.nix` file in this directory (except `default.nix`) should define one or more packages as Nix attributes.
 - The [`default.nix`](default.nix) file automatically imports all other `.nix` files in this directory and aggregates their outputs.
-- The resulting set of packages is imported in the main [`flake.nix`](../flake.nix) and can be added to your development shell or used elsewhere in your project.
+- The resulting set of packages is imported in the main [`flake.nix`](./../flake.nix) and can be added to your development shell or used elsewhere in your project.
 
 ## Example
 
@@ -40,11 +40,18 @@ To add a custom package, create a new file (e.g., `mytool.nix`) in this director
 }
 ```
 
-This will make `mytool` available as a package in your flake.
+This will make `mytool` available as a package in your flake. You must then register it under [CustomPackages](./../flake.nix#L40-41):
+
+```nix
+  ... ++ (with customPackages; [
+    mytool
+  ]);
+```
 
 ## Template
 
 See [`tmp.nix`](tmp.nix) for another commented template to help you get started.
 
 ---
+
 **Tip:** Use this folder only for packages that cannot be obtained or easily overridden from upstream Nixpkgs.
