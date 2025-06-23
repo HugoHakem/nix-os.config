@@ -19,13 +19,18 @@ jobs:
       run: |
         sudo apt-get update
         python -m pip install --upgrade pip
+    - uses: actions/checkout@master
+    - name: Install python depedencies
+      run: |
         cd docs
         pip install .
         cd ..
+        
     - id: deployment
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source/
         requirements_path: ""
         pyproject_extras: ""
+        checkout: false
         
