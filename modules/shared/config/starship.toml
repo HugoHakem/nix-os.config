@@ -66,7 +66,8 @@ format = '[ $user]($style)'
 
 [hostname]
 ssh_only = true
-ssh_symbol = ""
+style = "bg:red fg:crust"
+ssh_symbol = ": "
 
 [directory]
 style = "bg:yellow fg:crust"
@@ -84,11 +85,19 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:green"
-format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+format = '[[ $symbol $branch ](fg:crust bg:green)]($style)'
 
 [git_status]
 style = "bg:green"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+conflicted = "="
+stashed = "\\$"
+deleted = "✘"
+renamed = "»"
+modified = "!"
+typechanged = ""
+staged = "+"
+untracked = "?"
+format = '[[($all_status$ahead_behind )](fg:crust bg:green)]($style)'
 
 [nodejs]
 symbol = ""
@@ -133,7 +142,7 @@ format = '[[ $symbol( $version) ](fg:crust bg:sapphire)]($style)'
 [python]
 symbol = ""
 style = "bg:sapphire"
-format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:sapphire)]($style)'
+format = '[[ $symbol( $version)( \(↪$virtualenv\)) ](fg:crust bg:sapphire)]($style)'
 
 [docker_context]
 symbol = ""
