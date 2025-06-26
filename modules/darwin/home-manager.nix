@@ -79,7 +79,7 @@ in
           };
           history = { 
             ignoreDups = true;
-            ignore = [ 
+            ignorePatterns = [ 
               "pwd"
               "ls"
               "cd" 
