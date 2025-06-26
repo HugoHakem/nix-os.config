@@ -59,6 +59,7 @@
     ],
     "cSpell.enabledFileTypes": {
         "pip-requirements": false,
-        "toml": false
+        "toml": false,
+        "nix": false
     }
 }

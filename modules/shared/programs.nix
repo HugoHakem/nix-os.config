@@ -1,32 +1,6 @@
 { config, pkgs, lib, user, git_name, git_email, ... }:
 
 {
-  # Shared shell configuration
-  zsh = {
-    enable = true;
-    autocd = false;
-    plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-      {
-        name = "powerlevel10k-config";
-        src = lib.cleanSource ./config;
-        file = "p10k.zsh";
-      }
-    ];
-
-    initContent = lib.mkBefore ''
-      # Remove history data we don't want to see
-      export HISTIGNORE="pwd:ls:cd"
-
-      # Always color ls and group directories
-      alias ls='ls --color=auto'
-    '';
-  };
-
   git = {
     enable = true;
     ignores = [ "*.swp" ];
@@ -45,9 +19,15 @@
       rebase.autoStash = true;
     };
   };
+
   direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  starship = { 
+    enable = true;
+    settings = builtins.fromTOML (builtins.readFile ./config/starship.toml); 
   };
 
   vim = {

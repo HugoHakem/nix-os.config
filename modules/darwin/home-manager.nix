@@ -53,16 +53,46 @@ in
     fonts.fontconfig.enable = true;
     programs = 
       sharedPrograms // {
-        zsh = sharedPrograms.zsh // {
-          # when using lib.mkBefore, the code is wrap in a set wit { _type=...;, content=[THE CODE]; priority=500; }
-          # to extend the code it suffice to take the argument of the set shared.zsh.initContent.content
-          initContent = lib.mkBefore (sharedPrograms.zsh.initContent.content  + ''
+
+        starship = sharedPrograms.starship // {
+          enableZshIntegration = true;
+        };
+        
+        zsh = {
+          enable = true;
+          enableCompletion = true;
+          autocd = false;
+          # plugins = [
+          #   {
+          #     name = "powerlevel10k";
+          #     src = pkgs.zsh-powerlevel10k;
+          #     file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+          #   }
+          #   {
+          #     name = "powerlevel10k-config";
+          #     src = lib.cleanSource ./config;
+          #     file = "p10k.zsh";
+          #   }
+          # ];
+          shellAliases = { 
+            ls="ls --color=auto"; # Always color ls and group directories
+          };
+          history = { 
+            ignoreDups = true;
+            ignore = [ 
+              "pwd"
+              "ls"
+              "cd" 
+            ]; 
+          };
+          initContent = lib.mkBefore ''
             # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
             export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
             # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
             export PATH="$PATH:/run/current-system/sw/bin"
-          '');
+          '';
         };
+
         wezterm = {
           enable = true;
           enableZshIntegration = true;
