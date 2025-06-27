@@ -4,18 +4,20 @@
 "$schema" = "https://raw.githubusercontent.com/starship/starship/a477186e52e156eeac780e9b79210a19715f4919/.github/config-schema.json"
 
 format = """
-[](red)\
+[](mauve)\
 $os\
 $username\
 $hostname\
-[█](red)\
-[](bg:peach fg:red)\
+[█](mauve)\
+[](bg:red fg:mauve)\
 $time\
-[](bg:yellow fg:peach)\
+[](bg:peach fg:red)\
 $directory\
-[](bg:green fg:yellow)\
+[](bg:yellow fg:peach)\
 $git_branch\
 $git_status\
+[](bg:green fg:yellow)\
+$direnv\
 [](bg:sky fg:green)\
 $nix_shell\
 [](bg:blue fg:sky)\
@@ -33,7 +35,7 @@ palette = 'catppuccin_mocha'
 
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "bg:mauve fg:crust"
 
 [os.symbols]
 Windows = ""
@@ -58,18 +60,18 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
+style_user = "bg:mauve fg:crust"
+style_root = "bg:mauve fg:crust"
 format = '[ $user]($style)'
 
 [hostname]
 ssh_only = true
-style = "bg:red fg:crust"
+style = "bg:mauve fg:crust"
 ssh_symbol = ":"
 format = '[$ssh_symbol$hostname]($style)'
 
 [directory]
-style = "bg:yellow fg:crust"
+style = "bg:peach fg:crust"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -83,26 +85,42 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:green fg:crust"
+style = "bg:yellow fg:crust"
 format = '[ $symbol $branch]($style)'
 
 [git_status]
-style = "bg:green fg:crust"
-conflicted = "[=(:$count)](bold bg:green fg:red)"
-stashed = "[](bold bg:green fg:crust)"
-deleted = "[✘(:$count)](bold bg:green fg:crust)"
-renamed = "[»(:$count)](bold bg:green fg:crust)"
-modified = "[!(:$count)](bold bg:green fg:peach)"
+style = "bg:yellow fg:crust"
+conflicted = "[=(:$count)](bold bg:yellow fg:red)"
+stashed = "[](bold bg:yellow fg:crust)"
+deleted = "[✘(:$count)](bold bg:yellow fg:crust)"
+renamed = "[»(:$count)](bold bg:yellow fg:crust)"
+modified = "[!(:$count)](bold bg:yellow fg:peach)"
 typechanged = ""
-staged = "[+(:$count)](bold bg:green fg:blue)"
-untracked = "[?(:$count)](bold bg:green fg:red)"
-ahead = "[⇡(:$count)](bold bg:green fg:lavender)"
-behind = "[⇣(:$count)](bold bg:green fg:maroon)"
+staged = "[+(:$count)](bold bg:yellow fg:blue)"
+untracked = "[?(:$count)](bold bg:yellow fg:red)"
+ahead = "[⇡(:$count)](bold bg:yellow fg:lavender)"
+behind = "[⇣(:$count)](bold bg:yellow fg:maroon)"
 diverged = ""
 up_to_date = ""
 # all_status is equivalent to "$conflicted$stashed$deleted$renamed$modified$typechanged$staged$untracked"
 # but here add space 
 format = '[(( $conflicted)( $stashed)( $deleted)( $renamed)( $modified)( $staged)( $untracked)( $ahead_behind)) ]($style)'
+
+[direnv]
+style = "bg:green fg:crust"
+symbol = "direnv "
+detect_env_vars = [ "DIRENV_FILE" ]
+detect_files = [ ".envrc" ]
+detect_folders = [  ]
+loaded_msg = ""
+unloaded_msg = "not loaded"
+allowed_msg = ""
+not_allowed_msg = "not allowed"
+denied_msg = "denied"
+format = '[ ([$symbol](bold $style))$loaded(/$allowed) ]($style)'
+disabled = false
+
+
 
 [nix_shell]
 symbol = "󱄅"
@@ -131,7 +149,7 @@ format = '[ $symbol $environment ]($style)'
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:peach fg:crust"
+style = "bg:red fg:crust"
 format = '[ 󰅐 $time ]($style)'
 
 [line_break]
