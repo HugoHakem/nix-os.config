@@ -61,5 +61,8 @@
         "pip-requirements": false,
         "toml": false,
         "nix": false
+    },
+    "markdownlint.config": {
+        "MD041": false,
     }
 }
