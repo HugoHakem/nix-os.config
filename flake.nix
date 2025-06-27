@@ -68,7 +68,7 @@
       };
 
       # Def nixpkgs in function of system
-      pkgsSystem = (system: 
+      pkgsSystem = system:
         import nixpkgs {
           inherit system;
           config = {
@@ -78,30 +78,48 @@
             allowUnsupportedSystem = true;
           };
 
-          overlays =
-            # Apply each overlay found in the /overlays directory
-            let path = ./overlays; in with builtins;
-            map (n: import (path + ("/" + n)))
-                (filter (n: match ".*\\.nix" n != null ||
-                            pathExists (path + ("/" + n + "/default.nix")))
-                        (attrNames (readDir path)))
-            ++ [ (final: prev: {
-                starship = let 
-                  mpkgs = import nixpkgs_master {
-                    inherit system;
-                    config = {
-                      allowUnfree = true;
-                      allowBroken = true;
-                      allowInsecure = false;
-                      allowUnsupportedSystem = true;
-                    };
-                  };
-                 in 
-                  mpkgs.starship;
-              }) 
-            ];
-        }
-      );
+          overlays = # load overlay in overlayDir and provide required argument from overlayContext 
+            let
+              mpkgs = import nixpkgs_master {
+                inherit system;
+                config = {
+                  allowUnfree = true;
+                  allowBroken = true;
+                  allowInsecure = false;
+                  allowUnsupportedSystem = true;
+                };
+              };
+
+              overlayDir = ./overlays;
+              overlayContext = {inherit system mpkgs user git_name git_email; };
+
+              entries = builtins.attrNames (builtins.readDir overlayDir);
+              valid = builtins.filter (name:
+                builtins.match ".*\\.nix" name != null ||
+                builtins.pathExists (overlayDir + "/${name}/default.nix")
+              ) entries;
+
+              loadOverlay = name:
+                let
+                  overlayPath = overlayDir + "/${name}";
+                  overlayModule = import overlayPath;
+                  args = builtins.functionArgs overlayModule;
+                in # If it's a function that expects named args, check if it asks for any from `overlayContext`
+                  if args != {} then
+                    let
+                      inputKeys = builtins.attrNames args;
+                      missing = builtins.filter (key: !(builtins.hasAttr key overlayContext)) inputKeys;
+                    in
+                      if missing != [] then
+                        builtins.throw "Overlay ${name} is missing required keys: ${builtins.toString missing}"
+                      else
+                        overlayModule (builtins.intersectAttrs args overlayContext)
+                  else
+                    overlayModule;
+            in
+              builtins.map loadOverlay valid;
+        };
+
     in
     {
       devShells = forAllSystems devShell;
