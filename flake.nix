@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs_master.url = "github:NixOS/nixpkgs/master";
     home-manager.url = "github:nix-community/home-manager";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -25,7 +26,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
+  outputs = { self, nixpkgs, nixpkgs_master, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
     let
       user = "hhakem";
       git_name = "Hugo";
@@ -83,7 +84,22 @@
             map (n: import (path + ("/" + n)))
                 (filter (n: match ".*\\.nix" n != null ||
                             pathExists (path + ("/" + n + "/default.nix")))
-                        (attrNames (readDir path)));
+                        (attrNames (readDir path)))
+            ++ [ (final: prev: {
+                starship = let 
+                  mpkgs = import nixpkgs_master {
+                    inherit system;
+                    config = {
+                      allowUnfree = true;
+                      allowBroken = true;
+                      allowInsecure = false;
+                      allowUnsupportedSystem = true;
+                    };
+                  };
+                 in 
+                  mpkgs.starship;
+              }) 
+            ];
         }
       );
     in
@@ -94,7 +110,9 @@
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: darwin.lib.darwinSystem {
           inherit system;
           pkgs = pkgsSystem system;
-          specialArgs = {inherit user git_name git_email; } // inputs;
+          specialArgs = let
+          in
+            {inherit user git_name git_email ; } // inputs;
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
@@ -119,7 +137,9 @@
       homeConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
         home-manager.lib.homeManagerConfiguration {
             pkgs = pkgsSystem system;
-            extraSpecialArgs = {inherit user git_name git_email; } // inputs;
+            extraSpecialArgs = let
+            in
+              {inherit user git_name git_email ; } // inputs;
             modules = [
               ./hosts/linux
             ];
