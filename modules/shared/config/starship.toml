@@ -16,11 +16,13 @@ $directory\
 [](bg:green fg:yellow)\
 $git_branch\
 $git_status\
-[](bg:sapphire fg:green)\
-$python\
-[](bg:lavender fg:sapphire)\
+[](bg:sky fg:green)\
+$nix_shell\
+[](bg:blue fg:sky)\
 $conda\
 $pixi\
+[](bg:lavender fg:blue)\
+$python\
 [ ](fg:lavender)\
 $cmd_duration\
 $line_break\
@@ -98,23 +100,26 @@ format = '[[($all_status$ahead_behind )](fg:crust bg:green)]($style)'
 
 [nix_shell]
 symbol = "󱄅 "
-style = "bold blue"
+style = "bg:sky"
+impure_msg = "impure"
+pure_msg = "pure"
+format = "[[$symbol$state( \\($name\\))](fg:crust bg:sky)]($style) "
 
 [python]
 symbol = ""
-style = "bg:sapphire"
-format = '[[ $symbol( $version)( \(➥$virtualenv\)) ](fg:crust bg:sapphire)]($style)'
+style = "bg:lavender"
+format = '[[ $symbol( $version)( \(➥$virtualenv\)) ](fg:crust bg:lavender)]($style)'
 
 [conda]
-symbol = "  "
-style = "fg:crust bg:lavender"
+symbol = " "
+style = "fg:crust bg:blue"
 format = '[$symbol$environment ]($style)'
 detect_env_vars = ["!PIXI_ENVIRONMENT_NAME"]
 ignore_base = false
 
 [pixi]
-symbol = "  "
-style = "fg:crust bg:lavender"
+symbol = " "
+style = "fg:crust bg:blue"
 format = '[$symbol$environment ]($style)'
 
 [time]
