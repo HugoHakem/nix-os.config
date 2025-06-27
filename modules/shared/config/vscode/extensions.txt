@@ -30,6 +30,9 @@ eamodio.gitlens
 ## collaboration
 ms-vsliveshare.vsliveshare
 
+## direnv
+mkhl.direnv
+
 ## docker
 ms-azuretools.vscode-docker
 
@@ -56,6 +59,10 @@ streetsidesoftware.code-spell-checker
 
 ## file icons
 jamesmaj.easy-icons
+
+## fonts
+brunnerh.insert-unicode
+entuent.fira-code-nerd-font
 
 ## makefile
 ms-vscode.makefile-tools

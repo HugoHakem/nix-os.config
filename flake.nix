@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs_master.url = "github:NixOS/nixpkgs/master";
     home-manager.url = "github:nix-community/home-manager";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -25,7 +26,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
+  outputs = { self, nixpkgs, nixpkgs_master, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
     let
       user = "hhakem";
       git_name = "Hugo";
@@ -67,7 +68,7 @@
       };
 
       # Def nixpkgs in function of system
-      pkgsSystem = (system: 
+      pkgsSystem = system:
         import nixpkgs {
           inherit system;
           config = {
@@ -77,15 +78,48 @@
             allowUnsupportedSystem = true;
           };
 
-          overlays =
-            # Apply each overlay found in the /overlays directory
-            let path = ./overlays; in with builtins;
-            map (n: import (path + ("/" + n)))
-                (filter (n: match ".*\\.nix" n != null ||
-                            pathExists (path + ("/" + n + "/default.nix")))
-                        (attrNames (readDir path)));
-        }
-      );
+          overlays = # load overlay in overlayDir and provide required argument from overlayContext 
+            let
+              mpkgs = import nixpkgs_master {
+                inherit system;
+                config = {
+                  allowUnfree = true;
+                  allowBroken = true;
+                  allowInsecure = false;
+                  allowUnsupportedSystem = true;
+                };
+              };
+
+              overlayDir = ./overlays;
+              overlayContext = {inherit system mpkgs user git_name git_email; };
+
+              entries = builtins.attrNames (builtins.readDir overlayDir);
+              valid = builtins.filter (name:
+                builtins.match ".*\\.nix" name != null ||
+                builtins.pathExists (overlayDir + "/${name}/default.nix")
+              ) entries;
+
+              loadOverlay = name:
+                let
+                  overlayPath = overlayDir + "/${name}";
+                  overlayModule = import overlayPath;
+                  args = builtins.functionArgs overlayModule;
+                in # If it's a function that expects named args, check if it asks for any from `overlayContext`
+                  if args != {} then
+                    let
+                      inputKeys = builtins.attrNames args;
+                      missing = builtins.filter (key: !(builtins.hasAttr key overlayContext)) inputKeys;
+                    in
+                      if missing != [] then
+                        builtins.throw "Overlay ${name} is missing required keys: ${builtins.toString missing}"
+                      else
+                        overlayModule (builtins.intersectAttrs args overlayContext)
+                  else
+                    overlayModule;
+            in
+              builtins.map loadOverlay valid;
+        };
+
     in
     {
       devShells = forAllSystems devShell;
@@ -94,7 +128,9 @@
       darwinConfigurations = nixpkgs.lib.genAttrs darwinSystems (system: darwin.lib.darwinSystem {
           inherit system;
           pkgs = pkgsSystem system;
-          specialArgs = {inherit user git_name git_email; } // inputs;
+          specialArgs = let
+          in
+            {inherit user git_name git_email ; } // inputs;
           modules = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
@@ -119,7 +155,9 @@
       homeConfigurations = nixpkgs.lib.genAttrs linuxSystems (system: 
         home-manager.lib.homeManagerConfiguration {
             pkgs = pkgsSystem system;
-            extraSpecialArgs = {inherit user git_name git_email; } // inputs;
+            extraSpecialArgs = let
+            in
+              {inherit user git_name git_email ; } // inputs;
             modules = [
               ./hosts/linux
             ];

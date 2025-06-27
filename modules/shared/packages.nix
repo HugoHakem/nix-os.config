@@ -48,6 +48,7 @@ with pkgs; [
   ripgrep
   xdg-utils
   zsh-powerlevel10k
+  starship
 
   # MISCELLANEOUS UTILITIES
   ## spell checker
@@ -60,12 +61,14 @@ with pkgs; [
   ## Video processing needs
   # ffmpeg
 
-
   # FONTS UTILITIES
   # for my oh-my-bash powerline theme
   powerline-fonts 
+  nerd-fonts.symbols-only
   nerd-fonts.fira-code 
   nerd-fonts.fira-mono
+  nerd-fonts.hack
+  nerd-fonts.jetbrains-mono
 
   # EMACS UTILITIES
   # emacs-all-the-icons-fonts

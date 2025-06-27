@@ -1,0 +1,206 @@
+# config inspired from https://starship.rs/presets/catppuccin-powerline
+# update schema on schema corresponding to commit after the release of starship 1.23.0 because they forgot to update the 
+# schema at that release.
+"$schema" = "https://raw.githubusercontent.com/starship/starship/a477186e52e156eeac780e9b79210a19715f4919/.github/config-schema.json"
+
+format = """
+[](mauve)\
+$os\
+$username\
+$hostname\
+[█](mauve)\
+[](bg:red fg:mauve)\
+$time\
+[](bg:peach fg:red)\
+$directory\
+[](bg:yellow fg:peach)\
+$git_branch\
+$git_status\
+[](bg:green fg:yellow)\
+$direnv\
+[](bg:sky fg:green)\
+$nix_shell\
+[](bg:blue fg:sky)\
+$conda\
+$pixi\
+[](bg:lavender fg:blue)\
+$python\
+[ ](fg:lavender)\
+$cmd_duration\
+$line_break\
+$character\
+"""
+
+palette = 'catppuccin_mocha'
+
+[os]
+disabled = false
+style = "bg:mauve fg:crust"
+
+[os.symbols]
+Windows = ""
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = true
+style_user = "bg:mauve fg:crust"
+style_root = "bg:mauve fg:crust"
+format = '[ $user]($style)'
+
+[hostname]
+ssh_only = true
+style = "bg:mauve fg:crust"
+ssh_symbol = ":"
+format = '[$ssh_symbol$hostname]($style)'
+
+[directory]
+style = "bg:peach fg:crust"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:yellow fg:crust"
+format = '[ $symbol $branch]($style)'
+
+[git_status]
+style = "bg:yellow fg:crust"
+conflicted = "[=(:$count)](bold bg:yellow fg:red)"
+stashed = "[](bold bg:yellow fg:crust)"
+deleted = "[✘(:$count)](bold bg:yellow fg:crust)"
+renamed = "[»(:$count)](bold bg:yellow fg:crust)"
+modified = "[!(:$count)](bold bg:yellow fg:peach)"
+typechanged = ""
+staged = "[+(:$count)](bold bg:yellow fg:blue)"
+untracked = "[?(:$count)](bold bg:yellow fg:red)"
+ahead = "[⇡(:$count)](bold bg:yellow fg:lavender)"
+behind = "[⇣(:$count)](bold bg:yellow fg:maroon)"
+diverged = ""
+up_to_date = ""
+# all_status is equivalent to "$conflicted$stashed$deleted$renamed$modified$typechanged$staged$untracked"
+# but here add space 
+format = '[(( $conflicted)( $stashed)( $deleted)( $renamed)( $modified)( $staged)( $untracked)( $ahead_behind)) ]($style)'
+
+[direnv]
+style = "bg:green fg:crust"
+symbol = "direnv "
+detect_env_vars = [ "DIRENV_FILE" ]
+detect_files = [ ".envrc" ]
+detect_folders = [  ]
+loaded_msg = ""
+unloaded_msg = "not loaded"
+allowed_msg = ""
+not_allowed_msg = "not allowed"
+denied_msg = "denied"
+format = '[ ([$symbol](bold $style))$loaded(/$allowed) ]($style)'
+disabled = false
+
+
+
+[nix_shell]
+symbol = "󱄅"
+style = "bg:sky fg:crust"
+impure_msg = "impure"
+pure_msg = "pure"
+format = "[ $symbol $name ]($style)"
+
+[python]
+symbol = ""
+style = "bg:lavender fg:crust"
+format = '[ $symbol $version (\(➥$virtualenv\)) ]($style)'
+
+[conda]
+symbol = ""
+style = "bg:blue fg:crust"
+format = '[ $symbol $environment ]($style)'
+detect_env_vars = ["!PIXI_ENVIRONMENT_NAME"]
+ignore_base = false
+
+[pixi]
+symbol = " "
+style = "bg:blue fg:crust"
+format = '[ $symbol $environment ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:red fg:crust"
+format = '[ 󰅐 $time ]($style)'
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = """[\
+[](hidden)└─❯\
+](bold fg:green)"""
+error_symbol = """[\
+[](hidden)└─❯\
+](bold fg:red)"""
+## For vim enabled shell symbol
+# vimcmd_symbol = '[❮](bold fg:green)'
+# vimcmd_replace_one_symbol = '[❮](bold fg:lavender)'
+# vimcmd_replace_symbol = '[❮](bold fg:lavender)'
+# vimcmd_visual_symbol = '[❮](bold fg:yellow)'
+
+[cmd_duration]
+show_milliseconds = true
+format = " in $duration "
+style = "bg:lavender"
+disabled = false
+show_notifications = true
+min_time_to_notify = 45000
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
