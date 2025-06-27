@@ -61,9 +61,6 @@ with pkgs; [
   ## Video processing needs
   # ffmpeg
 
-  
-
-
   # FONTS UTILITIES
   # for my oh-my-bash powerline theme
   powerline-fonts 

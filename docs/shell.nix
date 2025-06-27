@@ -10,7 +10,7 @@ let
   venvDir = "./.venv";
 in
   pkgs.mkShell {
-    name = "nixos-docs-shell";
+    name = "docs";
     buildInputs = with pkgs; [
       uv
     ];

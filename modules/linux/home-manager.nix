@@ -44,6 +44,27 @@ in
     bash = {
       enable = true;
       enableCompletion = true;
+      shellAliases = { 
+        ls="ls --color=auto"; # Always color ls and group directories
+      };
+      historyIgnore = [ 
+          "pwd"
+          "ls"
+          "cd" 
+        ]; 
+      historyControl = [
+        "ignoredups"
+      ];
+      bashrcExtra = ''
+        function bathelp() {
+          if [[ $# -eq 0 ]]; then
+            echo "Usage: help <command> [subcommands...]"
+            return 1
+          fi
+          "$@" --help 2>&1 | bat --language=help
+        }
+        export -f bathelp
+      '';
     };
     
     vscode = {

@@ -62,20 +62,9 @@ in
           enable = true;
           enableCompletion = true;
           autocd = false;
-          # plugins = [
-          #   {
-          #     name = "powerlevel10k";
-          #     src = pkgs.zsh-powerlevel10k;
-          #     file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-          #   }
-          #   {
-          #     name = "powerlevel10k-config";
-          #     src = lib.cleanSource ./config;
-          #     file = "p10k.zsh";
-          #   }
-          # ];
           shellAliases = { 
-            ls="ls --color=auto"; # Always color ls and group directories
+            ls = "ls --color=auto"; # Always color ls and group directories
+            help = "function _help() { \"$1\" --help 2>&1 | bat --language=help; }; _help";
           };
           history = { 
             ignoreDups = true;
@@ -85,12 +74,25 @@ in
               "cd" 
             ]; 
           };
-          initContent = lib.mkBefore ''
-            # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
-            export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
-            # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
-            export PATH="$PATH:/run/current-system/sw/bin"
-          '';
+          initContent = 
+            let # https://home-manager-options.extranix.com/?query=zsh&release=release-25.05
+              zshConfigEarlyInit = lib.mkBefore ''
+                # Add VS Code CLI (code) to PATH on macOS refering to https://code.visualstudio.com/docs/setup/mac
+                export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+                # Add run/current-system/sw/bin to PATH (those are system wide packages so they are happeneded at the end)
+                export PATH="$PATH:/run/current-system/sw/bin"
+              '';
+              zshConfigDefaultInit = lib.mkOrder 1000 ''
+                function bathelp() {
+                  if [[ $# -eq 0 ]]; then
+                    echo "Usage: bathelp <command> [subcommands...]"
+                    return 1
+                  fi
+                  "$@" --help 2>&1 | bat --language=help
+                }
+                export -f bathelp
+              '';
+            in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit ]
         };
 
         wezterm = {
