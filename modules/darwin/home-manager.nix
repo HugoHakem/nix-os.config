@@ -64,7 +64,6 @@ in
           autocd = false;
           shellAliases = { 
             ls = "ls --color=auto"; # Always color ls and group directories
-            help = "function _help() { \"$1\" --help 2>&1 | bat --language=help; }; _help";
           };
           history = { 
             ignoreDups = true;
@@ -90,9 +89,8 @@ in
                   fi
                   "$@" --help 2>&1 | bat --language=help
                 }
-                export -f bathelp
               '';
-            in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit ]
+            in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit ];
         };
 
         wezterm = {
