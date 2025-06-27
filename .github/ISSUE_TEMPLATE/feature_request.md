@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest a new option or idea for the configuration
 title: "[FEATURE] "
 labels: enhancement
-assignees: ''
+assignees: 'HugoHakem'
 
 ---
 

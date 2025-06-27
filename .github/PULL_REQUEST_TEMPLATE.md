@@ -1,9 +1,9 @@
 ---
 name: Pull request
 about: Suggest modification and/or closes issues.
-title: ""
+title: "PR closes #<issue_number>"
 labels: enhancement
-assignees: ''
+assignees: 'HugoHakem'
 
 ---
 

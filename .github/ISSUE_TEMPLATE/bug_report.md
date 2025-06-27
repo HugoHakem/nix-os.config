@@ -3,7 +3,7 @@ name: Bug report
 about: Report something that is broken or behaving incorrectly
 title: "[BUG] "
 labels: bug
-assignees: ''
+assignees: 'HugoHakem'
 ---
 
 ### Describe the bug
