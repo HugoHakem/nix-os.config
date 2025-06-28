@@ -1,12 +1,11 @@
-{ pkgs }:
-
 let
   # def variable
-in {
-#   package-name = pkgs.stdenv.mkDerivation { # the variable name is how you refer to the package in flake.nix
+in 
+  self: super: {
+#   package-name = super.stdenv.mkDerivation { # the variable name is how you refer to the package in flake.nix
 #     pname = "package-name"; # name of the package in the nix-profile dir
 #     version = "1.0.0"; # version of the package (mandatory)
-#     src = pkgs.fetchurl {
+#     src = super.fetchurl {
 #       url = "url";
 #       sha256 = lib.fakeSha256;
 #     };
