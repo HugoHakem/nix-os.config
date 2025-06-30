@@ -64,7 +64,11 @@ To keep your configuration up to date:
 
 ## Starship Config
 
-I use Starship as a cross shell customizable prompt. It allows the same design wether you are on `zsh`, `bash` or others. I like it because it can detect `nix-shell`, `pixi-shell` or `direnv` and [many more](https://starship.rs/config/). It is enabled in [modules/shared/programs.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L28-L31) and in [modules/darwin/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/darwin/home-manager.nix#L57-59), [modules/linux/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/linux/home-manager.nix#L40-42).
+I use Starship as a cross shell customizable prompt. It allows the same design wether you are on `zsh`, `bash` or others.
+
++ This implementation follow the issue [HugoHakem/nix-os.config#17](https://github.com/HugoHakem/nix-os.config/issues/17)
++ I like it because it can detect `nix-shell`, `pixi-shell` or `direnv` and [many more](https://starship.rs/config/).
++ It is enabled in [modules/shared/programs.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L28-L31) and in [modules/darwin/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/darwin/home-manager.nix#L57-59), [modules/linux/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/linux/home-manager.nix#L40-42).
 
 ## WezTerm Config
 
