@@ -89,37 +89,9 @@
                   allowUnsupportedSystem = true;
                 };
               };
-
-              overlayDir = ./overlays;
-              overlayContext = {inherit system mpkgs user git_name git_email; };
-
-              entries = builtins.attrNames (builtins.readDir overlayDir);
-              valid = builtins.filter (name:
-                builtins.match ".*\\.nix" name != null ||
-                builtins.pathExists (overlayDir + "/${name}/default.nix")
-              ) entries;
-
-              loadOverlay = name:
-                let
-                  overlayPath = overlayDir + "/${name}";
-                  overlayModule = import overlayPath;
-                  args = builtins.functionArgs overlayModule;
-                in # If it's a function that expects named args, check if it asks for any from `overlayContext`
-                  if args != {} then
-                    let
-                      inputKeys = builtins.attrNames args;
-                      missing = builtins.filter (key: !(builtins.hasAttr key overlayContext)) inputKeys;
-                    in
-                      if missing != [] then
-                        builtins.throw "Overlay ${name} is missing required keys: ${builtins.toString missing}"
-                      else
-                        overlayModule (builtins.intersectAttrs args overlayContext)
-                  else
-                    overlayModule;
-            in
-              builtins.map loadOverlay valid;
+            in 
+              import ./overlays { inherit system mpkgs; };
         };
-
     in
     {
       devShells = forAllSystems devShell;
