@@ -109,8 +109,9 @@ def autogenerate_markdown(base_dir, autogen_dir):
         and (not path.is_relative_to(base_dir / "templates") 
              or path.is_relative_to(base_dir / "templates/README.md")
              or path.is_relative_to(base_dir / "templates/deprecated/README.md")
-             or path.is_relative_to(base_dir / "templates/pythonml/.nix/packages")
-             )
+             or path.is_relative_to(base_dir / "templates/pixi-templates/README.md")
+             or path.is_relative_to(base_dir / "templates/uv-templates/README.md")
+            )
     ]
 
     occurance_filename = Counter([md_path.stem for md_path in md_files])

@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "project"
+version = "0.1.0"
+description = "templates torch & docs"
+readme = "README.md"
+authors = [
+    { name = "Hugo Hakem", email = "hugo.hakem@berkeley.edu" }
+]
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "numpy",
+  "torch>=2.7.1",
+  "torchvision>=0.22.0",
+]
+
+[project.optional-dependencies]
+docs = [
+  "sphinx",
+  "myst-parser",
+  "sphinx-copybutton",
+  "furo",
+  "doc8",
+  "rstcheck",
+  "esbonio",
+]
+dev = [
+  "project[docs]"
+]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
+
+[tool.pixi.pypi-dependencies]
+project = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+# whatever task
+
+[tool.pixi.feature.docs.dependencies]
+pandoc = ">=3.1.11"
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
+dev = { features = ["docs"], solve-group = "default" }
+
+

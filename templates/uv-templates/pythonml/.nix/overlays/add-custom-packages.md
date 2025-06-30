@@ -1,6 +1,3 @@
-<!-- AUTO-GENERATED FILE. DO NOT EDIT. -->
-<!-- markdownlint-disable MD041 MD047 MD059 -->
-
 # Custom Packages Directory
 
 This folder is intended for defining custom Nix packages that are not available in the [Nix Packages collection](https://search.nixos.org/packages).
@@ -13,8 +10,8 @@ This folder is intended for defining custom Nix packages that are not available 
 ## How It Works
 
 - Each `.nix` file in this directory (except `default.nix`) should define one or more packages as Nix attributes.
-- The [`default.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/packages/default.nix) file automatically imports all other `.nix` files in this directory and aggregates their outputs.
-- The resulting set of packages is imported in the main [`flake.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix) and can be added to your development shell or used elsewhere in your project.
+- The [`default.nix`](default.nix) file automatically imports all other `.nix` files in this directory and aggregates their outputs.
+- The resulting set of packages is imported in the main [`flake.nix`](./../flake.nix) and can be added to your development shell or used elsewhere in your project.
 
 ## Example
 
@@ -43,17 +40,11 @@ To add a custom package, create a new file (e.g., `mytool.nix`) in this director
 }
 ```
 
-This will make `mytool` available as a package in your flake. You must then register it under [CustomPackages](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/flake.nix#L40-41):
-
-```nix
-  ... ++ (with customPackages; [
-    mytool
-  ]);
-```
+This will make `mytool` available as a package `pkgs`. You must then register it under your packages wherever needed by calling `pkgs.mytool`.
 
 ## Template
 
-See [`tmp.nix`](https://github.com/HugoHakem/nix-os.config/blob/main/templates/pythonml/.nix/packages/tmp.nix) for another commented template to help you get started.
+See [`tmp.nix`](tmp.nix) for another commented template to help you get started.
 
 ---
 

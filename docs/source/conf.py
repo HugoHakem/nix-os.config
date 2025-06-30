@@ -26,7 +26,7 @@ source_suffix = {
     '.md': 'markdown',
 }
 
-templates_path = ['_templates']
+# templates_path = ['_templates'] # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-templates_path
 exclude_patterns = []
 myst_heading_anchors = 5
 
@@ -43,4 +43,4 @@ autogenerate_markdown(
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'furo'
-html_static_path = ['_static']
+# html_static_path = ['_static'] # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_static_path

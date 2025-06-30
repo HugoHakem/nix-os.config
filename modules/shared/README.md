@@ -1,4 +1,4 @@
-# Modules - Shared
+# Shared Modules
 
 Much of the code running on both macOS and Linux (NixOS) is found here.
 
@@ -6,16 +6,17 @@ Much of the code running on both macOS and Linux (NixOS) is found here.
 
 ```text
 .
-├── config             # Config files not written in Nix
-│   ├── emacs          # Emacs configuration
-│   ├── p10k.zsh       # Zsh visual configuration
-│   ├── vscode         # VSCode configuration
-│   └── wezterm.lua    # WezTerm configuration
-├── cachix             # Defines Cachix, a global cache for builds
-├── files.nix          # Non-Nix, static configuration files (immutable by default, option for mutable)
-├── mutable.nix        # Adds options to home.file to make files mutable
-├── packages.nix       # List of shared packages
-└── programs.nix       # Main shared configuration for most programs
+├── config                 # Config files not written in Nix
+│   ├── emacs/             # Emacs configuration
+│   ├── vscode/            # VSCode configuration
+│   ├── gcp-ssh-script.sh  # WezTerm configuration
+│   ├── starship.toml      # Starship configuration
+│   └── wezterm.lua        # WezTerm configuration
+├── cachix                 # Defines Cachix, a global cache for builds
+├── files.nix              # Non-Nix, static configuration files (immutable by default, option for mutable)
+├── mutable.nix            # Adds options to home.file to make files mutable
+├── packages.nix           # List of shared packages
+└── programs.nix           # Main shared configuration for most programs
 ```
 
 ## Details
@@ -37,3 +38,7 @@ This structure is very similar to the [`modules/darwin` config](./../darwin/READ
 + In `packages.nix`, define any packages you may need across systems.
 + In `programs.nix`, define settings specific to the programs you use. Examples include configuration for `git`, `zsh`, or `vim`.
   + Any specific options for `programs` are handled through `home-manager`. You can find available options in the [Home Manager Option Search](https://home-manager-options.extranix.com/)
+
+### External configuration
+
+Additional configuration for some programs can be found in [config/ directory](./config/README.md).

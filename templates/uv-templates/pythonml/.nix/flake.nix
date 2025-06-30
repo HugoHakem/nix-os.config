@@ -19,25 +19,23 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          config.cudaSupport = true;
-        };
-
         mpkgs = import inputs.nixpkgs_master {
           inherit system;
           config.allowUnfree = true;
           config.cudaSupport = true;
         };
-        customPackages = import ./packages { inherit pkgs; };
+
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          config.cudaSupport = true;
+          overlays = import ./overlays { inherit system mpkgs; };
+        };
 
         # General packages for your dev shell
         packages = (with pkgs; [
-          # e.g., pandoc, duckdb 
-        ]) ++ (with mpkgs; [# latest nixpkgs master
+          pandoc
           uv
-        ]) ++ (with customPackages; [
           # e.g, package-name
         ]);
 
@@ -83,7 +81,7 @@
                 fi
 
                 # FEEL FREE TO UPDATE WITH --extra name-of-extra-dependencies-in-pyproject.toml
-                uv sync
+                uv sync --extra dev
                 source "${venvDir}/bin/activate"
               '';
             };

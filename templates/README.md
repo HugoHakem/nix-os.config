@@ -1,156 +1,149 @@
 # Templates
 
-This directory contains project templates to help you set up a working Nix environment.
+This directory provides project templates for setting up robust, reproducible Python environments—whether or not you use Nix. The goal is to offer **maximum flexibility** and **reproducibility** for both Nix and non-Nix users, leveraging [Pixi](https://pixi.sh/), [uv](https://docs.astral.sh/uv/), and Nix.
+
+---
 
 ## Table of Contents
 
 - [Templates](#templates)
   - [Table of Contents](#table-of-contents)
   - [Layout](#layout)
-  - [Details](#details)
+  - [Why Pixi, uv, and Nix?](#why-pixi-uv-and-nix)
+    - [Motivation](#motivation)
+    - [How to choose a template](#how-to-choose-a-template)
+    - [Note on direnv](#note-on-direnv)
   - [Template Descriptions](#template-descriptions)
-    - [Python ML](#python-ml)
-      - [Note on Package Managers](#note-on-package-managers)
-      - [How to Add New Packages](#how-to-add-new-packages)
-    - [Miscellaneous](#miscellaneous)
-    - [Conda?](#conda)
-    - [Working with a Persistent Jupyter Server](#working-with-a-persistent-jupyter-server)
-      - [**Copy URL Kernel**](#copy-url-kernel)
+    - [Pixi Templates](#pixi-templates)
+    - [uv Templates](#uv-templates)
+    - [Package Management](#package-management)
+      - [Further reading](#further-reading)
+    - [Adding New Packages](#adding-new-packages)
+  - [Know How](#know-how)
+    - [Persistent Jupyter Server](#persistent-jupyter-server)
+  - [GPU Acceleration](#gpu-acceleration)
+  - [Documentation \& Debugging](#documentation--debugging)
   - [References](#references)
+
+---
 
 ## Layout
 
 ```text
 .
 ├── deprecated
-│   └── ...
-└── pythonml
-    ├── .envrc
-    ├── .gitignore
-    ├── .nix
-    │   ├── flake.nix
-    │   └── packages
-    │       ├── default.nix
-    │       ├── README.md
-    │       └── tmp.nix
-    ├── .vscode
-    │   └── settings.json
-    ├── pyproject.toml
-    ├── README.md
-    └── src/
-
+│   └── ...
+├── pixi-templates
+│   ├── flake-python-ml
+│   └── global-python-ml
+└── uv-templates
+    └── pythonml
 ```
 
-## Details
+---
 
-The philosophy here is to provide a `flake.nix` that sets up a Nix shell specific to your project.
+## Why Pixi, uv, and Nix?
 
-Whenever you are in your project folder, the environment will activate automatically thanks to [`direnv`](https://direnv.net/), which uses `.envrc`. In `.envrc`, you typically set: `use flake .` or, if needed, `use flake . --impure`, and configure everything else in `flake.nix`.
+### Motivation
 
-When entering your project, direnv is not allowed by default. You need to run the following in your project folder:
+Traditional Python project setups in the Nix ecosystem use:
 
-```bash
-direnv allow
-```
+- [`uv`](https://docs.astral.sh/uv/) for Python dependencies via `pyproject.toml`
+- [`nix`](https://search.nixos.org/packages) for system dependencies
 
-If you prefer not to use direnv, you can load your Nix shell at any time with:
+While this works well for Nix users, it is not always accessible for those unfamiliar with Nix:
 
-```bash
-nix develop .
-```
+- Refer to the following issues: [HugoHakem/nix-os.config#14](https://github.com/HugoHakem/nix-os.config/issues/14)
+  
+Instead, when external (non-Python) packages are needed, users often turn to [`conda`](https://docs.conda.io/en/latest/), [`mamba`](https://mamba.readthedocs.io/en/latest/), or [`micromamba`](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html).
 
-Python projects are managed using `uv` (see the [section below](#note-on-package-managers) for the rationale).
+Recently, [**Pixi**](https://pixi.sh/latest/) from [prefix.dev](https://prefix.dev/docs/prefix/overview) (the same team that developed `micromamba`) has emerged as a modern, fast, and user-friendly all-in-one alternative. Pixi natively collaborates with `uv` for Python dependencies and offers a reproducible, cross-platform workflow.
+
+**The Key idea with `pixi` become:**  
+
+- Use `pixi` to manage system and Python dependencies.
+  - [PyPI](https://pypi.org/) dependencies are managed with `uv` under the hood.
+  - [conda channel](https://prefix.dev/channels) to provide anything that you would provide through `conda` traditionally. Please refer to [`pixi` docs on the subject](https://pixi.sh/latest/concepts/conda_pypi/).
+  - [Privately hosted channel](https://prefix.dev/docs/prefix/channels) for packages that you cannot find otherwise.
+- Use `nix` only to provide `pixi` or alternatively have system wide `pixi` to never have to rely on `nix` for your project that you wanna share simply to other non-nix users. In very rare scenario, one can imagine still using `nix` to provide some specific package that cannot seems to integrate in the `pixi` experience.
+
+### How to choose a template
+
+| Template                          | Best For                            | Nix Usage                               | Pixi Usage     | Shareability | Notes                                                      |
+|-----------------------------------|-------------------------------------|-----------------------------------------|----------------|--------------|------------------------------------------------------------|
+| `pixi-templates/flake-python-ml`  | Python + Conda + optional Nix       | ✅ Optional, fallback or for flexibility | ✅ Primary tool | High         | Flake provides `pixi`, no global install needed            |
+| `pixi-templates/global-python-ml` | Pure Pixi workflows                 | ❌ None                                  | ✅ Primary tool | ✅ Best       | Fully Conda-based, no Nix assumptions                      |
+| `uv-templates/pythonml`           | Python-only with optional dev tools | ✅ Dev tools only (e.g., `pandoc`)       | ❌ Not used     | Moderate     | Python-only; dev setup may not be reproducible without Nix |
+
+### Note on direnv
+
+These templates support [`direnv`](https://direnv.net/) for automatic environment loading:
+
+- **Nix projects:** `.envrc` contains `use flake [dir]` or `use flake --impure [dir]`.
+- **Pixi projects:** `.envrc` contains `eval "$(pixi shell-hook --environment dev)"`.
+
+You can remove or customize `.envrc` as needed. For manual activation, use `nix develop` or `pixi shell --environment dev`.
+
+---
 
 ## Template Descriptions
 
-### Python ML
+### Pixi Templates
 
-This template provides an example of how to set up a **Machine Learning project**. Note that it has only been tested on Linux, but it should also work on macOS. For NixOS, you may need additional functionality; please refer to [deprecated](./deprecated/README.md).
+See [`pixi-templates/README.md`](./pixi-templates/README.md) for details.
 
-#### Note on Package Managers
+- **`flake-python-ml`:** Combines Pixi with Nix flakes for advanced, reproducible environments. Most dependencies are managed via Pixi (`pyproject.toml`). For rare cases, custom Nix packages can be defined in `.nix/overlays`. The `flake.nix` provides a Nix-based dev shell that loads the Pixi environment automatically.
+- **`global-python-ml`:** Pure Pixi template for Python ML projects. All dependencies are managed through Pixi and specified in `pyproject.toml`. No Nix overlays or custom Nix packaging.
 
-Packages are managed both through `nix` and `uv`.
+### uv Templates
 
-- As with your nixos-config, you can manage any package dependencies with Nix in the `flake.nix` file.
-  - For example, there may be external system packages required for your Python packages to work correctly, or you may want to specify other project-specific packages such as `duckdb`.
-- For standard Python project dependencies, you will use `uv`.
+See [`uv-templates/README.md`](./uv-templates/README.md) for details.
 
-**Why `uv` and not another package manager?**
+- **`uv-templates`:** Minimal starting point for Python projects using a simple `pyproject.toml` and the [`uv`](https://docs.astral.sh/uv/) package manager. Designed for fast, reproducible Python environments.
 
-> [`uv`](https://docs.astral.sh/uv/) is an extremely fast Python package and project manager, written in Rust. It is intended to replace `poetry`, `pyenv`, `pip`, and `virtualenv`.
+### Package Management
 
-For pure Python development, `uv` is a lighter, faster alternative to `conda`. See the [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/why-should-i-choose-conda/#when-conda-may-not-be-ideal-1) for a discussion. `conda` is preferable for projects involving other languages, but then you likely won't use this template.
+- **Pixi:** Manages system and Python dependencies, supports Conda and PyPI, and integrates with `uv`.
+- **uv:** Extremely fast Python package/project manager, ideal for pure Python workflows.
+- **nix:** Used only to provide Pixi/uv for Nix users or as a fallback for rare, unsupported packages.
 
-If you are wondering whether to use a `requirements.txt` file or a `pyproject.toml` file to manage your Python dependencies, please read this [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/pyproject-vs-requirements/).
+**Summary:**  
+For most users, just use Pixi and/or uv. Nix is only needed for advanced use cases or for providing Pixi/uv in a reproducible way.
 
-In brief, `pyproject.toml` is a more powerful and modern alternative to `requirements.txt`. It is used for:
+#### Further reading
 
-- Package dependencies
-- Package version pinning
-- Specifying the required Python version
-- Adding project metadata (description, etc.)
+- Discussion on `uv` vs `conda` in the [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/why-should-i-choose-conda/#when-conda-may-not-be-ideal-1).
+- Discussion on `uv` vs `conda` in the prefix.dev blog [7 Reasons to Switch from Conda to Pixi](https://prefix.dev/blog/pixi_a_fast_conda_alternative)
+- Discussion on `pyproject.toml` vs `requirement.txt` in the [Python Developer Tooling Handbook](https://pydevtools.com/handbook/explanation/pyproject-vs-requirements/)
+- Guide on writing a [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
 
-A `requirements.txt` file is only for the first two points. Both are easy to handle using `uv`, but `pyproject.toml` is the newest and **officially recommended** approach (even though `requirements.txt` might feel easier at first).
+---
 
-#### How to Add New Packages
+### Adding New Packages
 
-1. **Non-Python Packages** should be added in [flake.nix](./pythonml/.nix/flake.nix#L34-39):
+- **Python packages:**
+  - Use `pixi add` or `uv add` as appropriate.
+    - For more details on using `uv`, see the [`uv` cookbook](https://docs.astral.sh/uv/getting-started/features/#python-versions).
+    - For more details on using `pixi`, see the [`pixi` cookbook](https://pixi.sh/latest/reference/cli/pixi/)
+  - Alternatively you can add them directly in the `pyproject.toml`.
+- **System/non-Python packages:**
+  - `nix` setup:
+    - Add via Nix in `flake.nix` if available in [NixOS Search - Packages](https://search.nixos.org/packages).
+    - If not available, see [overlays docs](./../overlays/README.md) to define a custom packages.
+  - `pixi` setup:
+    - [`private channel`](https://prefix.dev/docs/prefix/channels).
 
-   ```nix
-   # General packages for your dev shell
-   packages = (with pkgs; [
-     # e.g., duckdb 
-   ]) ++ (with mpkgs; [
-     uv  # pull latest uv from nixpkgs master
-   ]);
-   ```
+## Know How
 
-   Note that you can only do so if the package is listed under [NixOS Search - Packages](https://search.nixos.org/packages)
+### Persistent Jupyter Server
 
-2. **Non-Python Packages not available in NixOS search**
-   If desired package is not natively available with nix, then you must register it as a CustomPackages. Please follow the associated [.nix/packages/add-custom-packages.md](./pythonml/.nix/packages/add-custom-packages.md).
-
-3. **Python Packages** using `uv`:
-
-   ```bash
-   uv add [name-of-the-package]
-   ```
-  
-   For more details on using `uv`, see the [uv cookbook](https://docs.astral.sh/uv/getting-started/features/#python-versions).
-
-### Miscellaneous
-
-When loading the environment, `uv sync` is run automatically thanks to [this line](./pythonml/.nix/flake.nix#L66) in `flake.nix` within the `ShellHook`. Note:
-
-- You can customize the `ShellHook` to your needs.
-- For development purposes, you may want to update `uv sync` with extra dependencies specified in `pyproject.toml`, such as `uv sync --extra cu128`. You can keep the base `uv sync` and run your own `sync` as needed.
-
-The provided `pyproject.toml` is only an example. Feel free to replace it with your own. Refer to the guide on [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
-
-### Conda?
-
-If you would like to use conda as your package manager, please open an issue and I will consider providing a `flake.nix` for that purpose.
-
-Otherwise, it is generally best not to mix package managers. Conda is a generic package manager, as is Nix, so there is little benefit in using both. Instead, install Conda with your preferred method by following their installation guide:
-
-- [Conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
-- [Miniconda installer](https://www.anaconda.com/docs/getting-started/miniconda/install#linux)
-
-### Working with a Persistent Jupyter Server
-
-There are two ways to do this (whether you use the template or Conda):
-
-**Template method:**
-
-If you use the template, you can create a `.ipynb` file and your environment will be detected seamlessly. However, you may want to make your Jupyter notebook persistent.
-
-You can do so by running the following in your project directory:
+To run a persistent Jupyter server in the background:
 
 ```bash
 nohup .venv/bin/jupyter lab --allow-root --no-browser > error.log & echo $! > pid.txt
 ```
 
-`nohup` will create a background process with a Jupyter server. Additionally, errors are redirected to `error.log` and the process ID is saved to `pid.txt`, so you can kill the process if needed:
+`nohup` will create a background process with a Jupyter server (you may want to modify where the `jupyter` bin is located). Additionally, errors are redirected to `error.log` and the process ID is saved to `pid.txt`, so you can kill the process if needed:
 
 ```bash
 kill $(cat pid.txt)
@@ -170,32 +163,47 @@ http://localhost:8888/?token=f1d62a4e83c474ae1e6bf4c6e2ffc130f5d43ce37ce81ac9
 
 Simply copy and paste the URL into your notebook kernel by clicking on the kernel in the upper right corner and choosing "Select Another Kernel".
 
-#### **Copy URL Kernel**
-
-> You can also kill the process by running:
->
-> ```bash
-> jupyter notebook stop 8888
-> ```
->
-> If you do not want `pid.txt` or `error.log` in your directory, you can remove them from the command.
-
-**Conda method:**
-
-You can run the Jupyter notebook process in the background using `tmux` (or `screen`). For example:
+You can also kill the process by running:
 
 ```bash
-tmux new -s jupyter
-
-conda activate <your_conda_env>
-
-jupyter notebook
+jupyter notebook stop 8888
 ```
 
-Then exit the `tmux` session and copy the URL as described [above](#copy-url-kernel).
+If you do not want `pid.txt` or `error.log` in your directory, you can remove them from the command.
+
+**Alternatively:**
+> With Pixi, consider defining a [Pixi task](https://pixi.sh/dev/workspace/advanced_tasks/) for Jupyter.
+
+---
+
+## GPU Acceleration
+
+- **Tested:**  
+  All templates have been tested for GPU-accelerated workflows (e.g., PyTorch with CUDA) **on Linux only**.
+- **To-Do:**  
+  - Test for compatibility and GPU support on:
+    - [ ] macOS
+    - [ ] NixOS
+
+---
+
+## Documentation & Debugging
+
+- [Pixi Python tutorial](https://pixi.sh/dev/python/tutorial/)
+- [uv documentation](https://docs.astral.sh/uv/)
+- [PyTorch integration guide for uv](https://docs.astral.sh/uv/guides/integration/pytorch)
+
+---
 
 ## References
 
 You may find the following references helpful:
 
 - [`NixOS Wiki Python`](https://nixos.wiki/wiki/Python): Explains the standard approach for using NixOS and Python. Note that not everything applies to our use case since we are on Linux and not NixOS.
+- [`uv` docs](https://docs.astral.sh/uv/)
+- [`pixi` docs](https://pixi.sh/dev/)
+- [7 Reasons to Switch from Conda to Pixi](https://prefix.dev/blog/pixi_a_fast_conda_alternative)
+
+---
+
+*For suggestions or issues, please open an issue or pull request.*

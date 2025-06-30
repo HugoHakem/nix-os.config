@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "project"
+version = "0.1.0"
+description = "templates torch & docs"
+readme = "README.md"
+authors = [
+    { name = "Hugo Hakem", email = "hugo.hakem@berkeley.edu" }
+]
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "torch>=2.2.0",
+  "torchvision>=0.22.0",
+]
+
+[project.optional-dependencies]
+docs = [
+  "sphinx",
+  "myst-parser",
+  "sphinx-copybutton",
+  "furo",
+  "doc8",
+  "rstcheck",
+  "esbonio",
+]
+dev = [
+  "project[docs]"
+]
+
+[project.scripts]
+project = "project:main"

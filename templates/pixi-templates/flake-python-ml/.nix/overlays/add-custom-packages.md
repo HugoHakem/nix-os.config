@@ -40,13 +40,7 @@ To add a custom package, create a new file (e.g., `mytool.nix`) in this director
 }
 ```
 
-This will make `mytool` available as a package in your flake. You must then register it under [CustomPackages](./../flake.nix#L40-41):
-
-```nix
-  ... ++ (with customPackages; [
-    mytool
-  ]);
-```
+This will make `mytool` available as a package `pkgs`. You must then register it under your packages wherever needed by calling `pkgs.mytool`.
 
 ## Template
 

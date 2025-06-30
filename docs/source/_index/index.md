@@ -37,6 +37,5 @@
 :caption: 🐍 Python Templates
 :maxdepth: 1
 
-./../_index/templates-index/pythonml-index.md
-./../_index/templates-index/deprecated-templates-index
+./../_index/templates-index/overview-index.md
 ```

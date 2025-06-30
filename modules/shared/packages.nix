@@ -10,7 +10,6 @@ with pkgs; [
   gawk
   gnused # the one and only sed
   git
-  
   tree # print working directory
   tldr # get more help
   rsync # synchronize file 
@@ -38,6 +37,9 @@ with pkgs; [
   ## Cloud-related Tools and SDKs
   google-cloud-sdk
 
+  ## Package manager
+  pixi # provide pixi globally but may prefer to provide it on per project basis
+
   # Text and Terminal Utilities
   bash-completion
   bat # as a `cat` replacement
@@ -58,8 +60,6 @@ with pkgs; [
   sqlite
   ## Environment Management
   direnv
-  ## Video processing needs
-  # ffmpeg
 
   # FONTS UTILITIES
   # for my oh-my-bash powerline theme
