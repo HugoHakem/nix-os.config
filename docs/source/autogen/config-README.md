@@ -8,11 +8,11 @@
 ```text
 .
 ├── emacs
-│   └── ...
-├── p10k.zsh
-├── README.md
+│   └── ...
+├── gcp-ssh-script.sh
+├── starship.toml
 ├── vscode
-│   └── ...
+│   └── ...
 └── wezterm.lua
 ```
 
@@ -62,9 +62,9 @@ To keep your configuration up to date:
     cp "Library/Application Support/Code/User/settings.json" nixos-config/modules/shared/config/vscode/settings.json
     ```
 
-## Zsh Config
+## Starship Config
 
-My Zsh shell configuration is adapted from [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config). It is enabled in [modules/shared/programs.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L15-L17).
+I use Starship as a cross shell customizable prompt. It allows the same design wether you are on `zsh`, `bash` or others. I like it because it can detect `nix-shell`, `pixi-shell` or `direnv` and [many more](https://starship.rs/config/). It is enabled in [modules/shared/programs.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L28-L31) and in [modules/darwin/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/darwin/home-manager.nix#L57-59), [modules/linux/home-manager.nix](https://github.com/HugoHakem/nix-os.config/blob/main/modules/linux/home-manager.nix#L40-42).
 
 ## WezTerm Config
 
@@ -74,6 +74,10 @@ Some blogs or GitHub repositories you might find useful for customizing your Wez
 
 + [Josean: How to set up WezTerm terminal](https://www.josean.com/posts/how-to-setup-wezterm-terminal)
 + [Sravioli config](https://github.com/sravioli/wezterm)
+
+## GCP SSH Script
+
+Script to automate the `ProxyCommand` in an **SSH Host Config**. Please refer to the **Remote SSH section** in [gcp-installation.md](https://github.com/HugoHakem/nix-os.config/blob/main/gcp-installation.md#remote-ssh).
 
 ## Emacs Config
 
@@ -96,8 +100,4 @@ This is where the core of the Emacs configuration is defined.
   + However, enabling Emacs is straightforward: simply uncomment any code under `# EMACS UTILITIES`.
 + The current configuration is adapted from [dustinlyons](https://github.com/dustinlyons/nixos-config/tree/main/modules/shared/config/emacs). I may switch to a different configuration, such as [the moby server](https://github.com/HugoHakem/nix-configs) or [Alán's](https://github.com/afermg/nix-configs).
 + I may also enable my [simple Doom config](https://github.com/HugoHakem/doom) or even the original [doom](https://github.com/doomemacs/doomemacs).
-+ I may eventually move away from Emacs to try Vim. A simple Vim config is already present in [programs](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L59), adapted from [dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I may also take inspiration from [neovim](https://github.com/neovim/neovim), [AstroNvim](https://github.com/AstroNvim/AstroNvim), or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) from Ank.
-
-## GCP SSH Script
-
-Script to automate the `ProxyCommand` in an **SSH Host Config**. Please refer to the **Remote SSH section** in [gcp-installation.md](https://github.com/HugoHakem/nix-os.config/blob/main/gcp-installation.md#remote-ssh).
++ I may eventually move away from Emacs to try Vim. A simple Vim config is already present in [programs](https://github.com/HugoHakem/nix-os.config/blob/main/modules/shared/programs.nix#L33-140), adapted from [dustinlyons](https://github.com/dustinlyons/nixos-config/blob/main/modules/shared/home-manager.nix#L100C3-L208). I may also take inspiration from [neovim](https://github.com/neovim/neovim), [AstroNvim](https://github.com/AstroNvim/AstroNvim), or [NixVim](https://github.com/leoank/neusis/tree/67fb98c19cffa1e21af03e042b20a2d611ce4c72/homes/common/dev/nixvim) from Ank.

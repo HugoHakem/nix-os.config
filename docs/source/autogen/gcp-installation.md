@@ -22,8 +22,8 @@
     - [Connecting to the VM with VSCode](#connecting-to-the-vm-with-vscode)
       - [Code Tunnel](#code-tunnel)
       - [Remote SSH](#remote-ssh)
-        - [**SSH Connect**](#ssh-connect)
-        - [**My Preferred Way**](#my-preferred-way)
+        - [SSH Connect](#ssh-connect)
+        - [My Preferred Way](#my-preferred-way)
 
 ## Context
 
@@ -331,7 +331,7 @@ Host compute.<VM_ID>
 
 You are now ready to connect to your machine with SSH in VSCode:
 
-##### **SSH Connect**
+##### SSH Connect
 
 - Open the command panel with `<Cmd + Shift + P>`
 - Enter: `Remote-SSH: Connect to Host...`
@@ -343,7 +343,7 @@ Additionally, you no longer have to run the traditional `gcloud compute ssh ...`
 ssh <USER>@compute.<VM_ID>
 ```
 
-##### **My Preferred Way**
+##### My Preferred Way
 
 The previous method works, but there is one underlying problem when using the `google-cloud-sdk` provided by Nix: the `<PYTHON-BIN>` and `<GCLOUD.py>` paths will look like this:
 

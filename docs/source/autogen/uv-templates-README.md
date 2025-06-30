@@ -1,3 +1,6 @@
+<!-- AUTO-GENERATED FILE. DO NOT EDIT. -->
+<!-- markdownlint-disable MD041 MD047 MD059 -->
+
 # UV Python ML Templates
 
 This template provides a minimal starting point for Python projects using a simple `pyproject.toml` and the [`uv`](https://docs.astral.sh/uv/) package manager. It is designed to help you quickly set up a reproducible Python environment with modern dependency management.
