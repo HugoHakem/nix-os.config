@@ -1,2 +1,2 @@
 def main() -> None:
-    print("Hello from thursday!")
+    print("Hello from project!")

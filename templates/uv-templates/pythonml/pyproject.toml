@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "project"
 version = "0.1.0"
@@ -9,8 +13,8 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
   "numpy",
-  "jupyter",
-  "torch>=2.2.0",  
+  "torch>=2.2.0",
+  "torchvision>=0.22.0",
 ]
 
 [project.optional-dependencies]
@@ -24,16 +28,8 @@ docs = [
   "esbonio",
 ]
 dev = [
-  "ipython",
-  "marimo",
-  "pytest",
-  "ruff",
   "project[docs]"
 ]
 
 [project.scripts]
 project = "project:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
