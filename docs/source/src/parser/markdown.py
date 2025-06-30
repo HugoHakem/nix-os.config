@@ -105,6 +105,7 @@ def autogenerate_markdown(base_dir, autogen_dir):
         path for path in sorted(base_dir.rglob("*.md"))
         if not path.is_relative_to(base_dir / ".github")
         and not path.is_relative_to(base_dir / "docs")
+        and not path.is_relative_to(base_dir / "LICENSE.md")
         and (not path.is_relative_to(base_dir / "templates") 
              or path.is_relative_to(base_dir / "templates/README.md")
              or path.is_relative_to(base_dir / "templates/deprecated/README.md")
