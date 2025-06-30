@@ -8,8 +8,16 @@
     "markdown": false,
     "scminput": false
   },
+  "cSpell.enabledFileTypes": {
+    "jsonc": false
+  },
+
+  "python.analysis.typeCheckingMode": "standard",
+
   "terminal.integrated.fontFamily": "FiraCode Nerd Font",
   "editor.fontFamily": "Symbols Nerd Font, FiraCode Nerd Font, monospace",
-  "workbench.iconTheme": "easy-icons"
-}
+  "workbench.iconTheme": "catppuccin-macchiato"
+  
+ }
+
 

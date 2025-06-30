@@ -58,7 +58,7 @@ ms-vscode.remote-server
 streetsidesoftware.code-spell-checker
 
 ## file icons
-jamesmaj.easy-icons
+catppuccin.catppuccin-vsc-icons
 
 ## fonts
 brunnerh.insert-unicode
