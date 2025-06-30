@@ -91,9 +91,9 @@ As of today, my editor of choice is [Visual Studio Code](https://code.visualstud
 + [ ] Test config on a blank GCP virtual machine
   + [ ] Eventually add guidelines on how to minimally set up a virtual machine
 + [ ] Test config on a new Mac and add installation guide
-  + [ ] Complete [mac-installation.md]
+  + [ ] Complete [mac-installation.md](./mac-installation.md)
 + [ ] Learn Emacs or Vim and provide my custom config as a safeguard for systems where VSCode remote-ssh is not possible
-+ [ ] Provide custom configs for WezTerm and Zsh
++ [ ] Provide custom configs for WezTerm
 
 ## Resources to Keep in Mind
 
