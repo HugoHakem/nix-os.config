@@ -82,6 +82,7 @@ in
                 export PATH="$PATH:/run/current-system/sw/bin"
               '';
               zshConfigDefaultInit = lib.mkOrder 1000 ''
+                # color help using bat
                 function bathelp() {
                   if [[ $# -eq 0 ]]; then
                     echo "Usage: bathelp <command> [subcommands...]"
@@ -89,6 +90,23 @@ in
                   fi
                   "$@" --help 2>&1 | bat --language=help
                 }
+              '';
+              zshConfigLastInit = lib.mkOrder 2000 ''
+                # This is a workaround to make direnv work with VS Code's integrated terminal
+                # when using the direnv extension, by making sure to reload
+                # the environment the first time terminal is opened.
+                #
+                # See: 
+                # - https://github.com/direnv/direnv-vscode/issues/561#issuecomment-1837462994.
+                # - https://github.com/direnv/direnv-vscode/issues/561#issuecomment-1991534148
+                #
+                # The variable VSCODE_INJECTION is apparently set by VS Code itself, and this is how
+                # we can detect if we're running inside the VS Code terminal or not.
+                if [[ -n "$VSCODE_INJECTION" && -z "$VSCODE_TERMINAL_DIRENV_LOADED" && -f .envrc ]]; then
+                  cd ..
+                  cd ~-
+                  export VSCODE_TERMINAL_DIRENV_LOADED=1
+                fi
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit ];
         };
