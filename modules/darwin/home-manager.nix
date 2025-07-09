@@ -108,7 +108,7 @@ in
                   export VSCODE_TERMINAL_DIRENV_LOADED=1
                 fi
               '';
-            in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit ];
+            in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
         };
 
         wezterm = {
