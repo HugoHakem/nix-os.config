@@ -56,6 +56,7 @@ in
         "ignoredups"
       ];
       bashrcExtra = ''
+        # color help using bat
         function bathelp() {
           if [[ $# -eq 0 ]]; then
             echo "Usage: help <command> [subcommands...]"
@@ -64,6 +65,28 @@ in
           "$@" --help 2>&1 | bat --language=help
         }
         export -f bathelp
+      '';
+      initExtra = lib.mkOrder 2000 ''
+        # This is a workaround to make direnv work with VS Code's integrated terminal
+        # when using the direnv extension, by making sure to reload
+        # the environment the first time terminal is opened.
+        #
+        # See: 
+        # - author problem statement: https://github.com/direnv/direnv-vscode/issues/561#issuecomment-1837462994
+        # - zsh work around: https://github.com/direnv/direnv-vscode/issues/561#issuecomment-1991534148
+        # - fish work around: https://github.com/direnv/direnv-vscode/issues/561#issuecomment-2310756248
+        # - bash work around (requiring .envrc tinkering): https://github.com/direnv/direnv-vscode/issues/561#issuecomment-2694803523
+        # 
+        # Solution inspired by `fish`: 
+        #
+        # The variable VSCODE_INJECTION is apparently set by VS Code itself, and this is how
+        # we can detect if we're running inside the VS Code terminal or not.
+        # In bash, eval "$PROMPT_COMMAND" helps direnv to notice directory change and trigger envrc loading.
+
+        if [[ -n "$VSCODE_INJECTION" && -z "$VSCODE_TERMINAL_DIRENV_LOADED" && -f .envrc ]]; then
+          cd .. && eval "$PROMPT_COMMAND" && cd ~- && eval "$PROMPT_COMMAND"
+          export VSCODE_TERMINAL_DIRENV_LOADED=1
+        fi
       '';
     };
     

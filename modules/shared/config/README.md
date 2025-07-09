@@ -59,6 +59,9 @@ To keep your configuration up to date:
     cp "Library/Application Support/Code/User/settings.json" nixos-config/modules/shared/config/vscode/settings.json
     ```
 
++ `vscode` has a direnv extension: [`mkhl.direnv`](https://github.com/direnv/direnv-vscode). It however doesn't load the `PATH` environment variable properly when launching an `integrated terminal`: [HugoHakem/nix-os.config#20](https://github.com/HugoHakem/nix-os.config/issues/20). For this reason, one must add this code block in their [`.zshrc` profile](./../../darwin/home-manager.nix#L94-110) and the [`.bashrc` profile](./../../linux/home-manager.nix#L69-90).
+  + So far the extension seems to be bugging for macOS and hang for ever [direnv/direnv-vscode#859](https://github.com/direnv/direnv-vscode/issues/859).
+
 ## Starship Config
 
 I use Starship as a cross shell customizable prompt. It allows the same design wether you are on `zsh`, `bash` or others.
