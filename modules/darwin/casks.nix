@@ -2,11 +2,11 @@ _:
 
 [
   # Development Tools
-  "homebrew/cask/docker"
+  # "homebrew/cask/docker"
   "visual-studio-code"
 
   # Communication Tools
-  "zoom"
+  # "zoom"
   "slack"
 
   # Browsers
@@ -17,8 +17,18 @@ _:
 
   # Productivity Tools
   "notion"
+  "obsidian"
   "zotero"
   "rectangle" 
+  "tailscale"
+  "google-drive"
+  
+  # Biology Software
+  # "cellprofiler"
+  # "blender"
+  # "rstudio"
+  # "positron" # fork of VSCode for R
+  # "r"
 
   # Leisure
   "spotify"

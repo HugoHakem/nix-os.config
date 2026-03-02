@@ -126,12 +126,12 @@ in
   # Fully declarative dock using the latest from Nix Store
   local.dock.enable = true;
   local.dock.entries = [
+    { path = "/Applications/Thunderbird.app/"; } 
     { path = "/Applications/Slack.app/"; }
     { path = "/Applications/Zotero.app/"; }
     { path = "/Applications/Notion.app/"; }
     { path = "/Applications/Google Chrome.app/"; }
     { path = "/Applications/Wezterm.app/"; }
     { path = "/Applications/Visual Studio Code.app/"; }
-    { path = "/System/Applications/Launchpad.app/"; }
-  ];
+ ];
 }

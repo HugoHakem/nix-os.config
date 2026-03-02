@@ -28,9 +28,9 @@
 
   outputs = { self, nixpkgs, nixpkgs_master, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, } @inputs:
     let
-      user = "hhakem";
-      git_name = "Hugo";
-      git_email = "hhakem@broadinstitute.org";
+      user = "hakem";
+      git_name = "HugoHakem";
+      git_email = "hakem@ebi.ac.uk";
 
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];

@@ -41,6 +41,7 @@ ms-azuretools.vscode-docker
 davidanson.vscode-markdownlint
 yzhang.markdown-all-in-one
 darkriszty.markdown-table-prettify
+chrisjsewell.myst-tml-syntax
 
 ## restructuredtext
 lextudio.restructuredtext
@@ -84,3 +85,12 @@ paulomenezes.duplicated-code
 
 ## csv
 mechatroner.rainbow-csv
+
+## C++
+ms-vscode.cmake-tools
+ms-vscode.cpptools
+ms-vscode.cpptools-extension-pack
+ms-vscode.cpptools-themes
+
+## astro
+astro.build
