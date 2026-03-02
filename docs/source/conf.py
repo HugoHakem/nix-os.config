@@ -3,7 +3,16 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import sys
 from pathlib import Path
+
+# 1. Resolve the path to the 'source' directory
+confpy_path = Path(__file__).resolve() # is the path to conf.py
+
+# 2. Add it to sys.path BEFORE importing your local modules
+sys.path.insert(0, str(confpy_path.parent))
+
+# 3. Now Python can find 'src'
 from src.parser import autogenerate_markdown
 
 # -- Project information -----------------------------------------------------
@@ -32,7 +41,6 @@ myst_heading_anchors = 5
 
 # === SECTION: Dynamic markdown generation ===
 
-confpy_path = Path(__file__).resolve() # is the path to conf.py
 base_dir = confpy_path.parent.parent.parent
 autogenerate_markdown(
     base_dir=base_dir,

@@ -6,7 +6,7 @@
     "esbonio.server.pythonPath": "${workspaceFolder}/docs/.venv/bin/python",
     "esbonio.sphinx.buildDir": "${workspaceFolder}/docs/build",
     "esbonio.sphinx.confDir": "${workspaceFolder}/docs/source",
-    "esbonio.server.logLevel": "debug",
+    "esbonio.logging.level": "debug",
     "restructuredtext.linter.rstcheck.extraArgs": [
         "--ignore D001"
     ],
@@ -79,7 +79,8 @@
         "xzjghvsg",
         "ymbpgy",
         "yvwcl",
-        "yzhang"
+        "yzhang",
+        "toctree"
     ],
     "cSpell.enabledFileTypes": {
         "pip-requirements": false,
