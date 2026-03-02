@@ -93,4 +93,4 @@ ms-vscode.cpptools-extension-pack
 ms-vscode.cpptools-themes
 
 ## astro
-astro.build
+astro-build.astro-vscode

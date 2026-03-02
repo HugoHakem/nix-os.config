@@ -4,15 +4,17 @@
   git = {
     enable = true;
     ignores = [ "*.swp" ];
-    userName = git_name;
-    userEmail = git_email;
     lfs = {
       enable = true;
     };
-    extraConfig = {
+    settings = {
+      user = { 
+        name = git_name;
+        email = git_email;
+      };
       init.defaultBranch = "main";
       core = {
-	    editor = "vim";
+        editor = "vim";
         autocrlf = "input";
       };
       pull.rebase = true;

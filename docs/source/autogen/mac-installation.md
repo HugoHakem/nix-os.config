@@ -44,6 +44,15 @@ To actually apply your configuration:
 nix run .#build-switch
 ```
 
+> **Information:**
+> The command use `darwin-rebuild` under the hood and it requires to be run as root (`sudo`).
+> See the following references for more info on why:
+>
+> + nix-darwin/nix-darwin#1462
+> + nix-darwin/nix-darwin#1457
+> + nix-community/nh#233
+> + dustinlyons/nixos-config@1d99a05
+
 To roll back to a previous version, use:
 
 ```bash

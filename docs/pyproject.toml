@@ -21,7 +21,7 @@ package-dir = { "" = "source" }
 
 [tool.setuptools.packages.find]
 where = ["source"]
-include = ["src.*"]
+include = ["src", "src.*"]
 
 [tool.ruff]
 src = ["source/src"]
