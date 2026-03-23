@@ -107,6 +107,9 @@ in
                   cd ~-
                   export VSCODE_TERMINAL_DIRENV_LOADED=1
                 fi
+
+                # Add .local/bin for locally installed app that one may not want to install through nix or brew casks (e.g. claude code)
+                export PATH="$HOME/.local/bin:$PATH"
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
         };

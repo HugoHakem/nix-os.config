@@ -31,5 +31,13 @@
   {
     "key": "ctrl+cmd+o",
     "command": "workbench.action.chat.openInNewWindow"
-  }
+},
+{
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+        "text": "\u001b\r"
+    },
+    "when": "terminalFocus"
+}
 ]

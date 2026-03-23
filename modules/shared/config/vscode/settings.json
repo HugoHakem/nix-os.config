@@ -16,8 +16,9 @@
 
   "terminal.integrated.fontFamily": "FiraCode Nerd Font",
   "editor.fontFamily": "Symbols Nerd Font, FiraCode Nerd Font, monospace",
-  "workbench.iconTheme": "catppuccin-macchiato"
-  
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "claudeCode.preferredLocation": "panel",
+  "terminal.integrated.macOptionIsMeta": true
  }
 
 

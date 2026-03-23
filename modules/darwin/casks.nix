@@ -20,8 +20,13 @@ _:
   "obsidian"
   "zotero"
   "rectangle" 
-  "tailscale"
+  "tailscale-app"
   "google-drive"
+  "linearmouse" 
+  "discord"
+
+  # Design
+  "inkscape"
   
   # Biology Software
   # "cellprofiler"
