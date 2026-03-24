@@ -34,7 +34,8 @@
 
   vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
+    # 1. Added vim-oscyank to the plugins list below:
+    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator vim-oscyank ];
     settings = { ignorecase = true; };
     extraConfig = ''
       "" General
@@ -104,6 +105,11 @@
       "" Copy from clipboard
       xnoremap <Leader>. "+y
 
+      "" 2. Added vim-oscyank mappings here:
+      nmap <leader>c <Plug>OSCYankOperator
+      nmap <leader>cc <leader>c_
+      vmap <leader>c <Plug>OSCYankVisual
+
       "" Move cursor by display lines when wrapping
       nnoremap j gj
       nnoremap k gk
@@ -136,9 +142,6 @@
       let g:startify_bookmarks = [
         \ '~/.local/share/src',
         \ ]
-
-      let g:airline_theme='bubblegum'
-      let g:airline_powerline_fonts = 1
       '';
      };
 }
