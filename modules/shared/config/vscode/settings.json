@@ -18,7 +18,8 @@
   "editor.fontFamily": "Symbols Nerd Font, FiraCode Nerd Font, monospace",
   "workbench.iconTheme": "catppuccin-macchiato",
   "claudeCode.preferredLocation": "panel",
-  "terminal.integrated.macOptionIsMeta": true
+  "terminal.integrated.macOptionIsMeta": true,
+  "workbench.colorTheme": "Dark Modern"
  }
 
 

@@ -10,6 +10,7 @@ with pkgs; [
   gawk
   gnused # the one and only sed
   git
+  git-filter-repo
   tree # print working directory
   tldr # get more help
   rsync # synchronize file 
