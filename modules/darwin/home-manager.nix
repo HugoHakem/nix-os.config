@@ -28,6 +28,9 @@ in
     # This is a module from nix-darwin
     # Homebrew is *installed* via the flake input nix-homebrew
     enable = true;
+    brews = [
+      "node" # to install node/npm for latest version of codex
+    ];
     casks = pkgs.callPackage ./casks.nix {};
   };
 
