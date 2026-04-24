@@ -10,6 +10,9 @@ ms-python.vscode-pylance
 ms-python.mypy-type-checker
 ms-python.vscode-python-envs
 
+## pipeline
+nextflow.nextflow
+
 ## ruff
 charliermarsh.ruff
 
@@ -28,6 +31,7 @@ github.copilot-chat
 ## git utils
 donjayamanne.githistory
 eamodio.gitlens
+github.vscode-pull-request-github
 
 ## collaboration
 ms-vsliveshare.vsliveshare
@@ -104,3 +108,16 @@ anthropic.claude-code
 
 ## svg
 jock.svg
+
+## CSS
+bradlc.vscode-tailwindcss
+
+## HML
+george-alisson.html-preview-vscode
+
+## R
+reditorsupport.r
+reditorsupport.r-syntax
+
+## .dot graph
+tintinweb.graphviz-interactive-preview

@@ -39,5 +39,10 @@
         "text": "\u001b\r"
     },
     "when": "terminalFocus"
+},
+{
+  "key": "alt+x t",
+  "command": "workbench.action.terminal.moveToEditor",
+  "when": "terminalHasBeenCreated && terminalIsOpen || terminalIsOpen && terminalProcessSupported"
 }
 ]

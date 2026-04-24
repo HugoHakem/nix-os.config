@@ -19,7 +19,10 @@
   "workbench.iconTheme": "catppuccin-macchiato",
   "claudeCode.preferredLocation": "panel",
   "terminal.integrated.macOptionIsMeta": true,
-  "workbench.colorTheme": "Dark Modern"
+  "workbench.colorTheme": "Dark Modern",
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "python.terminal.activateEnvironment": false,
  }
 
 
