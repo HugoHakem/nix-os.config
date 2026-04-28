@@ -11,6 +11,7 @@ with pkgs; [
   gnused # the one and only sed
   git
   git-filter-repo
+  gh
   tree # print working directory
   tldr # get more help
   rsync # synchronize file 
