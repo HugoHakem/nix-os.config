@@ -40,6 +40,7 @@ with pkgs; [
 
   ## Package manager
   pixi # provide pixi globally but may prefer to provide it on per project basis
+  uv
 
   # Text and Terminal Utilities
   bash-completion

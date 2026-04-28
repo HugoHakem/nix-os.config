@@ -103,8 +103,9 @@ theqtcompany.qt-cpp
 ## astro
 astro-build.astro-vscode
 
-## claude
+## agent
 anthropic.claude-code
+openai.chatgpt
 
 ## svg
 jock.svg
