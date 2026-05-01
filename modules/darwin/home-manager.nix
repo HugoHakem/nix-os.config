@@ -113,6 +113,11 @@ in
 
                 # Add .local/bin for locally installed app that one may not want to install through nix or brew casks (e.g. claude code)
                 export PATH="$HOME/.local/bin:$PATH"
+
+                # Add github mcp authentification token for codex
+                if [ -f "$HOME/.config/codex/github.env" ]; then
+                  source "$HOME/.config/codex/github.env"
+                fi
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
         };
