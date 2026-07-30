@@ -25,7 +25,6 @@ ms-toolsai.vscode-jupyter-slideshow
 xelad0m.jupyter-toc
 
 ## copilot
-github.copilot
 github.copilot-chat
 
 ## git utils
