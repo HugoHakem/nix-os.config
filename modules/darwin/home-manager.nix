@@ -115,8 +115,8 @@ in
                 export PATH="$HOME/.local/bin:$PATH"
 
                 # Add github mcp authentification token for codex
-                if [ -f "$HOME/.config/codex/github.env" ]; then
-                  source "$HOME/.config/codex/github.env"
+                if [ -f "$HOME/.config/agents/github_pat.env" ]; then
+                  source "$HOME/.config/agents/github_pat.env"
                 fi
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
