@@ -46,11 +46,20 @@ davidanson.vscode-markdownlint
 yzhang.markdown-all-in-one
 darkriszty.markdown-table-prettify
 chrisjsewell.myst-tml-syntax
+bierner.markdown-mermaid
+mermaidchart.vscode-mermaid-chart
+shd101wyy.markdown-preview-enhanced
 
 ## restructuredtext
 lextudio.restructuredtext
 swyddfa.esbonio
 trond-snekvik.simple-rst
+
+## pdf
+tomoki1207.pdf
+
+## latex/overleaf
+iamhyc.overleaf-workshop
 
 ## remote
 ms-vscode-remote.remote-containers
