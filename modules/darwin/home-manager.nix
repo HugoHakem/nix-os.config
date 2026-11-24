@@ -114,10 +114,14 @@ in
                 # Add .local/bin for locally installed app that one may not want to install through nix or brew casks (e.g. claude code)
                 export PATH="$HOME/.local/bin:$PATH"
 
-                # Add github mcp authentification token for codex
-                if [ -f "$HOME/.config/agents/github_pat.env" ]; then
-                  source "$HOME/.config/agents/github_pat.env"
-                fi
+                # Load local API keys (GITHUB_PAT, MISTRAL_API_KEY, ...).
+                # Each key lives in ~/.config/secrets/<name>.env (dir 700, files 600),
+                # created by hand and never committed; this only says where to look.
+                # (N) makes the glob expand to nothing when the folder is empty or missing.
+                for secret_env in "$HOME"/.config/secrets/*.env(N); do
+                  [ -r "$secret_env" ] && source "$secret_env"
+                done
+                unset secret_env
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
         };
