@@ -170,7 +170,10 @@ config.tab_max_width = 24
 config.switch_to_last_active_tab_when_closing_tab = true
 config.show_new_tab_button_in_tab_bar = false
 
-config.window_decorations = 'RESIZE'
+-- No title bar, but keep the macOS close/minimize/zoom buttons inside the
+-- tab bar (which is always shown, see hide_tab_bar_if_only_one_tab above).
+config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
+config.integrated_title_button_style = 'MacOsNative'
 config.window_padding = {
   left = 10,
   right = 10,
