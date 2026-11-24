@@ -208,9 +208,31 @@ config.mouse_bindings = {
     mods = 'NONE',
     action = wezterm.action.PasteFrom 'Clipboard',
   },
+  -- Option+drag: rectangular (block) selection, e.g. one column of a table.
+  {
+    event = { Down = { streak = 1, button = 'Left' } },
+    mods = 'ALT',
+    action = wezterm.action.SelectTextAtMouseCursor 'Block',
+  },
+  {
+    event = { Drag = { streak = 1, button = 'Left' } },
+    mods = 'ALT',
+    action = wezterm.action.ExtendSelectionToMouseCursor 'Block',
+  },
 }
 
+-- Programs that capture the mouse (vim, htop, tmux, some TUIs) receive clicks
+-- instead of WezTerm. Hold Shift while dragging to select text anyway.
+config.bypass_mouse_reporting_modifiers = 'SHIFT'
+
 config.keys = {
+  -- macOS-style line editing, sent as standard readline/zle codes so it works
+  -- in zsh, bash (also over ssh on the cluster) and most CLI prompts.
+  { key = 'LeftArrow', mods = 'CMD', action = wezterm.action.SendString '\x01' },   -- start of line (Ctrl-A)
+  { key = 'RightArrow', mods = 'CMD', action = wezterm.action.SendString '\x05' },  -- end of line (Ctrl-E)
+  { key = 'LeftArrow', mods = 'ALT', action = wezterm.action.SendString '\x1bb' },  -- word left (Esc-b)
+  { key = 'RightArrow', mods = 'ALT', action = wezterm.action.SendString '\x1bf' }, -- word right (Esc-f)
+  { key = 'Backspace', mods = 'CMD', action = wezterm.action.SendString '\x15' },   -- delete to line start (Ctrl-U)
   {
     key = 'd',
     mods = 'CMD',

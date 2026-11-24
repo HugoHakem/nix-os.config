@@ -85,6 +85,16 @@ in
                 export PATH="$PATH:/run/current-system/sw/bin"
               '';
               zshConfigDefaultInit = lib.mkOrder 1000 ''
+                # Keys whose escape sequences zsh's emacs keymap leaves unbound
+                # (WezTerm, VS Code and most xterm-style terminals send these).
+                bindkey '^[[H' beginning-of-line       # Home / Fn+Left
+                bindkey '^[[F' end-of-line             # End / Fn+Right
+                bindkey '^[[3~' delete-char            # Forward delete / Fn+Backspace
+                bindkey '^[[1;3D' backward-word        # Option+Left
+                bindkey '^[[1;3C' forward-word         # Option+Right
+                bindkey '^[[1;5D' backward-word        # Ctrl+Left
+                bindkey '^[[1;5C' forward-word         # Ctrl+Right
+
                 # color help using bat
                 function bathelp() {
                   if [[ $# -eq 0 ]]; then
