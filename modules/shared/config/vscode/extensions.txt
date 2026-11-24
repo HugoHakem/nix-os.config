@@ -24,9 +24,6 @@ ms-toolsai.vscode-jupyter-cell-tags
 ms-toolsai.vscode-jupyter-slideshow
 xelad0m.jupyter-toc
 
-## copilot
-github.copilot-chat
-
 ## git utils
 donjayamanne.githistory
 eamodio.gitlens
