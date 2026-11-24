@@ -124,14 +124,16 @@ in
                 # Add .local/bin for locally installed app that one may not want to install through nix or brew casks (e.g. claude code)
                 export PATH="$HOME/.local/bin:$PATH"
 
-                # Load local API keys (GITHUB_PAT, MISTRAL_API_KEY, ...).
-                # Each key lives in ~/.config/secrets/<name>.env (dir 700, files 600),
-                # created by hand and never committed; this only says where to look.
-                # (N) makes the glob expand to nothing when the folder is empty or missing.
-                for secret_env in "$HOME"/.config/secrets/*.env(N); do
-                  [ -r "$secret_env" ] && source "$secret_env"
-                done
-                unset secret_env
+                # Secrets in ~/.config/secrets are NOT exported globally; each is loaded only
+                # for the process that needs it (same policy as the chezmoi dotfiles).
+                # Codex reads GITHUB_PAT from its environment (bearer_token_env_var),
+                # so load it in a subshell just for codex.
+                codex() {
+                  (
+                    [ -r "$HOME/.config/secrets/github_pat.env" ] && . "$HOME/.config/secrets/github_pat.env"
+                    command codex "$@"
+                  )
+                }
               '';
             in lib.mkMerge [zshConfigEarlyInit zshConfigDefaultInit zshConfigLastInit];
         };
